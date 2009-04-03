@@ -1,19 +1,11 @@
 #region Usings
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
 using System.Threading;
 using System.Runtime.InteropServices;
-using System.Drawing;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
-using System.Deployment.Application;
-using System.IO;
-using System.Collections;
-using System.Drawing.Imaging;
-using System.Drawing.Drawing2D;
+
 #endregion
 
 namespace Karaokidex.ApplicationControllers
