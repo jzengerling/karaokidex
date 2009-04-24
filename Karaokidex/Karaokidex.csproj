@@ -33,13 +33,14 @@
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>http://www.ne0ge0.com/clickonce/Karaokidex/</InstallUrl>
     <UpdateUrl>http://www.ne0ge0.com/clickonce/Karaokidex/</UpdateUrl>
+    <SupportUrl>http://code.google.com/p/karaokidex</SupportUrl>
     <TargetCulture>en-GB</TargetCulture>
-    <ProductName>Karaokidex2</ProductName>
+    <ProductName>Karaokidex</ProductName>
     <PublisherName>www.ne0ge0.com</PublisherName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>index.html</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>2</ApplicationRevision>
+    <ApplicationRevision>10</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -66,6 +67,7 @@
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.5.452, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Downloads\SharpZipLib_0855_Bin\net-20\ICSharpCode.SharpZipLib.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -80,6 +82,7 @@
     <Compile Include="ApplicationControllers\Controller.cs" />
     <Compile Include="ApplicationControllers\Controller.MainView.cs" />
     <Compile Include="ApplicationControllers\Controller.CreateDatabaseView.cs" />
+    <Compile Include="ApplicationControllers\Controller.CreateDatabaseAgentView.cs" />
     <Compile Include="DatabaseLayer\CreateDatabaseAgent.cs" />
     <Compile Include="DatabaseLayer\DatabaseLayer.cs" />
     <Compile Include="FileSort.cs" />
@@ -90,6 +93,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\CreateDatabaseAgentView.resx">
+      <DependentUpon>CreateDatabaseAgentView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\CreateDatabaseView.resx">
       <DependentUpon>CreateDatabaseView.cs</DependentUpon>
@@ -113,6 +119,12 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="RegistryAgent.cs" />
+    <Compile Include="Views\CreateDatabaseAgentView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\CreateDatabaseAgentView.Designer.cs">
+      <DependentUpon>CreateDatabaseAgentView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\CreateDatabaseView.cs">
       <SubType>Form</SubType>
     </Compile>
