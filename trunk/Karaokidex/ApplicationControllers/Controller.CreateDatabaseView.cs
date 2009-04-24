@@ -9,27 +9,23 @@ namespace Karaokidex.ApplicationControllers
 {
     public partial class Controller
     {
-        #region Members
-        private CreateDatabaseView _CreateDatabaseView;
-        #endregion
-
         #region Methods
         private void CreateDatabaseView_Show()
         {
             // Instantiate an instance
-            this._CreateDatabaseView = new CreateDatabaseView();
+            CreateDatabaseView theView = new CreateDatabaseView();
 
-            this._CreateDatabaseView.buttonSourceDirectory.Click += 
+            theView.buttonSourceDirectory.Click += 
                 new EventHandler(CreateDatabaseView_buttonSourceDirectory_Click);
-            this._CreateDatabaseView.buttonTargetFile.Click +=
+            theView.buttonTargetFile.Click +=
                 new EventHandler(CreateDatabaseView_buttonTargetFile_Click);
-            this._CreateDatabaseView.buttonOK.Click +=
+            theView.buttonOK.Click +=
                 new EventHandler(CreateDatabaseView_buttonOK_Click);
-            this._CreateDatabaseView.buttonCancel.Click +=
+            theView.buttonCancel.Click +=
                 new EventHandler(CreateDatabaseView_buttonCancel_Click);
 
             // Show the form
-            this._CreateDatabaseView.ShowDialog(this._MainView);
+            theView.ShowDialog(this._MainView);
         }
 
         #region Event Handlers
@@ -86,45 +82,10 @@ namespace Karaokidex.ApplicationControllers
 
             theParentView.DisableView();
 
-            FileInfo theTargetFileInfo =
-                new FileInfo(theParentView.textboxTargetFile.Text);
-
-            if (theTargetFileInfo.Exists)
-            {
-                switch (MessageBox.Show(
-                    theParentView,
-                    "A database file exists with this filename\n\n" +
-                        "Do you want to overwrite it?",
-                    theParentView.Text,
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Warning,
-                    MessageBoxDefaultButton.Button2))
-                {
-                    case DialogResult.No:
-                        Application.DoEvents();
-                        return;
-                }
-
-                theTargetFileInfo.Delete();
-                Application.DoEvents();
-            }
-
-            // Create database
-            DatabaseLayer.CreateDatabase(
+            this.CreateDatabaseAgentView_Show(
+                theParentView,
+                new DirectoryInfo(theParentView.textboxSourceDirectory.Text),
                 new FileInfo(theParentView.textboxTargetFile.Text));
-
-            CreateDatabaseAgent theAgent = new CreateDatabaseAgent(
-                new DirectoryInfo(theParentView.textboxSourceDirectory.Text));
-            
-            theAgent.Inserting += 
-                new EventHandler(CreateDatabaseAgent_Inserting);
-            theAgent.Completed += 
-                new EventHandler(CreateDatabaseAgent_Completed);
-
-            Thread thisThread = 
-                new Thread(new ThreadStart(theAgent.Start));
-
-            thisThread.Start();
         }
 
         private void CreateDatabaseView_buttonCancel_Click(
@@ -141,69 +102,6 @@ namespace Karaokidex.ApplicationControllers
         #endregion
 
         #region Private Helpers
-        public void OnCreateDatabaseAgentInserting(
-            DirectoryInfo theDirectoryInfo)
-        {
-            // InvokeRequired compares the thread ID of the
-            // calling thread to the thread ID of the creating thread.
-            // If these threads are different, it returns true.
-            if (this._MainView.InvokeRequired)
-            {
-                this._MainView.Invoke(
-                    new CreateDatabaseAgentInsertingHandler(
-                        this.OnCreateDatabaseAgentInserting),
-                    theDirectoryInfo);
-            }
-            else
-            {
-                this._CreateDatabaseView.Cursor = Cursors.WaitCursor;
-
-                string theDirectoryFullName = 
-                    theDirectoryInfo.FullName.Replace(
-                        this._CreateDatabaseView.textboxSourceDirectory.Text, 
-                        String.Empty);
-
-                TextRenderer.MeasureText(
-                    theDirectoryFullName, 
-                    this._CreateDatabaseView.labelProgressCaption.Font, 
-                    new Size(
-                            this._CreateDatabaseView.labelProgressCaption.Width, 
-                            this._CreateDatabaseView.labelProgressCaption.Height), 
-                    TextFormatFlags.ModifyString | TextFormatFlags.PathEllipsis);
-
-                this._CreateDatabaseView.labelProgressCaption.Text =
-                    theDirectoryFullName;
-
-                Application.DoEvents();
-            }
-        }
-
-        public void OnCreateDatabaseAgentCompleted()
-        {
-            // InvokeRequired compares the thread ID of the
-            // calling thread to the thread ID of the creating thread.
-            // If these threads are different, it returns true.
-            if (this._MainView.InvokeRequired)
-            {
-                this._MainView.Invoke(
-                    new CreateDatabaseAgentCompletedHandler(
-                        this.OnCreateDatabaseAgentCompleted));
-            }
-            else
-            {
-                this._CreateDatabaseView.Cursor = Cursors.Default;
-
-                this._CreateDatabaseView.labelProgressCaption.Text =
-                    "Database created successfully";
-
-                this._CreateDatabaseView.buttonCancel.Text = "&Close";
-
-                this._CreateDatabaseView.buttonCancel.Enabled = true;
-
-                Application.DoEvents();
-            }
-        }
-        
         private static void ToggleOKButton(
             CreateDatabaseView theView)
         {
@@ -212,11 +110,6 @@ namespace Karaokidex.ApplicationControllers
                 !String.IsNullOrEmpty(theView.textboxTargetFile.Text);
         }
         #endregion
-        #endregion
-
-        #region Delegates
-        private delegate void CreateDatabaseAgentInsertingHandler(DirectoryInfo theDirectoryInfo);
-        private delegate void CreateDatabaseAgentCompletedHandler();
         #endregion
     }
 }

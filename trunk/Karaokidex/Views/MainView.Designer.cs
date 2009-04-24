@@ -33,6 +33,7 @@
             this._ToolStrip = new System.Windows.Forms.ToolStrip();
             this._buttonOpenDatabase = new System.Windows.Forms.ToolStripButton();
             this._buttonCreateDatabase = new System.Windows.Forms.ToolStripButton();
+            this._buttonRefreshDatabase = new System.Windows.Forms.ToolStripButton();
             this._StatusStrip = new System.Windows.Forms.StatusStrip();
             this._labelDatabaseLocation = new System.Windows.Forms.ToolStripStatusLabel();
             this._labelTrackCount = new System.Windows.Forms.ToolStripStatusLabel();
@@ -67,7 +68,8 @@
             // 
             this._ToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this._buttonOpenDatabase,
-            this._buttonCreateDatabase});
+            this._buttonCreateDatabase,
+            this._buttonRefreshDatabase});
             this._ToolStrip.Location = new System.Drawing.Point(0, 0);
             this._ToolStrip.Name = "_ToolStrip";
             this._ToolStrip.Size = new System.Drawing.Size(784, 25);
@@ -89,6 +91,15 @@
             this._buttonCreateDatabase.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._buttonCreateDatabase.Name = "_buttonCreateDatabase";
             this._buttonCreateDatabase.Size = new System.Drawing.Size(23, 22);
+            // 
+            // _buttonRefreshDatabase
+            // 
+            this._buttonRefreshDatabase.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this._buttonRefreshDatabase.Enabled = false;
+            this._buttonRefreshDatabase.Image = global::Karaokidex.Properties.Resources.database_refresh;
+            this._buttonRefreshDatabase.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._buttonRefreshDatabase.Name = "_buttonRefreshDatabase";
+            this._buttonRefreshDatabase.Size = new System.Drawing.Size(23, 22);
             // 
             // _StatusStrip
             // 
@@ -348,5 +359,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn _columnTrack;
         private System.Windows.Forms.DataGridViewTextBoxColumn _columnPath;
         private System.Windows.Forms.ToolStripStatusLabel _labelResults;
+        private System.Windows.Forms.ToolStripButton _buttonRefreshDatabase;
     }
 }

@@ -25,6 +25,8 @@ namespace Karaokidex.ApplicationControllers
                 new EventHandler(MainView_buttonOpenDatabase_Click);
             this._MainView.buttonCreateDatabase.Click +=
                 new EventHandler(MainView_buttonCreateDatabase_Click);
+            this._MainView.buttonRefreshDatabase.Click += 
+                new EventHandler(MainView_buttonRefreshDatabase_Click);
             this._MainView.buttonSearch.Click += 
                 new EventHandler(MainView_buttonSearch_Click);
             this._MainView.buttonExit.Click += 
@@ -82,6 +84,18 @@ namespace Karaokidex.ApplicationControllers
             Application.DoEvents();
 
             this.CreateDatabaseView_Show();
+        }
+
+        private void MainView_buttonRefreshDatabase_Click(
+            object sender, 
+            EventArgs e)
+        {
+            Application.DoEvents();
+
+            this.CreateDatabaseAgentView_Show(
+                this._MainView,
+                new DirectoryInfo(DatabaseLayer.GetSourceDirectory),
+                new FileInfo(RegistryAgent.LastDatabase));
         }
 
         private void MainView_buttonSearch_Click(
@@ -182,7 +196,7 @@ namespace Karaokidex.ApplicationControllers
                 theResultsGrid.FindForm() as MainView;
 
             DirectoryInfo theTrackDirectoryInfo = new DirectoryInfo(
-                DatabaseLayer.GetSourceDirectory() +
+                DatabaseLayer.GetSourceDirectory +
                 theResultsGrid.SelectedRows[0].Cells["_columnPath"].Value);
 
             if (theTrackDirectoryInfo.Exists)
@@ -253,7 +267,8 @@ namespace Karaokidex.ApplicationControllers
                 "{0:N0} tracks",
                 DatabaseLayer.NumberOfTracksInDatabase);
 
-            this._MainView.textboxCriteria.Enabled =
+            this._MainView.buttonRefreshDatabase.Enabled =
+                this._MainView.textboxCriteria.Enabled =
                 this._MainView.buttonSearch.Enabled = 
                 this._MainView.gridResults.Enabled =
                     true;

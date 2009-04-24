@@ -16,7 +16,7 @@ namespace Karaokidex.ApplicationControllers
                 sender as CreateDatabaseAgent;
 
             this.OnCreateDatabaseAgentInserting(
-                theAgent.CurrentDirectoryInfo);
+                theAgent.CurrentFileInfo);
         }
 
         private void CreateDatabaseAgent_Completed(

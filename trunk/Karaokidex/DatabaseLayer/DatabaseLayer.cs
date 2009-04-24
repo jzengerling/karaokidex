@@ -14,6 +14,37 @@ namespace Karaokidex
         #endregion
 
         #region Properties
+        public static string GetSourceDirectory
+        {
+            get
+            {
+                if (!String.IsNullOrEmpty(DatabaseLayer.ConnectionString))
+                {
+                    using (SQLiteConnection theConnection = new SQLiteConnection(DatabaseLayer.ConnectionString))
+                    {
+                        try
+                        {
+                            theConnection.Open();
+
+                            using (SQLiteCommand theCommand = theConnection.CreateCommand())
+                            {
+                                theCommand.CommandText = "SELECT [Value] FROM [Settings] WHERE [Key] = 'Source Directory'";
+
+                                return Convert.ToString(
+                                    theCommand.ExecuteScalar(),
+                                    CultureInfo.CurrentCulture);
+                            }
+                        }
+                        finally
+                        {
+                            theConnection.Close();
+                        }
+                    }
+                }
+                return String.Empty;
+            }
+        }
+        
         public static int NumberOfTracksInDatabase
         {
             get
@@ -99,6 +130,49 @@ namespace Karaokidex
             }
         }
 
+        public static void ClearDatabase(
+            FileInfo theTargetFileInfo)
+        {
+            DatabaseLayer.ConnectionString = String.Format(
+                CultureInfo.CurrentCulture,
+                "Data Source={0}; UTF8Encoding=True; Version=3; Pooling=True",
+                theTargetFileInfo.FullName);
+
+            using (SQLiteConnection theConnection = new SQLiteConnection(DatabaseLayer.ConnectionString))
+            {
+                try
+                {
+                    theConnection.Open();
+
+                    using (SQLiteCommand theCommand = theConnection.CreateCommand())
+                    {
+                        StringBuilder theCommandText = new StringBuilder();
+
+                        theCommandText.Append("DELETE FROM [Settings]");
+
+                        theCommand.CommandText = theCommandText.ToString();
+
+                        theCommand.ExecuteNonQuery();
+                    }
+
+                    using (SQLiteCommand theCommand = theConnection.CreateCommand())
+                    {
+                        StringBuilder theCommandText = new StringBuilder();
+
+                        theCommandText.Append("DELETE FROM [Tracks]");
+
+                        theCommand.CommandText = theCommandText.ToString();
+
+                        theCommand.ExecuteNonQuery();
+                    }
+                }
+                finally
+                {
+                    theConnection.Close();
+                }
+            }
+        }
+        
         public static DataTable SearchDatabase(
             string theCriteria)
         {
@@ -148,30 +222,6 @@ namespace Karaokidex
                     }
                 }
                 return theDataSet.Tables[0];
-            }
-        }
-
-        public static string GetSourceDirectory()
-        {
-            using (SQLiteConnection theConnection = new SQLiteConnection(DatabaseLayer.ConnectionString))
-            {
-                try
-                {
-                    theConnection.Open();
-
-                    using (SQLiteCommand theCommand = theConnection.CreateCommand())
-                    {
-                        theCommand.CommandText = "SELECT [Value] FROM [Settings] WHERE [Key] = 'Source Directory'";
-
-                        return Convert.ToString(
-                            theCommand.ExecuteScalar(),
-                            CultureInfo.CurrentCulture);
-                    }
-                }
-                finally
-                {
-                    theConnection.Close();
-                }
             }
         }
         #endregion

@@ -12,12 +12,18 @@ namespace Karaokidex
         #region Members
         private DirectoryInfo _SourceDirectoryInfo;
         private DirectoryInfo _CurrentDirectoryInfo;
+        private FileInfo _CurrentFileInfo;
         #endregion
 
         #region Properties
         public DirectoryInfo CurrentDirectoryInfo
         {
             get { return this._CurrentDirectoryInfo; }
+        }
+
+        public FileInfo CurrentFileInfo
+        {
+            get { return this._CurrentFileInfo; }
         }
         #endregion
 
@@ -118,6 +124,8 @@ namespace Karaokidex
 
                     foreach (FileInfo thisFileInfo in theFiles)
                     {
+                        this._CurrentFileInfo = thisFileInfo;
+
                         bool theArchiveContainsCDG = false;
 
                         if (thisFileInfo.Extension.Contains("zip"))

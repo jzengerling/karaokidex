@@ -21,6 +21,11 @@ namespace Karaokidex.Views
             get { return this._buttonOpenDatabase; }
         }
 
+        public ToolStripButton buttonRefreshDatabase
+        {
+            get { return this._buttonRefreshDatabase; }
+        }
+
         public Button buttonSearch
         {
             get { return this._buttonSearch; }
