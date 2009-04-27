@@ -13,15 +13,14 @@ namespace Karaokidex.ApplicationControllers
 {
     public partial class Controller
     {
-        [DllImport("user32.dll")]
-        public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
-
-        [DllImport("user32.dll")]
-        public static extern int SetForegroundWindow(IntPtr hwnd);
+        //[DllImport("user32.dll")]
+        //public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+        //[DllImport("user32.dll")]
+        //public static extern int SetForegroundWindow(IntPtr hwnd);
  
         #region Members
         private MainView _MainView;
-        private bool _IsPaused = false;
+        //private bool _IsPaused = false;
         #endregion
 
         #region Methods
@@ -63,6 +62,20 @@ namespace Karaokidex.ApplicationControllers
             {
                 this.OpenDatabase();
             }
+
+            //if (RegistryAgent.IsKaraFunInstalled)
+            //{
+            //    string[] theCommand = RegistryAgent.KaraFunEnqueueCommand
+            //        .Split(new Char[] { '"' }, 3, StringSplitOptions.RemoveEmptyEntries);
+
+            //    ProcessStartInfo theInfo = new ProcessStartInfo();
+            //    theInfo.FileName = theCommand[0];
+
+            //    Process thePlayerProcess = new Process();
+            //    thePlayerProcess.StartInfo = theInfo;
+
+            //    thePlayerProcess.Start();
+            //}
         }
 
         #region Event Handlers
@@ -263,19 +276,19 @@ namespace Karaokidex.ApplicationControllers
 
                     theProcess.Start();
 
-                    theProcess.WaitForExit();
+                    //theProcess.WaitForInputIdle();
 
-                    if (!this._IsPaused)
-                    {
-                        IntPtr iApplication = FindWindow(null, "KaraFun Player");
+                    //if (!this._IsPaused)
+                    //{
+                    //    IntPtr iApplication = FindWindow(null, "KaraFun Player");
 
-                        if (!iApplication.Equals(IntPtr.Zero))
-                        {
-                            SetForegroundWindow(iApplication);
-                            SendKeys.Send(" ");
-                            this._IsPaused = true;
-                        }
-                    }
+                    //    if (!iApplication.Equals(IntPtr.Zero))
+                    //    {
+                    //        SetForegroundWindow(iApplication);
+                    //        SendKeys.Send(" ");
+                    //        this._IsPaused = true;
+                    //    }
+                    //}
 
                     this._MainView.Cursor =
                         Cursors.Default;
