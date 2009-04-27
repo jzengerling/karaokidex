@@ -6,11 +6,25 @@ using Karaokidex.Views;
 using System.Diagnostics;
 using System.Data;
 using Karaokidex.Properties;
+using System.Runtime.InteropServices;
+using System.Text;
 
 namespace Karaokidex.ApplicationControllers
 {
     public partial class Controller
     {
+        //[DllImport("user32.dll")]
+        //public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+
+        //[DllImport("user32.dll")]
+        //public static extern int SetForegroundWindow(IntPtr hwnd);
+
+        //[DllImport("user32.dll")]
+        //static extern byte VkKeyScan(char ch);
+
+        //[DllImport("User32.Dll", EntryPoint = "PostMessageA")]
+        //static extern bool PostMessage(IntPtr hWnd, uint msg, int wParam, int lParam);
+ 
         #region Members
         private MainView _MainView;
         #endregion
@@ -35,6 +49,12 @@ namespace Karaokidex.ApplicationControllers
                 new MouseEventHandler(MainView_gridResults_MouseUp);
             this._MainView.gridResults.DoubleClick += 
                 new EventHandler(MainView_gridResults_DoubleClick);
+            this._MainView.gridResults.KeyDown += 
+                new KeyEventHandler(MainView_gridResults_KeyDown);
+            this._MainView.menuitemEnqueueInKaraFun.Click += 
+                new EventHandler(MainView_menuitemEnqueueInKaraFun_Click);
+            this._MainView.menuitemPlayInKaraFun.Click += 
+                new EventHandler(MainView_menuitemPlayInKaraFun_Click);
             this._MainView.menuitemOpenContainingFolder.Click += 
                 new EventHandler(MainView_menuitemOpenContainingFolder_Click);
 
@@ -129,14 +149,16 @@ namespace Karaokidex.ApplicationControllers
                             Convert.ToInt64(thisRow["ID"], CultureInfo.CurrentCulture),
                             Resources.mp3g_zipped,
                             Convert.ToString(thisRow["Details"], CultureInfo.CurrentCulture),
-                            Convert.ToString(thisRow["Path"], CultureInfo.CurrentCulture));
+                            Convert.ToString(thisRow["Path"], CultureInfo.CurrentCulture),
+                            Convert.ToString(thisRow["FullPath"], CultureInfo.CurrentCulture));
                         break;
                     case ".cdg":
                         theParentView.gridResults.Rows.Add(
                             Convert.ToInt64(thisRow["ID"], CultureInfo.CurrentCulture),
                             Resources.mp3g,
                             Convert.ToString(thisRow["Details"], CultureInfo.CurrentCulture),
-                            Convert.ToString(thisRow["Path"], CultureInfo.CurrentCulture));
+                            Convert.ToString(thisRow["Path"], CultureInfo.CurrentCulture),
+                            Convert.ToString(thisRow["FullPath"], CultureInfo.CurrentCulture));
                         break;
                 }
 
@@ -148,8 +170,12 @@ namespace Karaokidex.ApplicationControllers
                 "{0:N0} results",
                 theParentView.gridResults.Rows.Count);
 
-            theParentView.gridResults.ClearSelection();
             theParentView.buttonSearch.Enabled = true;
+
+            if (!theParentView.gridResults.Rows.Count.Equals(0))
+            {
+                theParentView.gridResults.Focus();
+            }
 
             theParentView.Cursor =
                 Cursors.Default;
@@ -180,8 +206,29 @@ namespace Karaokidex.ApplicationControllers
             MainView theParentView =
                 theResultsGrid.FindForm() as MainView;
 
+            theParentView.menuitemEnqueueInKaraFun.Enabled =
+                theParentView.menuitemPlayInKaraFun.Enabled =
+                    RegistryAgent.IsKaraFunInstalled;
             theParentView.menuitemOpenContainingFolder.Enabled =
                 theResultsGrid.SelectedRows.Count.Equals(1);
+        }
+
+        private void MainView_gridResults_KeyDown(
+            object sender, 
+            KeyEventArgs e)
+        {
+            Application.DoEvents();
+
+            if (e.KeyCode.Equals(Keys.Enter))
+            {
+                e.Handled = true;
+
+                if (RegistryAgent.IsKaraFunInstalled)
+                {
+                    this.MainView_gridResults_DoubleClick(
+                        sender, new EventArgs());
+                }
+            }
         }
 
         private void MainView_gridResults_DoubleClick(
@@ -195,9 +242,104 @@ namespace Karaokidex.ApplicationControllers
             MainView theParentView =
                 theResultsGrid.FindForm() as MainView;
 
+            if (!theResultsGrid.SelectedRows.Count.Equals(0))
+            {
+                FileInfo theTrackDirectoryInfo = new FileInfo(
+                    DatabaseLayer.GetSourceDirectory + "\\" +
+                    theResultsGrid.SelectedRows[0].Cells["_columnFullPath"].Value);
+
+                if (theTrackDirectoryInfo.Exists)
+                {
+                    this._MainView.Cursor =
+                        Cursors.WaitCursor;
+
+                    string[] theCommand =
+                        RegistryAgent.KaraFunEnqueueCommand.Replace(
+                            "%1",
+                            theTrackDirectoryInfo.ToString())
+                            .Split(new Char[] { '"' }, 3, StringSplitOptions.RemoveEmptyEntries);
+
+                    ProcessStartInfo theInfo = new ProcessStartInfo();
+                    theInfo.FileName = theCommand[0];
+                    theInfo.Arguments = theCommand[1].Trim() + " \"" + theCommand[2].Trim() + '"';
+
+                    Process theProcess = new Process();
+                    theProcess.StartInfo = theInfo;
+
+                    theProcess.Start();
+
+                    theProcess.WaitForExit();
+
+                    this._MainView.Cursor =
+                        Cursors.Default;
+                }
+            }
+        }
+
+        private void MainView_menuitemEnqueueInKaraFun_Click(
+            object sender, 
+            EventArgs e)
+        {
+            this.MainView_gridResults_DoubleClick(
+                sender, new EventArgs());
+        }
+
+        private void MainView_menuitemPlayInKaraFun_Click(
+            object sender, 
+            EventArgs e)
+        {
+            Application.DoEvents();
+
+            ToolStripMenuItem theOpenContainingFolder =
+                sender as ToolStripMenuItem;
+            ContextMenuStrip theContextMenuStrip =
+                theOpenContainingFolder.Owner as ContextMenuStrip;
+            MainView theParentView =
+                theContextMenuStrip.SourceControl.FindForm() as MainView;
+
+            if (!theParentView.gridResults.SelectedRows.Count.Equals(0))
+            {
+                FileInfo theTrackDirectoryInfo = new FileInfo(
+                    DatabaseLayer.GetSourceDirectory + "\\" +
+                    theParentView.gridResults.SelectedRows[0].Cells["_columnFullPath"].Value);
+
+                if (theTrackDirectoryInfo.Exists)
+                {
+                    this._MainView.Cursor =
+                        Cursors.WaitCursor;
+
+                    string[] theCommand =
+                        RegistryAgent.KaraFunPlayCommand.Replace(
+                            "%1",
+                            theTrackDirectoryInfo.ToString())
+                            .Split(new Char[] { '"' }, 3, StringSplitOptions.RemoveEmptyEntries);
+
+                    Process.Start(
+                        theCommand[0],
+                        theCommand[1].Trim() + " \"" + theCommand[2].Trim() + '"');
+
+                    this._MainView.Cursor =
+                        Cursors.Default;
+                }
+            }
+        }
+
+        private void MainView_menuitemOpenContainingFolder_Click(
+            object sender, 
+            EventArgs e)
+        {
+            Application.DoEvents();
+
+            ToolStripMenuItem theOpenContainingFolder =
+                sender as ToolStripMenuItem;
+            ContextMenuStrip theContextMenuStrip =
+                theOpenContainingFolder.Owner as ContextMenuStrip;
+            MainView theParentView =
+                theContextMenuStrip.SourceControl.FindForm() as MainView;
+
             DirectoryInfo theTrackDirectoryInfo = new DirectoryInfo(
                 DatabaseLayer.GetSourceDirectory +
-                theResultsGrid.SelectedRows[0].Cells["_columnPath"].Value);
+                theParentView.gridResults.SelectedRows[0].Cells["_columnPath"].Value);
 
             if (theTrackDirectoryInfo.Exists)
             {
@@ -230,48 +372,34 @@ namespace Karaokidex.ApplicationControllers
                 Application.DoEvents();
             }
         }
-
-        private void MainView_menuitemOpenContainingFolder_Click(
-            object sender, 
-            EventArgs e)
-        {
-            Application.DoEvents();
-
-            ToolStripMenuItem theOpenContainingFolder =
-                sender as ToolStripMenuItem;
-            ContextMenuStrip theContextMenuStrip =
-                theOpenContainingFolder.Owner as ContextMenuStrip;
-            MainView theParentView =
-                theContextMenuStrip.SourceControl.FindForm() as MainView;
-
-            this.MainView_gridResults_DoubleClick(
-                theParentView.gridResults, e);
-        }
         #endregion
 
         #region Private Helpers
         private void OpenDatabase()
         {
-            this._MainView.labelDatabaseLocation.Text =
-                RegistryAgent.LastDatabase;
+            if (File.Exists(RegistryAgent.LastDatabase))
+            {
+                this._MainView.labelDatabaseLocation.Text =
+                    RegistryAgent.LastDatabase;
 
-            DatabaseLayer.ConnectionString = String.Format(
-                CultureInfo.CurrentCulture,
-                "Data Source={0}; UTF8Encoding=True; Version=3; Pooling=True",
-                RegistryAgent.LastDatabase);
+                DatabaseLayer.ConnectionString = String.Format(
+                    CultureInfo.CurrentCulture,
+                    "Data Source={0}; UTF8Encoding=True; Version=3; Pooling=True",
+                    RegistryAgent.LastDatabase);
 
-            this._MainView.buttonSearch.Enabled = true;
+                this._MainView.buttonSearch.Enabled = true;
 
-            this._MainView.labelTrackCount.Text = String.Format(
-                CultureInfo.CurrentCulture,
-                "{0:N0} tracks",
-                DatabaseLayer.NumberOfTracksInDatabase);
+                this._MainView.labelTrackCount.Text = String.Format(
+                    CultureInfo.CurrentCulture,
+                    "{0:N0} tracks",
+                    DatabaseLayer.NumberOfTracksInDatabase);
 
-            this._MainView.buttonRefreshDatabase.Enabled =
-                this._MainView.textboxCriteria.Enabled =
-                this._MainView.buttonSearch.Enabled = 
-                this._MainView.gridResults.Enabled =
-                    true;
+                this._MainView.buttonRefreshDatabase.Enabled =
+                    this._MainView.textboxCriteria.Enabled =
+                    this._MainView.buttonSearch.Enabled =
+                    this._MainView.gridResults.Enabled =
+                        true;
+            }
         }
         #endregion
         #endregion

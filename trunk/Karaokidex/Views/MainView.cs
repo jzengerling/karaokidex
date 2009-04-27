@@ -46,6 +46,16 @@ namespace Karaokidex.Views
             get { return this._gridResults; }
         }
 
+        public ToolStripMenuItem menuitemEnqueueInKaraFun
+        {
+            get { return this._menuitemEnqueueInKaraFun; }
+        }
+
+        public ToolStripMenuItem menuitemPlayInKaraFun
+        {
+            get { return this._menuitemPlayInKaraFun; }
+        }
+
         public ToolStripMenuItem menuitemOpenContainingFolder
         {
             get { return this._menuitemOpenContainingFolder; }
@@ -75,6 +85,19 @@ namespace Karaokidex.Views
         public MainView()
         {
             InitializeComponent();
+
+            DataGridViewCellStyle theBigFontStyle = new DataGridViewCellStyle();
+            theBigFontStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            theBigFontStyle.BackColor = SystemColors.Window;
+            theBigFontStyle.Font = new Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            theBigFontStyle.ForeColor = SystemColors.ControlText;
+            theBigFontStyle.SelectionBackColor = SystemColors.Highlight;
+            theBigFontStyle.SelectionForeColor = SystemColors.HighlightText;
+            theBigFontStyle.WrapMode = DataGridViewTriState.False;
+            
+            this._gridResults.ColumnHeadersDefaultCellStyle = 
+                this._gridResults.DefaultCellStyle = 
+                    theBigFontStyle;
         }
     }
 }

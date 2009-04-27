@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainView));
             this._ToolStrip = new System.Windows.Forms.ToolStrip();
             this._buttonOpenDatabase = new System.Windows.Forms.ToolStripButton();
@@ -47,12 +49,16 @@
             this._buttonExit = new System.Windows.Forms.Button();
             this._buttonSearch = new System.Windows.Forms.Button();
             this._gridResults = new System.Windows.Forms.DataGridView();
+            this._ContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this._menuitemEnqueueInKaraFun = new System.Windows.Forms.ToolStripMenuItem();
+            this._menuitemPlayInKaraFun = new System.Windows.Forms.ToolStripMenuItem();
+            this._separator1 = new System.Windows.Forms.ToolStripSeparator();
+            this._menuitemOpenContainingFolder = new System.Windows.Forms.ToolStripMenuItem();
             this._columnID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._columnImage = new System.Windows.Forms.DataGridViewImageColumn();
             this._columnTrack = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._columnPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._ContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this._menuitemOpenContainingFolder = new System.Windows.Forms.ToolStripMenuItem();
+            this._columnFullPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._ToolStrip.SuspendLayout();
             this._StatusStrip.SuspendLayout();
             this._SplitContainer.Panel1.SuspendLayout();
@@ -157,7 +163,7 @@
             // 
             this._SplitContainer.Panel2.Controls.Add(this._gridResults);
             this._SplitContainer.Size = new System.Drawing.Size(784, 395);
-            this._SplitContainer.SplitterDistance = 108;
+            this._SplitContainer.SplitterDistance = 100;
             this._SplitContainer.TabIndex = 0;
             this._SplitContainer.TabStop = false;
             // 
@@ -168,21 +174,20 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this._groupboxCriteria.Controls.Add(this._textboxCriteria);
             this._groupboxCriteria.Controls.Add(this._labelCriteria);
-            this._groupboxCriteria.Location = new System.Drawing.Point(12, 12);
-            this._groupboxCriteria.Margin = new System.Windows.Forms.Padding(3, 3, 3, 8);
+            this._groupboxCriteria.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._groupboxCriteria.Location = new System.Drawing.Point(12, 3);
             this._groupboxCriteria.Name = "_groupboxCriteria";
-            this._groupboxCriteria.Size = new System.Drawing.Size(760, 54);
+            this._groupboxCriteria.Size = new System.Drawing.Size(760, 57);
             this._groupboxCriteria.TabIndex = 0;
             this._groupboxCriteria.TabStop = false;
-            this._groupboxCriteria.Text = "Criteria";
             // 
             // _textboxCriteria
             // 
             this._textboxCriteria.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this._textboxCriteria.Location = new System.Drawing.Point(75, 20);
+            this._textboxCriteria.Location = new System.Drawing.Point(106, 20);
             this._textboxCriteria.Name = "_textboxCriteria";
-            this._textboxCriteria.Size = new System.Drawing.Size(679, 21);
+            this._textboxCriteria.Size = new System.Drawing.Size(648, 27);
             this._textboxCriteria.TabIndex = 1;
             // 
             // _labelCriteria
@@ -190,7 +195,7 @@
             this._labelCriteria.AutoSize = true;
             this._labelCriteria.Location = new System.Drawing.Point(6, 23);
             this._labelCriteria.Name = "_labelCriteria";
-            this._labelCriteria.Size = new System.Drawing.Size(63, 13);
+            this._labelCriteria.Size = new System.Drawing.Size(94, 19);
             this._labelCriteria.TabIndex = 0;
             this._labelCriteria.Text = "Artist / Title";
             // 
@@ -201,9 +206,10 @@
             this._ButtonContainer.Controls.Add(this._buttonSearch);
             this._ButtonContainer.Dock = System.Windows.Forms.DockStyle.Bottom;
             this._ButtonContainer.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this._ButtonContainer.Location = new System.Drawing.Point(0, 76);
+            this._ButtonContainer.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._ButtonContainer.Location = new System.Drawing.Point(0, 66);
             this._ButtonContainer.Name = "_ButtonContainer";
-            this._ButtonContainer.Size = new System.Drawing.Size(784, 32);
+            this._ButtonContainer.Size = new System.Drawing.Size(784, 34);
             this._ButtonContainer.TabIndex = 0;
             // 
             // _buttonExit
@@ -211,9 +217,9 @@
             this._buttonExit.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this._buttonExit.Image = global::Karaokidex.Properties.Resources.door_in;
             this._buttonExit.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this._buttonExit.Location = new System.Drawing.Point(706, 3);
+            this._buttonExit.Location = new System.Drawing.Point(681, 3);
             this._buttonExit.Name = "_buttonExit";
-            this._buttonExit.Size = new System.Drawing.Size(75, 27);
+            this._buttonExit.Size = new System.Drawing.Size(100, 29);
             this._buttonExit.TabIndex = 3;
             this._buttonExit.Text = "E&xit";
             this._buttonExit.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -221,12 +227,13 @@
             // 
             // _buttonSearch
             // 
+            this._buttonSearch.AutoSize = true;
             this._buttonSearch.Enabled = false;
             this._buttonSearch.Image = global::Karaokidex.Properties.Resources.find;
             this._buttonSearch.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this._buttonSearch.Location = new System.Drawing.Point(625, 3);
+            this._buttonSearch.Location = new System.Drawing.Point(575, 3);
             this._buttonSearch.Name = "_buttonSearch";
-            this._buttonSearch.Size = new System.Drawing.Size(75, 27);
+            this._buttonSearch.Size = new System.Drawing.Size(100, 29);
             this._buttonSearch.TabIndex = 2;
             this._buttonSearch.Text = "&Search";
             this._buttonSearch.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -237,21 +244,75 @@
             this._gridResults.AllowUserToAddRows = false;
             this._gridResults.AllowUserToDeleteRows = false;
             this._gridResults.AllowUserToResizeRows = false;
+            this._gridResults.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this._gridResults.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this._gridResults.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this._gridResults.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this._columnID,
             this._columnImage,
             this._columnTrack,
-            this._columnPath});
+            this._columnPath,
+            this._columnFullPath});
             this._gridResults.ContextMenuStrip = this._ContextMenuStrip;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this._gridResults.DefaultCellStyle = dataGridViewCellStyle2;
             this._gridResults.Dock = System.Windows.Forms.DockStyle.Fill;
             this._gridResults.Location = new System.Drawing.Point(0, 0);
             this._gridResults.Name = "_gridResults";
             this._gridResults.ReadOnly = true;
             this._gridResults.RowHeadersVisible = false;
             this._gridResults.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this._gridResults.Size = new System.Drawing.Size(784, 283);
+            this._gridResults.Size = new System.Drawing.Size(784, 291);
             this._gridResults.TabIndex = 0;
+            // 
+            // _ContextMenuStrip
+            // 
+            this._ContextMenuStrip.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._ContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this._menuitemEnqueueInKaraFun,
+            this._menuitemPlayInKaraFun,
+            this._separator1,
+            this._menuitemOpenContainingFolder});
+            this._ContextMenuStrip.Name = "_ContextMenuStrip";
+            this._ContextMenuStrip.Size = new System.Drawing.Size(188, 76);
+            // 
+            // _menuitemEnqueueInKaraFun
+            // 
+            this._menuitemEnqueueInKaraFun.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._menuitemEnqueueInKaraFun.Name = "_menuitemEnqueueInKaraFun";
+            this._menuitemEnqueueInKaraFun.Size = new System.Drawing.Size(187, 22);
+            this._menuitemEnqueueInKaraFun.Text = "En&queue in KaraFun";
+            // 
+            // _menuitemPlayInKaraFun
+            // 
+            this._menuitemPlayInKaraFun.Name = "_menuitemPlayInKaraFun";
+            this._menuitemPlayInKaraFun.Size = new System.Drawing.Size(187, 22);
+            this._menuitemPlayInKaraFun.Text = "&Play in KaraFun";
+            // 
+            // _separator1
+            // 
+            this._separator1.Name = "_separator1";
+            this._separator1.Size = new System.Drawing.Size(184, 6);
+            // 
+            // _menuitemOpenContainingFolder
+            // 
+            this._menuitemOpenContainingFolder.Enabled = false;
+            this._menuitemOpenContainingFolder.Name = "_menuitemOpenContainingFolder";
+            this._menuitemOpenContainingFolder.Size = new System.Drawing.Size(187, 22);
+            this._menuitemOpenContainingFolder.Text = "&Open Containing Folder";
             // 
             // _columnID
             // 
@@ -282,27 +343,19 @@
             // 
             // _columnPath
             // 
-            this._columnPath.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this._columnPath.DataPropertyName = "Path";
+            this._columnPath.FillWeight = 300F;
             this._columnPath.HeaderText = "Path";
             this._columnPath.Name = "_columnPath";
             this._columnPath.ReadOnly = true;
+            this._columnPath.Width = 300;
             // 
-            // _ContextMenuStrip
+            // _columnFullPath
             // 
-            this._ContextMenuStrip.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._ContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this._menuitemOpenContainingFolder});
-            this._ContextMenuStrip.Name = "_ContextMenuStrip";
-            this._ContextMenuStrip.Size = new System.Drawing.Size(219, 26);
-            // 
-            // _menuitemOpenContainingFolder
-            // 
-            this._menuitemOpenContainingFolder.Enabled = false;
-            this._menuitemOpenContainingFolder.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._menuitemOpenContainingFolder.Name = "_menuitemOpenContainingFolder";
-            this._menuitemOpenContainingFolder.Size = new System.Drawing.Size(218, 22);
-            this._menuitemOpenContainingFolder.Text = "&Open Containing Folder";
+            this._columnFullPath.HeaderText = "Full Path";
+            this._columnFullPath.Name = "_columnFullPath";
+            this._columnFullPath.ReadOnly = true;
+            this._columnFullPath.Visible = false;
             // 
             // MainView
             // 
@@ -316,6 +369,7 @@
             this.Controls.Add(this._ToolStrip);
             this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.Name = "MainView";
             this.Text = "Karaokidex";
             this._ToolStrip.ResumeLayout(false);
@@ -328,6 +382,7 @@
             this._groupboxCriteria.ResumeLayout(false);
             this._groupboxCriteria.PerformLayout();
             this._ButtonContainer.ResumeLayout(false);
+            this._ButtonContainer.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this._gridResults)).EndInit();
             this._ContextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -354,11 +409,15 @@
         private System.Windows.Forms.Button _buttonExit;
         private System.Windows.Forms.ContextMenuStrip _ContextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem _menuitemOpenContainingFolder;
+        private System.Windows.Forms.ToolStripStatusLabel _labelResults;
+        private System.Windows.Forms.ToolStripButton _buttonRefreshDatabase;
+        private System.Windows.Forms.ToolStripMenuItem _menuitemEnqueueInKaraFun;
+        private System.Windows.Forms.ToolStripMenuItem _menuitemPlayInKaraFun;
+        private System.Windows.Forms.ToolStripSeparator _separator1;
         private System.Windows.Forms.DataGridViewTextBoxColumn _columnID;
         private System.Windows.Forms.DataGridViewImageColumn _columnImage;
         private System.Windows.Forms.DataGridViewTextBoxColumn _columnTrack;
         private System.Windows.Forms.DataGridViewTextBoxColumn _columnPath;
-        private System.Windows.Forms.ToolStripStatusLabel _labelResults;
-        private System.Windows.Forms.ToolStripButton _buttonRefreshDatabase;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _columnFullPath;
     }
 }

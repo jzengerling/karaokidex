@@ -187,7 +187,9 @@ namespace Karaokidex
                         using (SQLiteCommand theCommand = theConnection.CreateCommand())
                         {
                             StringBuilder theCommandBuilder = new StringBuilder(
-                                "SELECT [ID], [Path], [Details], [Extension] FROM [Tracks] WHERE ");
+                                "SELECT [ID], [Path], [Details], [Extension], '\' || [Path] || '\' || [Details] || '\' || [Extension] AS [FullPath] ");
+                            theCommandBuilder.Append("FROM [Tracks] ");
+                            theCommandBuilder.Append("WHERE ");
 
                             bool IsFirstParameter = true;
                             foreach (string thisCriteria in theCriteria.Split(' '))
