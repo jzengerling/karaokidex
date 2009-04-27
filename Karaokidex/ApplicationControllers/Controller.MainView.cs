@@ -13,20 +13,15 @@ namespace Karaokidex.ApplicationControllers
 {
     public partial class Controller
     {
-        //[DllImport("user32.dll")]
-        //public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+        [DllImport("user32.dll")]
+        public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
 
-        //[DllImport("user32.dll")]
-        //public static extern int SetForegroundWindow(IntPtr hwnd);
-
-        //[DllImport("user32.dll")]
-        //static extern byte VkKeyScan(char ch);
-
-        //[DllImport("User32.Dll", EntryPoint = "PostMessageA")]
-        //static extern bool PostMessage(IntPtr hWnd, uint msg, int wParam, int lParam);
+        [DllImport("user32.dll")]
+        public static extern int SetForegroundWindow(IntPtr hwnd);
  
         #region Members
         private MainView _MainView;
+        private bool _IsPaused = false;
         #endregion
 
         #region Methods
@@ -269,6 +264,18 @@ namespace Karaokidex.ApplicationControllers
                     theProcess.Start();
 
                     theProcess.WaitForExit();
+
+                    if (!this._IsPaused)
+                    {
+                        IntPtr iApplication = FindWindow(null, "KaraFun Player");
+
+                        if (!iApplication.Equals(IntPtr.Zero))
+                        {
+                            SetForegroundWindow(iApplication);
+                            SendKeys.Send(" ");
+                            this._IsPaused = true;
+                        }
+                    }
 
                     this._MainView.Cursor =
                         Cursors.Default;
