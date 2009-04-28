@@ -56,6 +56,22 @@ namespace Karaokidex
             get { return null != Registry.ClassesRoot.OpenSubKey("KaraFun.File", false); }
         }
 
+        public static string KaraFunExecutablePath
+        {
+            get
+            {
+                if (RegistryAgent.IsKaraFunInstalled)
+                {
+                    string[] theCommand =
+                        RegistryAgent.KaraFunPlayCommand
+                            .Split(new Char[] { '"' }, 3, StringSplitOptions.RemoveEmptyEntries);
+
+                    return theCommand[0];
+                }
+                return String.Empty;
+            }
+        }
+        
         public static string KaraFunEnqueueCommand
         {
             get

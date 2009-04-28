@@ -26,6 +26,11 @@ namespace Karaokidex.Views
             get { return this._buttonRefreshDatabase; }
         }
 
+        public Button buttonLaunchKaraFun
+        {
+            get { return this._buttonLaunchKaraFun; }
+        }
+
         public Button buttonSearch
         {
             get { return this._buttonSearch; }
@@ -46,6 +51,16 @@ namespace Karaokidex.Views
             get { return this._gridResults; }
         }
 
+        public Label labelSelectedTrackPath
+        {
+            get { return this._labelSelectedTrackPath; }
+        }
+
+        public Button buttonOpenContainingFolder
+        {
+            get { return this._buttonOpenContainingFolder; }
+        }
+
         public ToolStripMenuItem menuitemEnqueueInKaraFun
         {
             get { return this._menuitemEnqueueInKaraFun; }
@@ -54,11 +69,6 @@ namespace Karaokidex.Views
         public ToolStripMenuItem menuitemPlayInKaraFun
         {
             get { return this._menuitemPlayInKaraFun; }
-        }
-
-        public ToolStripMenuItem menuitemOpenContainingFolder
-        {
-            get { return this._menuitemOpenContainingFolder; }
         }
 
         public OpenFileDialog OpenFileDialog

@@ -109,6 +109,13 @@ namespace Karaokidex.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap KaraFun_16x16x32 {
+            get {
+                object obj = ResourceManager.GetObject("KaraFun-16x16x32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap mp3g {
             get {
                 object obj = ResourceManager.GetObject("mp3g", resourceCulture);
