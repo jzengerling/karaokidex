@@ -26,9 +26,9 @@ namespace Karaokidex.Views
             get { return this._buttonRefreshDatabase; }
         }
 
-        public Button buttonLaunchKaraFun
+        public ToolStripButton buttonKaraFun
         {
-            get { return this._buttonLaunchKaraFun; }
+            get { return this._buttonKaraFun; }
         }
 
         public Button buttonSearch

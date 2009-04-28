@@ -47,7 +47,6 @@
             this._ButtonContainer = new System.Windows.Forms.FlowLayoutPanel();
             this._buttonExit = new System.Windows.Forms.Button();
             this._buttonSearch = new System.Windows.Forms.Button();
-            this._buttonLaunchKaraFun = new System.Windows.Forms.Button();
             this._gridResults = new System.Windows.Forms.DataGridView();
             this._columnID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._columnImage = new System.Windows.Forms.DataGridViewImageColumn();
@@ -60,6 +59,8 @@
             this._TableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this._buttonOpenContainingFolder = new System.Windows.Forms.Button();
             this._labelSelectedTrackPath = new System.Windows.Forms.Label();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this._buttonKaraFun = new System.Windows.Forms.ToolStripButton();
             this._ToolStrip.SuspendLayout();
             this._StatusStrip.SuspendLayout();
             this._SplitContainer.Panel1.SuspendLayout();
@@ -77,7 +78,9 @@
             this._ToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this._buttonOpenDatabase,
             this._buttonCreateDatabase,
-            this._buttonRefreshDatabase});
+            this._buttonRefreshDatabase,
+            this.toolStripSeparator1,
+            this._buttonKaraFun});
             this._ToolStrip.Location = new System.Drawing.Point(0, 0);
             this._ToolStrip.Name = "_ToolStrip";
             this._ToolStrip.Size = new System.Drawing.Size(784, 25);
@@ -91,6 +94,7 @@
             this._buttonOpenDatabase.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._buttonOpenDatabase.Name = "_buttonOpenDatabase";
             this._buttonOpenDatabase.Size = new System.Drawing.Size(23, 22);
+            this._buttonOpenDatabase.ToolTipText = "Connect to a database";
             // 
             // _buttonCreateDatabase
             // 
@@ -99,6 +103,7 @@
             this._buttonCreateDatabase.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._buttonCreateDatabase.Name = "_buttonCreateDatabase";
             this._buttonCreateDatabase.Size = new System.Drawing.Size(23, 22);
+            this._buttonCreateDatabase.ToolTipText = "Create a database";
             // 
             // _buttonRefreshDatabase
             // 
@@ -108,6 +113,7 @@
             this._buttonRefreshDatabase.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._buttonRefreshDatabase.Name = "_buttonRefreshDatabase";
             this._buttonRefreshDatabase.Size = new System.Drawing.Size(23, 22);
+            this._buttonRefreshDatabase.ToolTipText = "Refresh the current database";
             // 
             // _StatusStrip
             // 
@@ -209,7 +215,6 @@
             this._ButtonContainer.BackColor = System.Drawing.SystemColors.Control;
             this._ButtonContainer.Controls.Add(this._buttonExit);
             this._ButtonContainer.Controls.Add(this._buttonSearch);
-            this._ButtonContainer.Controls.Add(this._buttonLaunchKaraFun);
             this._ButtonContainer.Dock = System.Windows.Forms.DockStyle.Bottom;
             this._ButtonContainer.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
             this._ButtonContainer.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -244,21 +249,6 @@
             this._buttonSearch.Text = "&Search";
             this._buttonSearch.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this._buttonSearch.UseVisualStyleBackColor = true;
-            // 
-            // _buttonLaunchKaraFun
-            // 
-            this._buttonLaunchKaraFun.AutoSize = true;
-            this._buttonLaunchKaraFun.Enabled = false;
-            this._buttonLaunchKaraFun.Image = global::Karaokidex.Properties.Resources.KaraFun_16x16x32;
-            this._buttonLaunchKaraFun.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this._buttonLaunchKaraFun.Location = new System.Drawing.Point(406, 3);
-            this._buttonLaunchKaraFun.Margin = new System.Windows.Forms.Padding(3, 3, 16, 3);
-            this._buttonLaunchKaraFun.Name = "_buttonLaunchKaraFun";
-            this._buttonLaunchKaraFun.Size = new System.Drawing.Size(150, 29);
-            this._buttonLaunchKaraFun.TabIndex = 4;
-            this._buttonLaunchKaraFun.Text = "Launch &KaraFun";
-            this._buttonLaunchKaraFun.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this._buttonLaunchKaraFun.UseVisualStyleBackColor = true;
             // 
             // _gridResults
             // 
@@ -390,6 +380,20 @@
             this._labelSelectedTrackPath.TabIndex = 6;
             this._labelSelectedTrackPath.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // _buttonKaraFun
+            // 
+            this._buttonKaraFun.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this._buttonKaraFun.Image = global::Karaokidex.Properties.Resources.KaraFun_16x16x32;
+            this._buttonKaraFun.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._buttonKaraFun.Name = "_buttonKaraFun";
+            this._buttonKaraFun.Size = new System.Drawing.Size(23, 22);
+            this._buttonKaraFun.ToolTipText = "Launch KaraFun";
+            // 
             // MainView
             // 
             this.AcceptButton = this._buttonSearch;
@@ -454,6 +458,7 @@
         private System.Windows.Forms.TableLayoutPanel _TableLayoutPanel;
         private System.Windows.Forms.Button _buttonOpenContainingFolder;
         private System.Windows.Forms.Label _labelSelectedTrackPath;
-        private System.Windows.Forms.Button _buttonLaunchKaraFun;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripButton _buttonKaraFun;
     }
 }
