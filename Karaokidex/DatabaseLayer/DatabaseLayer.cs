@@ -66,6 +66,10 @@ namespace Karaokidex
                                     CultureInfo.CurrentCulture);
                             }
                         }
+                        catch
+                        {
+                            return 0;
+                        }
                         finally
                         {
                             theConnection.Close();
@@ -154,6 +158,35 @@ namespace Karaokidex
 
                         theCommand.ExecuteNonQuery();
                     }
+                }
+                catch (SQLiteException theException)
+                {
+                    if (theException.Message.Contains("no such table: Settings"))
+                    {
+                        using (SQLiteCommand theCommand = theConnection.CreateCommand())
+                        {
+                            StringBuilder theCommandText = new StringBuilder();
+
+                            theCommandText.Append("CREATE TABLE [Settings] (");
+                            theCommandText.Append("[ID] [integer] PRIMARY KEY AUTOINCREMENT,");
+                            theCommandText.Append("[Key] [text],");
+                            theCommandText.Append("[Value] [text])");
+
+                            theCommand.CommandText = theCommandText.ToString();
+
+                            theCommand.ExecuteNonQuery();
+                        }
+                    }
+                    else throw;
+                }
+                finally
+                {
+                    theConnection.Close();
+                }
+
+                try
+                {
+                    theConnection.Open();
 
                     using (SQLiteCommand theCommand = theConnection.CreateCommand())
                     {
@@ -165,6 +198,27 @@ namespace Karaokidex
 
                         theCommand.ExecuteNonQuery();
                     }
+                }
+                catch (SQLiteException theException)
+                {
+                    if (theException.Message.Contains("no such table: Tracks"))
+                    {
+                        using (SQLiteCommand theCommand = theConnection.CreateCommand())
+                        {
+                            StringBuilder theCommandText = new StringBuilder();
+
+                            theCommandText.Append("CREATE TABLE [Tracks] (");
+                            theCommandText.Append("[ID] [integer] PRIMARY KEY AUTOINCREMENT,");
+                            theCommandText.Append("[Path] [text],");
+                            theCommandText.Append("[Details] [text],");
+                            theCommandText.Append("[Extension] [text])");
+
+                            theCommand.CommandText = theCommandText.ToString();
+
+                            theCommand.ExecuteNonQuery();
+                        }
+                    }
+                    else throw;
                 }
                 finally
                 {
