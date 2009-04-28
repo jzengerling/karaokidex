@@ -56,7 +56,7 @@
             this._ButtonContainer.Location = new System.Drawing.Point(0, 140);
             this._ButtonContainer.Name = "_ButtonContainer";
             this._ButtonContainer.Size = new System.Drawing.Size(474, 32);
-            this._ButtonContainer.TabIndex = 1;
+            this._ButtonContainer.TabIndex = 2;
             // 
             // _buttonCancel
             // 
@@ -90,7 +90,7 @@
             this._labelProgressCaption.Margin = new System.Windows.Forms.Padding(3, 10, 3, 0);
             this._labelProgressCaption.Name = "_labelProgressCaption";
             this._labelProgressCaption.Size = new System.Drawing.Size(297, 13);
-            this._labelProgressCaption.TabIndex = 3;
+            this._labelProgressCaption.TabIndex = 0;
             this._labelProgressCaption.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // _groupboxSourceDirectory
@@ -103,7 +103,7 @@
             this._groupboxSourceDirectory.Margin = new System.Windows.Forms.Padding(3, 3, 3, 8);
             this._groupboxSourceDirectory.Name = "_groupboxSourceDirectory";
             this._groupboxSourceDirectory.Size = new System.Drawing.Size(450, 53);
-            this._groupboxSourceDirectory.TabIndex = 2;
+            this._groupboxSourceDirectory.TabIndex = 0;
             this._groupboxSourceDirectory.TabStop = false;
             this._groupboxSourceDirectory.Text = "Source Directory";
             // 
@@ -114,7 +114,7 @@
             this._textboxSourceDirectory.Location = new System.Drawing.Point(6, 24);
             this._textboxSourceDirectory.Name = "_textboxSourceDirectory";
             this._textboxSourceDirectory.Size = new System.Drawing.Size(407, 21);
-            this._textboxSourceDirectory.TabIndex = 1;
+            this._textboxSourceDirectory.TabIndex = 0;
             // 
             // _buttonSourceDirectory
             // 
@@ -124,7 +124,7 @@
             this._buttonSourceDirectory.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
             this._buttonSourceDirectory.Name = "_buttonSourceDirectory";
             this._buttonSourceDirectory.Size = new System.Drawing.Size(28, 27);
-            this._buttonSourceDirectory.TabIndex = 0;
+            this._buttonSourceDirectory.TabIndex = 1;
             this._buttonSourceDirectory.UseVisualStyleBackColor = true;
             // 
             // _groupboxTargetFile
@@ -137,7 +137,7 @@
             this._groupboxTargetFile.Margin = new System.Windows.Forms.Padding(3, 3, 3, 8);
             this._groupboxTargetFile.Name = "_groupboxTargetFile";
             this._groupboxTargetFile.Size = new System.Drawing.Size(450, 53);
-            this._groupboxTargetFile.TabIndex = 3;
+            this._groupboxTargetFile.TabIndex = 1;
             this._groupboxTargetFile.TabStop = false;
             this._groupboxTargetFile.Text = "Target File";
             // 
@@ -148,7 +148,7 @@
             this._textboxTargetFile.Location = new System.Drawing.Point(6, 24);
             this._textboxTargetFile.Name = "_textboxTargetFile";
             this._textboxTargetFile.Size = new System.Drawing.Size(407, 21);
-            this._textboxTargetFile.TabIndex = 1;
+            this._textboxTargetFile.TabIndex = 0;
             // 
             // _buttonTargetFile
             // 
@@ -158,7 +158,7 @@
             this._buttonTargetFile.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
             this._buttonTargetFile.Name = "_buttonTargetFile";
             this._buttonTargetFile.Size = new System.Drawing.Size(28, 27);
-            this._buttonTargetFile.TabIndex = 0;
+            this._buttonTargetFile.TabIndex = 1;
             this._buttonTargetFile.UseVisualStyleBackColor = true;
             // 
             // _SaveFileDialog

@@ -35,6 +35,8 @@
             this._buttonOpenDatabase = new System.Windows.Forms.ToolStripButton();
             this._buttonCreateDatabase = new System.Windows.Forms.ToolStripButton();
             this._buttonRefreshDatabase = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this._buttonKaraFun = new System.Windows.Forms.ToolStripButton();
             this._StatusStrip = new System.Windows.Forms.StatusStrip();
             this._labelDatabaseLocation = new System.Windows.Forms.ToolStripStatusLabel();
             this._labelTrackCount = new System.Windows.Forms.ToolStripStatusLabel();
@@ -59,8 +61,6 @@
             this._TableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this._buttonOpenContainingFolder = new System.Windows.Forms.Button();
             this._labelSelectedTrackPath = new System.Windows.Forms.Label();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this._buttonKaraFun = new System.Windows.Forms.ToolStripButton();
             this._ToolStrip.SuspendLayout();
             this._StatusStrip.SuspendLayout();
             this._SplitContainer.Panel1.SuspendLayout();
@@ -115,6 +115,20 @@
             this._buttonRefreshDatabase.Size = new System.Drawing.Size(23, 22);
             this._buttonRefreshDatabase.ToolTipText = "Refresh the current database";
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // _buttonKaraFun
+            // 
+            this._buttonKaraFun.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this._buttonKaraFun.Image = global::Karaokidex.Properties.Resources.KaraFun_16x16x32;
+            this._buttonKaraFun.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._buttonKaraFun.Name = "_buttonKaraFun";
+            this._buttonKaraFun.Size = new System.Drawing.Size(23, 22);
+            this._buttonKaraFun.ToolTipText = "Launch KaraFun";
+            // 
             // _StatusStrip
             // 
             this._StatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -156,6 +170,7 @@
             // 
             // _SplitContainer
             // 
+            this._SplitContainer.BackColor = System.Drawing.Color.White;
             this._SplitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
             this._SplitContainer.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
             this._SplitContainer.IsSplitterFixed = true;
@@ -265,13 +280,15 @@
             this._gridResults.ContextMenuStrip = this._ContextMenuStrip;
             this._gridResults.Dock = System.Windows.Forms.DockStyle.Fill;
             this._gridResults.Location = new System.Drawing.Point(0, 0);
+            this._gridResults.MultiSelect = false;
             this._gridResults.Name = "_gridResults";
             this._gridResults.ReadOnly = true;
             this._gridResults.RowHeadersVisible = false;
             this._gridResults.RowTemplate.Height = 30;
             this._gridResults.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this._gridResults.Size = new System.Drawing.Size(784, 257);
-            this._gridResults.TabIndex = 0;
+            this._gridResults.StandardTab = true;
+            this._gridResults.TabIndex = 4;
             // 
             // _columnID
             // 
@@ -365,7 +382,7 @@
             this._buttonOpenContainingFolder.Location = new System.Drawing.Point(751, 3);
             this._buttonOpenContainingFolder.Name = "_buttonOpenContainingFolder";
             this._buttonOpenContainingFolder.Size = new System.Drawing.Size(29, 28);
-            this._buttonOpenContainingFolder.TabIndex = 7;
+            this._buttonOpenContainingFolder.TabIndex = 5;
             this._buttonOpenContainingFolder.UseVisualStyleBackColor = true;
             // 
             // _labelSelectedTrackPath
@@ -379,20 +396,6 @@
             this._labelSelectedTrackPath.Size = new System.Drawing.Size(742, 28);
             this._labelSelectedTrackPath.TabIndex = 6;
             this._labelSelectedTrackPath.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
-            // 
-            // _buttonKaraFun
-            // 
-            this._buttonKaraFun.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this._buttonKaraFun.Image = global::Karaokidex.Properties.Resources.KaraFun_16x16x32;
-            this._buttonKaraFun.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this._buttonKaraFun.Name = "_buttonKaraFun";
-            this._buttonKaraFun.Size = new System.Drawing.Size(23, 22);
-            this._buttonKaraFun.ToolTipText = "Launch KaraFun";
             // 
             // MainView
             // 
