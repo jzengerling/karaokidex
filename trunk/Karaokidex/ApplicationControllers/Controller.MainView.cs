@@ -35,8 +35,8 @@ namespace Karaokidex.ApplicationControllers
                 new EventHandler(MainView_buttonCreateDatabase_Click);
             this._MainView.buttonRefreshDatabase.Click += 
                 new EventHandler(MainView_buttonRefreshDatabase_Click);
-            this._MainView.buttonLaunchKaraFun.Click += 
-                new EventHandler(MainView_buttonLaunchKaraFun_Click);
+            this._MainView.buttonKaraFun.Click += 
+                new EventHandler(MainView_buttonKaraFun_Click);
             this._MainView.buttonSearch.Click += 
                 new EventHandler(MainView_buttonSearch_Click);
             this._MainView.buttonExit.Click += 
@@ -70,18 +70,20 @@ namespace Karaokidex.ApplicationControllers
             if (RegistryAgent.IsKaraFunInstalled)
             {
                 this._MainView.Text = "Karaokidex for KaraFun";
+                //    string[] theCommand = RegistryAgent.KaraFunEnqueueCommand
+                //        .Split(new Char[] { '"' }, 3, StringSplitOptions.RemoveEmptyEntries);
 
-                this._MainView.buttonLaunchKaraFun.Enabled = true;
-            //    string[] theCommand = RegistryAgent.KaraFunEnqueueCommand
-            //        .Split(new Char[] { '"' }, 3, StringSplitOptions.RemoveEmptyEntries);
+                //    ProcessStartInfo theInfo = new ProcessStartInfo();
+                //    theInfo.FileName = theCommand[0];
 
-            //    ProcessStartInfo theInfo = new ProcessStartInfo();
-            //    theInfo.FileName = theCommand[0];
+                //    Process thePlayerProcess = new Process();
+                //    thePlayerProcess.StartInfo = theInfo;
 
-            //    Process thePlayerProcess = new Process();
-            //    thePlayerProcess.StartInfo = theInfo;
-
-            //    thePlayerProcess.Start();
+                //    thePlayerProcess.Start();
+            }
+            else
+            {
+                this._MainView.buttonKaraFun.ToolTipText = "Get KaraFun";
             }
         }
 
@@ -133,13 +135,24 @@ namespace Karaokidex.ApplicationControllers
                 new FileInfo(RegistryAgent.LastDatabase));
         }
 
-        private void MainView_buttonLaunchKaraFun_Click(
+        private void MainView_buttonKaraFun_Click(
             object sender, 
             EventArgs e)
         {
             Application.DoEvents();
 
-            Process.Start(RegistryAgent.KaraFunExecutablePath);
+            ToolStripButton theKaraFunButton =
+                sender as ToolStripButton;
+
+            switch (theKaraFunButton.ToolTipText)
+            {
+                case "Get KaraFun":
+                    Process.Start("http://www.karafun.com/karaokeplayer/");
+                    break;
+                default:
+                    Process.Start(RegistryAgent.KaraFunExecutablePath);
+                    break;
+            }
         }
 
         private void MainView_buttonSearch_Click(
