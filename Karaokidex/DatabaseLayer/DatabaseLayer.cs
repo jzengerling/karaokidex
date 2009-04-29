@@ -14,7 +14,7 @@ namespace Karaokidex
         #endregion
 
         #region Properties
-        public static string GetSourceDirectory
+        public static string SourceDirectory
         {
             get
             {

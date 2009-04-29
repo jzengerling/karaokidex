@@ -4,13 +4,15 @@ using System.IO;
 using Karaokidex.Views;
 using System.Drawing;
 using System.Threading;
+using Karaokidex.Enumerators;
 
 namespace Karaokidex.ApplicationControllers
 {
     public partial class Controller
     {
         #region Methods
-        private void CreateDatabaseView_Show()
+        private void CreateDatabaseView_Show(
+            DatabaseMode theMode)
         {
             // Instantiate an instance
             CreateDatabaseView theView = new CreateDatabaseView();
@@ -23,6 +25,23 @@ namespace Karaokidex.ApplicationControllers
                 new EventHandler(CreateDatabaseView_buttonOK_Click);
             theView.buttonCancel.Click +=
                 new EventHandler(CreateDatabaseView_buttonCancel_Click);
+
+            switch (theMode)
+            {
+                case DatabaseMode.Refresh:
+                    theView.textboxSourceDirectory.Text =
+                        DatabaseLayer.SourceDirectory;
+                    theView.textboxTargetFile.Text =
+                        RegistryAgent.LastDatabase;
+
+                    theView.Text = "Refresh Database";
+                    break;
+                default:
+                    theView.Text = "Create a Database";
+                    break;
+            }
+
+            Controller.ToggleOKButton(theView);
 
             // Show the form
             theView.ShowDialog(this._MainView);
