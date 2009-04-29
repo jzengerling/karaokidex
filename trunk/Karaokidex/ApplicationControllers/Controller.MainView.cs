@@ -8,6 +8,7 @@ using System.Data;
 using Karaokidex.Properties;
 using System.Runtime.InteropServices;
 using System.Text;
+using Karaokidex.Enumerators;
 
 namespace Karaokidex.ApplicationControllers
 {
@@ -120,7 +121,7 @@ namespace Karaokidex.ApplicationControllers
         {
             Application.DoEvents();
 
-            this.CreateDatabaseView_Show();
+            this.CreateDatabaseView_Show(DatabaseMode.Create);
         }
 
         private void MainView_buttonRefreshDatabase_Click(
@@ -129,10 +130,7 @@ namespace Karaokidex.ApplicationControllers
         {
             Application.DoEvents();
 
-            this.CreateDatabaseAgentView_Show(
-                this._MainView,
-                new DirectoryInfo(DatabaseLayer.GetSourceDirectory),
-                new FileInfo(RegistryAgent.LastDatabase));
+            this.CreateDatabaseView_Show(DatabaseMode.Refresh);
         }
 
         private void MainView_buttonKaraFun_Click(
@@ -280,7 +278,7 @@ namespace Karaokidex.ApplicationControllers
             if (!theResultsGrid.SelectedRows.Count.Equals(0))
             {
                 FileInfo theTrackDirectoryInfo = new FileInfo(
-                    DatabaseLayer.GetSourceDirectory + "\\" +
+                    DatabaseLayer.SourceDirectory + "\\" +
                     theResultsGrid.SelectedRows[0].Cells["_columnFullPath"].Value);
 
                 if (theTrackDirectoryInfo.Exists)
@@ -370,7 +368,7 @@ namespace Karaokidex.ApplicationControllers
             if (!theParentView.gridResults.SelectedRows.Count.Equals(0))
             {
                 FileInfo theTrackDirectoryInfo = new FileInfo(
-                    DatabaseLayer.GetSourceDirectory + "\\" +
+                    DatabaseLayer.SourceDirectory + "\\" +
                     theParentView.gridResults.SelectedRows[0].Cells["_columnFullPath"].Value);
 
                 if (theTrackDirectoryInfo.Exists)
@@ -406,7 +404,7 @@ namespace Karaokidex.ApplicationControllers
                 theOpenContainingFolderButton.FindForm() as MainView;
 
             DirectoryInfo theTrackDirectoryInfo = new DirectoryInfo(
-                DatabaseLayer.GetSourceDirectory +
+                DatabaseLayer.SourceDirectory +
                 theParentView.gridResults.SelectedRows[0].Cells["_columnPath"].Value);
 
             if (theTrackDirectoryInfo.Exists)

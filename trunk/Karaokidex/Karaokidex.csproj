@@ -40,7 +40,7 @@
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>index.html</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>24</ApplicationRevision>
+    <ApplicationRevision>25</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -85,6 +85,7 @@
     <Compile Include="ApplicationControllers\Controller.CreateDatabaseAgentView.cs" />
     <Compile Include="DatabaseLayer\CreateDatabaseAgent.cs" />
     <Compile Include="DatabaseLayer\DatabaseLayer.cs" />
+    <Compile Include="Enumerators\DatabaseMode.Enumerator.cs" />
     <Compile Include="FileSort.cs" />
     <Compile Include="DirectorySort.cs" />
     <Compile Include="Program.cs" />
