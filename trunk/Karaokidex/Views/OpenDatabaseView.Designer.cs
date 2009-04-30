@@ -1,6 +1,6 @@
 ﻿namespace Karaokidex.Views
 {
-    partial class CreateDatabaseView
+    partial class OpenDatabaseView
     {
         /// <summary>
         /// Required designer variable.
@@ -35,13 +35,13 @@
             this._textboxSourceDirectory = new System.Windows.Forms.TextBox();
             this._buttonSourceDirectory = new System.Windows.Forms.Button();
             this._FolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
-            this._groupboxTargetFile = new System.Windows.Forms.GroupBox();
-            this._textboxTargetFile = new System.Windows.Forms.TextBox();
-            this._buttonTargetFile = new System.Windows.Forms.Button();
-            this._SaveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this._groupboxDatabaseFile = new System.Windows.Forms.GroupBox();
+            this._textboxDatabaseFile = new System.Windows.Forms.TextBox();
+            this._buttonDatabaseFile = new System.Windows.Forms.Button();
+            this._OpenFileDialog = new System.Windows.Forms.OpenFileDialog();
             this._ButtonContainer.SuspendLayout();
             this._groupboxSourceDirectory.SuspendLayout();
-            this._groupboxTargetFile.SuspendLayout();
+            this._groupboxDatabaseFile.SuspendLayout();
             this.SuspendLayout();
             // 
             // _ButtonContainer
@@ -88,7 +88,7 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this._groupboxSourceDirectory.Controls.Add(this._textboxSourceDirectory);
             this._groupboxSourceDirectory.Controls.Add(this._buttonSourceDirectory);
-            this._groupboxSourceDirectory.Location = new System.Drawing.Point(12, 12);
+            this._groupboxSourceDirectory.Location = new System.Drawing.Point(12, 76);
             this._groupboxSourceDirectory.Margin = new System.Windows.Forms.Padding(3, 3, 3, 8);
             this._groupboxSourceDirectory.Name = "_groupboxSourceDirectory";
             this._groupboxSourceDirectory.Size = new System.Drawing.Size(450, 53);
@@ -116,46 +116,45 @@
             this._buttonSourceDirectory.TabIndex = 1;
             this._buttonSourceDirectory.UseVisualStyleBackColor = true;
             // 
-            // _groupboxTargetFile
+            // _groupboxDatabaseFile
             // 
-            this._groupboxTargetFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this._groupboxDatabaseFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this._groupboxTargetFile.Controls.Add(this._textboxTargetFile);
-            this._groupboxTargetFile.Controls.Add(this._buttonTargetFile);
-            this._groupboxTargetFile.Location = new System.Drawing.Point(12, 76);
-            this._groupboxTargetFile.Margin = new System.Windows.Forms.Padding(3, 3, 3, 8);
-            this._groupboxTargetFile.Name = "_groupboxTargetFile";
-            this._groupboxTargetFile.Size = new System.Drawing.Size(450, 53);
-            this._groupboxTargetFile.TabIndex = 1;
-            this._groupboxTargetFile.TabStop = false;
-            this._groupboxTargetFile.Text = "Target File";
+            this._groupboxDatabaseFile.Controls.Add(this._textboxDatabaseFile);
+            this._groupboxDatabaseFile.Controls.Add(this._buttonDatabaseFile);
+            this._groupboxDatabaseFile.Location = new System.Drawing.Point(12, 12);
+            this._groupboxDatabaseFile.Margin = new System.Windows.Forms.Padding(3, 3, 3, 8);
+            this._groupboxDatabaseFile.Name = "_groupboxDatabaseFile";
+            this._groupboxDatabaseFile.Size = new System.Drawing.Size(450, 53);
+            this._groupboxDatabaseFile.TabIndex = 3;
+            this._groupboxDatabaseFile.TabStop = false;
+            this._groupboxDatabaseFile.Text = "Database File";
             // 
-            // _textboxTargetFile
+            // _textboxDatabaseFile
             // 
-            this._textboxTargetFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this._textboxDatabaseFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this._textboxTargetFile.Location = new System.Drawing.Point(6, 24);
-            this._textboxTargetFile.Name = "_textboxTargetFile";
-            this._textboxTargetFile.Size = new System.Drawing.Size(407, 21);
-            this._textboxTargetFile.TabIndex = 0;
+            this._textboxDatabaseFile.Location = new System.Drawing.Point(6, 24);
+            this._textboxDatabaseFile.Name = "_textboxDatabaseFile";
+            this._textboxDatabaseFile.Size = new System.Drawing.Size(407, 21);
+            this._textboxDatabaseFile.TabIndex = 0;
             // 
-            // _buttonTargetFile
+            // _buttonDatabaseFile
             // 
-            this._buttonTargetFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._buttonTargetFile.Image = global::Karaokidex.Properties.Resources.page_white_text;
-            this._buttonTargetFile.Location = new System.Drawing.Point(416, 20);
-            this._buttonTargetFile.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
-            this._buttonTargetFile.Name = "_buttonTargetFile";
-            this._buttonTargetFile.Size = new System.Drawing.Size(28, 27);
-            this._buttonTargetFile.TabIndex = 1;
-            this._buttonTargetFile.UseVisualStyleBackColor = true;
+            this._buttonDatabaseFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._buttonDatabaseFile.Image = global::Karaokidex.Properties.Resources.page_white_text;
+            this._buttonDatabaseFile.Location = new System.Drawing.Point(416, 20);
+            this._buttonDatabaseFile.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
+            this._buttonDatabaseFile.Name = "_buttonDatabaseFile";
+            this._buttonDatabaseFile.Size = new System.Drawing.Size(28, 27);
+            this._buttonDatabaseFile.TabIndex = 1;
+            this._buttonDatabaseFile.UseVisualStyleBackColor = true;
             // 
-            // _SaveFileDialog
+            // _OpenFileDialog
             // 
-            this._SaveFileDialog.DefaultExt = "kdb";
-            this._SaveFileDialog.Filter = "Karaokidex Databases (*.kdb)|*.kdb";
+            this._OpenFileDialog.Filter = "Karakidex Databases|*.kdb";
             // 
-            // CreateDatabaseView
+            // OpenDatabaseView
             // 
             this.AcceptButton = this._buttonOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -163,22 +162,22 @@
             this.BackColor = System.Drawing.Color.White;
             this.CancelButton = this._buttonCancel;
             this.ClientSize = new System.Drawing.Size(474, 172);
-            this.Controls.Add(this._groupboxTargetFile);
+            this.Controls.Add(this._groupboxDatabaseFile);
             this.Controls.Add(this._groupboxSourceDirectory);
             this.Controls.Add(this._ButtonContainer);
             this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "CreateDatabaseView";
+            this.Name = "OpenDatabaseView";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Create a Database";
+            this.Text = "Open Database";
             this._ButtonContainer.ResumeLayout(false);
             this._groupboxSourceDirectory.ResumeLayout(false);
             this._groupboxSourceDirectory.PerformLayout();
-            this._groupboxTargetFile.ResumeLayout(false);
-            this._groupboxTargetFile.PerformLayout();
+            this._groupboxDatabaseFile.ResumeLayout(false);
+            this._groupboxDatabaseFile.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -192,9 +191,9 @@
         private System.Windows.Forms.TextBox _textboxSourceDirectory;
         private System.Windows.Forms.Button _buttonSourceDirectory;
         private System.Windows.Forms.FolderBrowserDialog _FolderBrowserDialog;
-        private System.Windows.Forms.GroupBox _groupboxTargetFile;
-        private System.Windows.Forms.TextBox _textboxTargetFile;
-        private System.Windows.Forms.Button _buttonTargetFile;
-        private System.Windows.Forms.SaveFileDialog _SaveFileDialog;
+        private System.Windows.Forms.GroupBox _groupboxDatabaseFile;
+        private System.Windows.Forms.TextBox _textboxDatabaseFile;
+        private System.Windows.Forms.Button _buttonDatabaseFile;
+        private System.Windows.Forms.OpenFileDialog _OpenFileDialog;
     }
 }

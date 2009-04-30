@@ -29,8 +29,9 @@ namespace Karaokidex.ApplicationControllers
             switch (theMode)
             {
                 case DatabaseMode.Refresh:
-                    theView.textboxSourceDirectory.Text =
-                        DatabaseLayer.SourceDirectory;
+                    theView.textboxSourceDirectory.Text = 
+                        DatabaseLayer.GetSourceDirectory(
+                            new FileInfo(RegistryAgent.LastDatabase));
                     theView.textboxTargetFile.Text =
                         RegistryAgent.LastDatabase;
 

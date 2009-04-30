@@ -57,30 +57,19 @@ namespace Karaokidex.ApplicationControllers
             this._MainView.buttonOpenContainingFolder.Click += 
                 new EventHandler(MainView_buttonOpenContainingFolder_Click);
 
-            // Attach the ListingGenerationView to the Application Context
             this._AppContext.MainForm = this._MainView;
 
-            // Show the form
             this._MainView.Show();
 
             if (!String.IsNullOrEmpty(RegistryAgent.LastDatabase))
             {
-                this.OpenDatabase();
+                this.OpenDatabaseView_Show(
+                    new FileInfo(RegistryAgent.LastDatabase));
             }
 
             if (RegistryAgent.IsKaraFunInstalled)
             {
                 this._MainView.Text = "Karaokidex for KaraFun";
-                //    string[] theCommand = RegistryAgent.KaraFunEnqueueCommand
-                //        .Split(new Char[] { '"' }, 3, StringSplitOptions.RemoveEmptyEntries);
-
-                //    ProcessStartInfo theInfo = new ProcessStartInfo();
-                //    theInfo.FileName = theCommand[0];
-
-                //    Process thePlayerProcess = new Process();
-                //    thePlayerProcess.StartInfo = theInfo;
-
-                //    thePlayerProcess.Start();
             }
             else
             {
@@ -95,23 +84,14 @@ namespace Karaokidex.ApplicationControllers
         {
             Application.DoEvents();
 
-            switch (this._MainView.OpenFileDialog.ShowDialog(this._MainView))
+            if (!String.IsNullOrEmpty(RegistryAgent.LastDatabase))
             {
-                case DialogResult.Cancel:
-                    Application.DoEvents();
-                    return;
-            }
-
-            if (!String.IsNullOrEmpty(this._MainView.OpenFileDialog.FileName))
-            {
-                RegistryAgent.LastDatabase =
-                    this._MainView.OpenFileDialog.FileName;
-
-                this.OpenDatabase();
+                this.OpenDatabaseView_Show(
+                    new FileInfo(RegistryAgent.LastDatabase));
             }
             else
             {
-                this._MainView.buttonSearch.Enabled = false;
+                this.OpenDatabaseView_Show();
             }
         }
 
@@ -177,7 +157,7 @@ namespace Karaokidex.ApplicationControllers
                     thisRow["Extension"],
                     CultureInfo.CurrentCulture);
 
-                switch(thisExtension)
+                switch (thisExtension)
                 {
                     case ".zip":
                         theParentView.gridResults.Rows.Add(
@@ -277,11 +257,11 @@ namespace Karaokidex.ApplicationControllers
 
             if (!theResultsGrid.SelectedRows.Count.Equals(0))
             {
-                FileInfo theTrackDirectoryInfo = new FileInfo(
-                    DatabaseLayer.SourceDirectory + "\\" +
-                    theResultsGrid.SelectedRows[0].Cells["_columnFullPath"].Value);
+                FileInfo theTrackFileInfo = new FileInfo(
+                    DatabaseLayer.GetSourceDirectory(new FileInfo(RegistryAgent.LastDatabase)) + 
+                    "\\" + theResultsGrid.SelectedRows[0].Cells["_columnFullPath"].Value);
 
-                if (theTrackDirectoryInfo.Exists)
+                if (theTrackFileInfo.Exists)
                 {
                     this._MainView.Cursor =
                         Cursors.WaitCursor;
@@ -289,7 +269,7 @@ namespace Karaokidex.ApplicationControllers
                     string[] theCommand =
                         RegistryAgent.KaraFunEnqueueCommand.Replace(
                             "%1",
-                            theTrackDirectoryInfo.ToString())
+                            theTrackFileInfo.FullName)
                             .Split(new Char[] { '"' }, 3, StringSplitOptions.RemoveEmptyEntries);
 
                     ProcessStartInfo theInfo = new ProcessStartInfo();
@@ -301,22 +281,23 @@ namespace Karaokidex.ApplicationControllers
 
                     theProcess.Start();
 
-                    //theProcess.WaitForInputIdle();
-
-                    //if (!this._IsPaused)
-                    //{
-                    //    IntPtr iApplication = FindWindow(null, "KaraFun Player");
-
-                    //    if (!iApplication.Equals(IntPtr.Zero))
-                    //    {
-                    //        SetForegroundWindow(iApplication);
-                    //        SendKeys.Send(" ");
-                    //        this._IsPaused = true;
-                    //    }
-                    //}
-
                     this._MainView.Cursor =
                         Cursors.Default;
+                }
+                else
+                {
+                    MessageBox.Show(
+                        theParentView,
+                        String.Format(
+                            CultureInfo.CurrentCulture,
+                            "{0}\n\nThe selected track does not exist",
+                            theTrackFileInfo.ToString()),
+                            theParentView.Text,
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Information,
+                            MessageBoxDefaultButton.Button1);
+
+                    Application.DoEvents();
                 }
             }
         }
@@ -348,8 +329,15 @@ namespace Karaokidex.ApplicationControllers
         {
             Application.DoEvents();
 
+            ToolStripMenuItem theOpenContainingFolder =
+                sender as ToolStripMenuItem;
+            ContextMenuStrip theContextMenuStrip =
+                theOpenContainingFolder.Owner as ContextMenuStrip;
+            MainView theParentView =
+                theContextMenuStrip.SourceControl.FindForm() as MainView;
+
             this.MainView_gridResults_DoubleClick(
-                sender, new EventArgs());
+                theParentView.gridResults, new EventArgs());
         }
 
         private void MainView_menuitemPlayInKaraFun_Click(
@@ -367,11 +355,11 @@ namespace Karaokidex.ApplicationControllers
 
             if (!theParentView.gridResults.SelectedRows.Count.Equals(0))
             {
-                FileInfo theTrackDirectoryInfo = new FileInfo(
-                    DatabaseLayer.SourceDirectory + "\\" +
-                    theParentView.gridResults.SelectedRows[0].Cells["_columnFullPath"].Value);
+                FileInfo theTrackFileInfo = new FileInfo(
+                    DatabaseLayer.GetSourceDirectory(new FileInfo(RegistryAgent.LastDatabase)) + 
+                    "\\" + theParentView.gridResults.SelectedRows[0].Cells["_columnFullPath"].Value);
 
-                if (theTrackDirectoryInfo.Exists)
+                if (theTrackFileInfo.Exists)
                 {
                     this._MainView.Cursor =
                         Cursors.WaitCursor;
@@ -379,7 +367,7 @@ namespace Karaokidex.ApplicationControllers
                     string[] theCommand =
                         RegistryAgent.KaraFunPlayCommand.Replace(
                             "%1",
-                            theTrackDirectoryInfo.ToString())
+                            theTrackFileInfo.ToString())
                             .Split(new Char[] { '"' }, 3, StringSplitOptions.RemoveEmptyEntries);
 
                     Process.Start(
@@ -388,6 +376,21 @@ namespace Karaokidex.ApplicationControllers
 
                     this._MainView.Cursor =
                         Cursors.Default;
+                }
+                else
+                {
+                    MessageBox.Show(
+                        theParentView,
+                        String.Format(
+                            CultureInfo.CurrentCulture,
+                            "{0}\n\nThe selected track does not exist",
+                            theTrackFileInfo.ToString()),
+                            theParentView.Text,
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Information,
+                            MessageBoxDefaultButton.Button1);
+
+                    Application.DoEvents();
                 }
             }
         }
@@ -404,8 +407,8 @@ namespace Karaokidex.ApplicationControllers
                 theOpenContainingFolderButton.FindForm() as MainView;
 
             DirectoryInfo theTrackDirectoryInfo = new DirectoryInfo(
-                DatabaseLayer.SourceDirectory +
-                theParentView.gridResults.SelectedRows[0].Cells["_columnPath"].Value);
+                DatabaseLayer.GetSourceDirectory(new FileInfo(RegistryAgent.LastDatabase)) +
+                "\\" + theParentView.gridResults.SelectedRows[0].Cells["_columnPath"].Value);
 
             if (theTrackDirectoryInfo.Exists)
             {
@@ -417,7 +420,7 @@ namespace Karaokidex.ApplicationControllers
                     String.Format(
                         CultureInfo.CurrentCulture,
                         "/e,/root,{0}",
-                        theTrackDirectoryInfo.ToString()));
+                        theTrackDirectoryInfo.FullName));
 
                 this._MainView.Cursor =
                     Cursors.Default;

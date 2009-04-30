@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace Karaokidex.Views
 {
-    public partial class CreateDatabaseView : Form
+    public partial class OpenDatabaseView : Form
     {
         #region Properties
         public TextBox textboxSourceDirectory
@@ -26,19 +26,19 @@ namespace Karaokidex.Views
             get { return this._FolderBrowserDialog; }
         }
 
-        public TextBox textboxTargetFile
+        public TextBox textboxDatabaseFile
         {
-            get { return this._textboxTargetFile; }
+            get { return this._textboxDatabaseFile; }
         }
 
-        public Button buttonTargetFile
+        public Button buttonDatabaseFile
         {
-            get { return this._buttonTargetFile; }
+            get { return this._buttonDatabaseFile; }
         }
 
-        public SaveFileDialog SaveFileDialog
+        public OpenFileDialog OpenFileDialog
         {
-            get { return this._SaveFileDialog; }
+            get { return this._OpenFileDialog; }
         }
 
         public Button buttonOK
@@ -53,7 +53,7 @@ namespace Karaokidex.Views
         #endregion
 
         #region Methods
-        public CreateDatabaseView()
+        public OpenDatabaseView()
         {
             InitializeComponent();
         }
@@ -63,8 +63,8 @@ namespace Karaokidex.Views
         {
             this._textboxSourceDirectory.Enabled =
                 this._buttonSourceDirectory.Enabled =
-                this._textboxTargetFile.Enabled =
-                this._buttonTargetFile.Enabled =
+                this._textboxDatabaseFile.Enabled =
+                this._buttonDatabaseFile.Enabled =
                 this._buttonOK.Enabled =
                 this._buttonCancel.Enabled =
                     true;
@@ -74,8 +74,8 @@ namespace Karaokidex.Views
         {
             this._textboxSourceDirectory.Enabled =
                 this._buttonSourceDirectory.Enabled =
-                this._textboxTargetFile.Enabled =
-                this._buttonTargetFile.Enabled =
+                this._textboxDatabaseFile.Enabled =
+                this._buttonDatabaseFile.Enabled =
                 this._buttonOK.Enabled =
                 this._buttonCancel.Enabled =
                     false;

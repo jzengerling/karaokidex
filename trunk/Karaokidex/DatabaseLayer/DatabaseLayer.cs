@@ -14,37 +14,6 @@ namespace Karaokidex
         #endregion
 
         #region Properties
-        public static string SourceDirectory
-        {
-            get
-            {
-                if (!String.IsNullOrEmpty(DatabaseLayer.ConnectionString))
-                {
-                    using (SQLiteConnection theConnection = new SQLiteConnection(DatabaseLayer.ConnectionString))
-                    {
-                        try
-                        {
-                            theConnection.Open();
-
-                            using (SQLiteCommand theCommand = theConnection.CreateCommand())
-                            {
-                                theCommand.CommandText = "SELECT [Value] FROM [Settings] WHERE [Key] = 'Source Directory'";
-
-                                return Convert.ToString(
-                                    theCommand.ExecuteScalar(),
-                                    CultureInfo.CurrentCulture);
-                            }
-                        }
-                        finally
-                        {
-                            theConnection.Close();
-                        }
-                    }
-                }
-                return String.Empty;
-            }
-        }
-        
         public static int NumberOfTracksInDatabase
         {
             get
@@ -83,14 +52,14 @@ namespace Karaokidex
 
         #region Methods
         public static void CreateDatabase(
-            FileInfo theTargetFileInfo)
+            FileInfo theDatabaseFileInfo)
         {
-            SQLiteConnection.CreateFile(theTargetFileInfo.FullName);
+            SQLiteConnection.CreateFile(theDatabaseFileInfo.FullName);
 
             DatabaseLayer.ConnectionString = String.Format(
                 CultureInfo.CurrentCulture,
                 "Data Source={0}; UTF8Encoding=True; Version=3; Pooling=True",
-                theTargetFileInfo.FullName);
+                theDatabaseFileInfo.FullName);
 
             using (SQLiteConnection theConnection = new SQLiteConnection(DatabaseLayer.ConnectionString))
             {
@@ -135,12 +104,12 @@ namespace Karaokidex
         }
 
         public static void ClearDatabase(
-            FileInfo theTargetFileInfo)
+            FileInfo theDatabaseFileInfo)
         {
             DatabaseLayer.ConnectionString = String.Format(
                 CultureInfo.CurrentCulture,
                 "Data Source={0}; UTF8Encoding=True; Version=3; Pooling=True",
-                theTargetFileInfo.FullName);
+                theDatabaseFileInfo.FullName);
 
             using (SQLiteConnection theConnection = new SQLiteConnection(DatabaseLayer.ConnectionString))
             {
@@ -226,6 +195,70 @@ namespace Karaokidex
                 }
             }
         }
+
+        public static string GetSourceDirectory(
+            FileInfo theDatabaseFileInfo)
+        {
+            DatabaseLayer.ConnectionString = String.Format(
+                CultureInfo.CurrentCulture,
+                "Data Source={0}; UTF8Encoding=True; Version=3; Pooling=True",
+                theDatabaseFileInfo.FullName);
+
+            using (SQLiteConnection theConnection = new SQLiteConnection(DatabaseLayer.ConnectionString))
+            {
+                try
+                {
+                    theConnection.Open();
+
+                    using (SQLiteCommand theCommand = theConnection.CreateCommand())
+                    {
+                        theCommand.CommandText = "SELECT [Value] FROM [Settings] WHERE [Key] = 'Source Directory'";
+
+                        return Convert.ToString(
+                            theCommand.ExecuteScalar(),
+                            CultureInfo.CurrentCulture);
+                    }
+                }
+                finally
+                {
+                    theConnection.Close();
+                }
+            }
+        }
+
+        public static void SetSourceDirectory(
+            FileInfo theDatabaseFileInfo,
+            DirectoryInfo theSourceDirectory)
+        {
+            DatabaseLayer.ConnectionString = String.Format(
+                CultureInfo.CurrentCulture,
+                "Data Source={0}; UTF8Encoding=True; Version=3; Pooling=True",
+                theDatabaseFileInfo.FullName);
+
+            using (SQLiteConnection theConnection = new SQLiteConnection(DatabaseLayer.ConnectionString))
+            {
+                try
+                {
+                    theConnection.Open();
+
+                    using (SQLiteCommand theCommand = theConnection.CreateCommand())
+                    {
+                        theCommand.CommandText = "UPDATE [Settings] SET [Value] = ? WHERE [Key] = 'Source Directory'";
+                        SQLiteParameter theSourceDirectortParameter = theCommand.CreateParameter();
+                        theCommand.Parameters.Add(theSourceDirectortParameter);
+
+                        theSourceDirectortParameter.Value =
+                            theSourceDirectory.FullName;
+
+                        theCommand.ExecuteNonQuery();
+                    }
+                }
+                finally
+                {
+                    theConnection.Close();
+                }
+            }
+        }
         
         public static DataTable SearchDatabase(
             string theCriteria)
@@ -241,7 +274,8 @@ namespace Karaokidex
                         using (SQLiteCommand theCommand = theConnection.CreateCommand())
                         {
                             StringBuilder theCommandBuilder = new StringBuilder(
-                                "SELECT [ID], [Path], [Details], [Extension], '\' || [Path] || '\' || [Details] || '\' || [Extension] AS [FullPath] ");
+                                "SELECT [ID], [Path], [Details], [Extension], " +
+                                "[Path] || '\\' || [Details] || [Extension] AS [FullPath] ");
                             theCommandBuilder.Append("FROM [Tracks] ");
                             theCommandBuilder.Append("WHERE ");
 
