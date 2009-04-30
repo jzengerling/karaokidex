@@ -53,7 +53,7 @@ namespace Karaokidex
 
         public static bool IsKaraFunInstalled
         {
-            get { return null != Registry.ClassesRoot.OpenSubKey("KaraFun.File", false); }
+            get { return null != Registry.ClassesRoot.OpenSubKey("KaraFun.File\\Shell\\Enqueue\\Command", false); }
         }
 
         public static string KaraFunExecutablePath
@@ -78,6 +78,7 @@ namespace Karaokidex
             {
                 if (RegistryAgent.IsKaraFunInstalled)
                 {
+
                     return Registry.ClassesRoot.OpenSubKey("KaraFun.File\\Shell\\Enqueue\\Command", false)
                         .GetValue("").ToString();
                 }

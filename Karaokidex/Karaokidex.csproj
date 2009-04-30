@@ -40,7 +40,7 @@
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>index.html</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>25</ApplicationRevision>
+    <ApplicationRevision>35</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -83,6 +83,7 @@
     <Compile Include="ApplicationControllers\Controller.MainView.cs" />
     <Compile Include="ApplicationControllers\Controller.CreateDatabaseView.cs" />
     <Compile Include="ApplicationControllers\Controller.CreateDatabaseAgentView.cs" />
+    <Compile Include="ApplicationControllers\Controller.OpenDatabaseView.cs" />
     <Compile Include="DatabaseLayer\CreateDatabaseAgent.cs" />
     <Compile Include="DatabaseLayer\DatabaseLayer.cs" />
     <Compile Include="Enumerators\DatabaseMode.Enumerator.cs" />
@@ -94,6 +95,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\OpenDatabaseView.resx">
+      <DependentUpon>OpenDatabaseView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\CreateDatabaseAgentView.resx">
       <DependentUpon>CreateDatabaseAgentView.cs</DependentUpon>
@@ -120,6 +124,12 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="RegistryAgent.cs" />
+    <Compile Include="Views\OpenDatabaseView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\OpenDatabaseView.Designer.cs">
+      <DependentUpon>OpenDatabaseView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\CreateDatabaseAgentView.cs">
       <SubType>Form</SubType>
     </Compile>

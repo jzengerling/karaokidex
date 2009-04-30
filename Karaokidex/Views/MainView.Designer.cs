@@ -41,7 +41,6 @@
             this._labelDatabaseLocation = new System.Windows.Forms.ToolStripStatusLabel();
             this._labelTrackCount = new System.Windows.Forms.ToolStripStatusLabel();
             this._labelResults = new System.Windows.Forms.ToolStripStatusLabel();
-            this._OpenFileDialog = new System.Windows.Forms.OpenFileDialog();
             this._SplitContainer = new System.Windows.Forms.SplitContainer();
             this._groupboxCriteria = new System.Windows.Forms.GroupBox();
             this._textboxCriteria = new System.Windows.Forms.TextBox();
@@ -162,11 +161,6 @@
             this._labelResults.Name = "_labelResults";
             this._labelResults.Size = new System.Drawing.Size(54, 19);
             this._labelResults.Text = "0 results";
-            // 
-            // _OpenFileDialog
-            // 
-            this._OpenFileDialog.DefaultExt = "kdb";
-            this._OpenFileDialog.Filter = "Database files (*.kdb)|*.kdb";
             // 
             // _SplitContainer
             // 
@@ -438,7 +432,6 @@
         private System.Windows.Forms.ToolStripButton _buttonCreateDatabase;
         private System.Windows.Forms.StatusStrip _StatusStrip;
         private System.Windows.Forms.ToolStripStatusLabel _labelDatabaseLocation;
-        private System.Windows.Forms.OpenFileDialog _OpenFileDialog;
         private System.Windows.Forms.SplitContainer _SplitContainer;
         private System.Windows.Forms.GroupBox _groupboxCriteria;
         private System.Windows.Forms.TextBox _textboxCriteria;

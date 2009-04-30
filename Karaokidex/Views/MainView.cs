@@ -71,11 +71,6 @@ namespace Karaokidex.Views
             get { return this._menuitemPlayInKaraFun; }
         }
 
-        public OpenFileDialog OpenFileDialog
-        {
-            get { return this._OpenFileDialog; }
-        }
-
         public ToolStripLabel labelDatabaseLocation
         {
             get { return this._labelDatabaseLocation; }
