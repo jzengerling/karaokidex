@@ -50,18 +50,20 @@
             this._buttonExit = new System.Windows.Forms.Button();
             this._buttonSearch = new System.Windows.Forms.Button();
             this._gridResults = new System.Windows.Forms.DataGridView();
-            this._ContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this._menuitemEnqueueInKaraFun = new System.Windows.Forms.ToolStripMenuItem();
-            this._menuitemPlayInKaraFun = new System.Windows.Forms.ToolStripMenuItem();
-            this._TableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-            this._buttonOpenContainingFolder = new System.Windows.Forms.Button();
-            this._labelSelectedTrackPath = new System.Windows.Forms.Label();
             this._columnID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._columnImage = new System.Windows.Forms.DataGridViewImageColumn();
             this._columnTrack = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._columnRating = new System.Windows.Forms.DataGridViewImageColumn();
             this._columnPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._columnFullPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._ContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this._menuitemEnqueueInKaraFun = new System.Windows.Forms.ToolStripMenuItem();
+            this._menuitemPlayInKaraFun = new System.Windows.Forms.ToolStripMenuItem();
+            this._TableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this._buttonOpenContainingFolder = new System.Windows.Forms.Button();
+            this._labelSelectedTrackPath = new System.Windows.Forms.Label();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this._menuitemEditTrackRating = new System.Windows.Forms.ToolStripMenuItem();
             this._ToolStrip.SuspendLayout();
             this._StatusStrip.SuspendLayout();
             this._SplitContainer.Panel1.SuspendLayout();
@@ -288,68 +290,6 @@
             this._gridResults.StandardTab = true;
             this._gridResults.TabIndex = 4;
             // 
-            // _ContextMenuStrip
-            // 
-            this._ContextMenuStrip.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._ContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this._menuitemEnqueueInKaraFun,
-            this._menuitemPlayInKaraFun});
-            this._ContextMenuStrip.Name = "_ContextMenuStrip";
-            this._ContextMenuStrip.Size = new System.Drawing.Size(185, 48);
-            // 
-            // _menuitemEnqueueInKaraFun
-            // 
-            this._menuitemEnqueueInKaraFun.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._menuitemEnqueueInKaraFun.Name = "_menuitemEnqueueInKaraFun";
-            this._menuitemEnqueueInKaraFun.Size = new System.Drawing.Size(184, 22);
-            this._menuitemEnqueueInKaraFun.Text = "En&queue in KaraFun";
-            // 
-            // _menuitemPlayInKaraFun
-            // 
-            this._menuitemPlayInKaraFun.Name = "_menuitemPlayInKaraFun";
-            this._menuitemPlayInKaraFun.Size = new System.Drawing.Size(184, 22);
-            this._menuitemPlayInKaraFun.Text = "&Play in KaraFun";
-            // 
-            // _TableLayoutPanel
-            // 
-            this._TableLayoutPanel.BackColor = System.Drawing.SystemColors.Control;
-            this._TableLayoutPanel.ColumnCount = 2;
-            this._TableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 95.40816F));
-            this._TableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 4.591837F));
-            this._TableLayoutPanel.Controls.Add(this._buttonOpenContainingFolder, 0, 0);
-            this._TableLayoutPanel.Controls.Add(this._labelSelectedTrackPath, 0, 0);
-            this._TableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this._TableLayoutPanel.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._TableLayoutPanel.Location = new System.Drawing.Point(0, 257);
-            this._TableLayoutPanel.Name = "_TableLayoutPanel";
-            this._TableLayoutPanel.RowCount = 1;
-            this._TableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this._TableLayoutPanel.Size = new System.Drawing.Size(784, 34);
-            this._TableLayoutPanel.TabIndex = 1;
-            // 
-            // _buttonOpenContainingFolder
-            // 
-            this._buttonOpenContainingFolder.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this._buttonOpenContainingFolder.Enabled = false;
-            this._buttonOpenContainingFolder.Image = global::Karaokidex.Properties.Resources.folder;
-            this._buttonOpenContainingFolder.Location = new System.Drawing.Point(751, 3);
-            this._buttonOpenContainingFolder.Name = "_buttonOpenContainingFolder";
-            this._buttonOpenContainingFolder.Size = new System.Drawing.Size(29, 28);
-            this._buttonOpenContainingFolder.TabIndex = 5;
-            this._buttonOpenContainingFolder.UseVisualStyleBackColor = true;
-            // 
-            // _labelSelectedTrackPath
-            // 
-            this._labelSelectedTrackPath.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this._labelSelectedTrackPath.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this._labelSelectedTrackPath.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._labelSelectedTrackPath.Location = new System.Drawing.Point(3, 3);
-            this._labelSelectedTrackPath.Margin = new System.Windows.Forms.Padding(3);
-            this._labelSelectedTrackPath.Name = "_labelSelectedTrackPath";
-            this._labelSelectedTrackPath.Size = new System.Drawing.Size(742, 28);
-            this._labelSelectedTrackPath.TabIndex = 6;
-            this._labelSelectedTrackPath.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
             // _columnID
             // 
             this._columnID.DataPropertyName = "ID";
@@ -407,6 +347,81 @@
             this._columnFullPath.Name = "_columnFullPath";
             this._columnFullPath.ReadOnly = true;
             this._columnFullPath.Visible = false;
+            // 
+            // _ContextMenuStrip
+            // 
+            this._ContextMenuStrip.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._ContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this._menuitemEnqueueInKaraFun,
+            this._menuitemPlayInKaraFun,
+            this.toolStripSeparator2,
+            this._menuitemEditTrackRating});
+            this._ContextMenuStrip.Name = "_ContextMenuStrip";
+            this._ContextMenuStrip.Size = new System.Drawing.Size(185, 98);
+            // 
+            // _menuitemEnqueueInKaraFun
+            // 
+            this._menuitemEnqueueInKaraFun.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._menuitemEnqueueInKaraFun.Name = "_menuitemEnqueueInKaraFun";
+            this._menuitemEnqueueInKaraFun.Size = new System.Drawing.Size(184, 22);
+            this._menuitemEnqueueInKaraFun.Text = "En&queue in KaraFun";
+            // 
+            // _menuitemPlayInKaraFun
+            // 
+            this._menuitemPlayInKaraFun.Name = "_menuitemPlayInKaraFun";
+            this._menuitemPlayInKaraFun.Size = new System.Drawing.Size(184, 22);
+            this._menuitemPlayInKaraFun.Text = "&Play in KaraFun";
+            // 
+            // _TableLayoutPanel
+            // 
+            this._TableLayoutPanel.BackColor = System.Drawing.SystemColors.Control;
+            this._TableLayoutPanel.ColumnCount = 2;
+            this._TableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 95.40816F));
+            this._TableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 4.591837F));
+            this._TableLayoutPanel.Controls.Add(this._buttonOpenContainingFolder, 0, 0);
+            this._TableLayoutPanel.Controls.Add(this._labelSelectedTrackPath, 0, 0);
+            this._TableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this._TableLayoutPanel.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._TableLayoutPanel.Location = new System.Drawing.Point(0, 257);
+            this._TableLayoutPanel.Name = "_TableLayoutPanel";
+            this._TableLayoutPanel.RowCount = 1;
+            this._TableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this._TableLayoutPanel.Size = new System.Drawing.Size(784, 34);
+            this._TableLayoutPanel.TabIndex = 1;
+            // 
+            // _buttonOpenContainingFolder
+            // 
+            this._buttonOpenContainingFolder.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this._buttonOpenContainingFolder.Enabled = false;
+            this._buttonOpenContainingFolder.Image = global::Karaokidex.Properties.Resources.folder;
+            this._buttonOpenContainingFolder.Location = new System.Drawing.Point(751, 3);
+            this._buttonOpenContainingFolder.Name = "_buttonOpenContainingFolder";
+            this._buttonOpenContainingFolder.Size = new System.Drawing.Size(29, 28);
+            this._buttonOpenContainingFolder.TabIndex = 5;
+            this._buttonOpenContainingFolder.UseVisualStyleBackColor = true;
+            // 
+            // _labelSelectedTrackPath
+            // 
+            this._labelSelectedTrackPath.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this._labelSelectedTrackPath.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this._labelSelectedTrackPath.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._labelSelectedTrackPath.Location = new System.Drawing.Point(3, 3);
+            this._labelSelectedTrackPath.Margin = new System.Windows.Forms.Padding(3);
+            this._labelSelectedTrackPath.Name = "_labelSelectedTrackPath";
+            this._labelSelectedTrackPath.Size = new System.Drawing.Size(742, 28);
+            this._labelSelectedTrackPath.TabIndex = 6;
+            this._labelSelectedTrackPath.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(181, 6);
+            // 
+            // _menuitemEditTrackRating
+            // 
+            this._menuitemEditTrackRating.Name = "_menuitemEditTrackRating";
+            this._menuitemEditTrackRating.Size = new System.Drawing.Size(184, 22);
+            this._menuitemEditTrackRating.Text = "Edit Track &Rating";
             // 
             // MainView
             // 
@@ -474,5 +489,7 @@
         private System.Windows.Forms.DataGridViewImageColumn _columnRating;
         private System.Windows.Forms.DataGridViewTextBoxColumn _columnPath;
         private System.Windows.Forms.DataGridViewTextBoxColumn _columnFullPath;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem _menuitemEditTrackRating;
     }
 }

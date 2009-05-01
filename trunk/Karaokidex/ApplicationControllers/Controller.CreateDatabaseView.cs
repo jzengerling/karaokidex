@@ -23,8 +23,6 @@ namespace Karaokidex.ApplicationControllers
                 new EventHandler(CreateDatabaseView_buttonTargetFile_Click);
             theView.buttonOK.Click +=
                 new EventHandler(CreateDatabaseView_buttonOK_Click);
-            theView.buttonCancel.Click +=
-                new EventHandler(CreateDatabaseView_buttonCancel_Click);
 
             switch (theMode)
             {
@@ -112,18 +110,6 @@ namespace Karaokidex.ApplicationControllers
                 theParentView,
                 new DirectoryInfo(theParentView.textboxSourceDirectory.Text),
                 new FileInfo(theParentView.textboxTargetFile.Text));
-        }
-
-        private void CreateDatabaseView_buttonCancel_Click(
-            object sender, 
-            EventArgs e)
-        {
-            Button theCancelButton =
-                sender as Button;
-            CreateDatabaseView theParentView =
-                theCancelButton.FindForm() as CreateDatabaseView;
-
-            theParentView.Close();
         }
         #endregion
 

@@ -71,6 +71,11 @@ namespace Karaokidex.Views
             get { return this._menuitemPlayInKaraFun; }
         }
 
+        public ToolStripMenuItem menuitemEditTrackRating
+        {
+            get { return this._menuitemEditTrackRating; }
+        }
+
         public ToolStripLabel labelDatabaseLocation
         {
             get { return this._labelDatabaseLocation; }

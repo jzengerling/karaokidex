@@ -84,6 +84,7 @@
     <Compile Include="ApplicationControllers\Controller.CreateDatabaseView.cs" />
     <Compile Include="ApplicationControllers\Controller.CreateDatabaseAgentView.cs" />
     <Compile Include="ApplicationControllers\Controller.OpenDatabaseView.cs" />
+    <Compile Include="ApplicationControllers\Controller.TrackRatingView.cs" />
     <Compile Include="DatabaseLayer\CreateDatabaseAgent.cs" />
     <Compile Include="DatabaseLayer\DatabaseLayer.cs" />
     <Compile Include="Enumerators\DatabaseMode.Enumerator.cs" />
