@@ -19,6 +19,17 @@ namespace Karaokidex.ApplicationControllers
                 theAgent.CurrentFileInfo);
         }
 
+        private void CreateDatabaseAgent_Updating(
+            object sender,
+            EventArgs e)
+        {
+            CreateDatabaseAgent theAgent =
+                sender as CreateDatabaseAgent;
+
+            this.OnCreateDatabaseAgentUpdating(
+                theAgent.CurrentFileInfo);
+        }
+        
         private void CreateDatabaseAgent_Completed(
             object sender,
             EventArgs e)

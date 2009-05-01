@@ -60,6 +60,41 @@ namespace Karaokidex.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap _1_star {
+            get {
+                object obj = ResourceManager.GetObject("_1_star", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap _2_stars {
+            get {
+                object obj = ResourceManager.GetObject("_2_stars", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap _3_stars {
+            get {
+                object obj = ResourceManager.GetObject("_3_stars", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap _4_stars {
+            get {
+                object obj = ResourceManager.GetObject("_4_stars", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap _5_stars {
+            get {
+                object obj = ResourceManager.GetObject("_5_stars", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap cross {
             get {
                 object obj = ResourceManager.GetObject("cross", resourceCulture);
@@ -126,6 +161,13 @@ namespace Karaokidex.Properties {
         internal static System.Drawing.Bitmap mp3g_zipped {
             get {
                 object obj = ResourceManager.GetObject("mp3g_zipped", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap no_stars {
+            get {
+                object obj = ResourceManager.GetObject("no_stars", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

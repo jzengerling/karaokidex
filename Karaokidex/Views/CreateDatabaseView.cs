@@ -5,12 +5,22 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using Karaokidex.Enumerators;
 
 namespace Karaokidex.Views
 {
     public partial class CreateDatabaseView : Form
     {
+        #region Members
+        private DatabaseMode _Mode = DatabaseMode.Create;
+        #endregion
+
         #region Properties
+        public DatabaseMode Mode
+        {
+            get { return this._Mode; }
+        }
+
         public TextBox textboxSourceDirectory
         {
             get { return this._textboxSourceDirectory; }
@@ -53,9 +63,12 @@ namespace Karaokidex.Views
         #endregion
 
         #region Methods
-        public CreateDatabaseView()
+        public CreateDatabaseView(
+            DatabaseMode theMode)
         {
             InitializeComponent();
+
+            this._Mode = theMode;
         }
 
         #region Private Helpers

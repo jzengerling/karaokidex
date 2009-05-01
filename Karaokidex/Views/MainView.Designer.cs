@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainView));
             this._ToolStrip = new System.Windows.Forms.ToolStrip();
             this._buttonOpenDatabase = new System.Windows.Forms.ToolStripButton();
@@ -49,17 +50,18 @@
             this._buttonExit = new System.Windows.Forms.Button();
             this._buttonSearch = new System.Windows.Forms.Button();
             this._gridResults = new System.Windows.Forms.DataGridView();
-            this._columnID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._columnImage = new System.Windows.Forms.DataGridViewImageColumn();
-            this._columnTrack = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._columnPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._columnFullPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._ContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this._menuitemEnqueueInKaraFun = new System.Windows.Forms.ToolStripMenuItem();
             this._menuitemPlayInKaraFun = new System.Windows.Forms.ToolStripMenuItem();
             this._TableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this._buttonOpenContainingFolder = new System.Windows.Forms.Button();
             this._labelSelectedTrackPath = new System.Windows.Forms.Label();
+            this._columnID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._columnImage = new System.Windows.Forms.DataGridViewImageColumn();
+            this._columnTrack = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._columnRating = new System.Windows.Forms.DataGridViewImageColumn();
+            this._columnPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._columnFullPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._ToolStrip.SuspendLayout();
             this._StatusStrip.SuspendLayout();
             this._SplitContainer.Panel1.SuspendLayout();
@@ -265,10 +267,12 @@
             this._gridResults.AllowUserToDeleteRows = false;
             this._gridResults.AllowUserToResizeRows = false;
             this._gridResults.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this._gridResults.ColumnHeadersVisible = false;
             this._gridResults.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this._columnID,
             this._columnImage,
             this._columnTrack,
+            this._columnRating,
             this._columnPath,
             this._columnFullPath});
             this._gridResults.ContextMenuStrip = this._ContextMenuStrip;
@@ -283,52 +287,6 @@
             this._gridResults.Size = new System.Drawing.Size(784, 257);
             this._gridResults.StandardTab = true;
             this._gridResults.TabIndex = 4;
-            // 
-            // _columnID
-            // 
-            this._columnID.DataPropertyName = "ID";
-            this._columnID.HeaderText = "ID";
-            this._columnID.Name = "_columnID";
-            this._columnID.ReadOnly = true;
-            this._columnID.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this._columnID.Visible = false;
-            // 
-            // _columnImage
-            // 
-            this._columnImage.FillWeight = 30F;
-            this._columnImage.HeaderText = "";
-            this._columnImage.Name = "_columnImage";
-            this._columnImage.ReadOnly = true;
-            this._columnImage.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this._columnImage.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this._columnImage.Width = 30;
-            // 
-            // _columnTrack
-            // 
-            this._columnTrack.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this._columnTrack.DataPropertyName = "Details";
-            this._columnTrack.HeaderText = "Track";
-            this._columnTrack.Name = "_columnTrack";
-            this._columnTrack.ReadOnly = true;
-            // 
-            // _columnPath
-            // 
-            this._columnPath.DataPropertyName = "Path";
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Silver;
-            this._columnPath.DefaultCellStyle = dataGridViewCellStyle1;
-            this._columnPath.FillWeight = 300F;
-            this._columnPath.HeaderText = "Path";
-            this._columnPath.Name = "_columnPath";
-            this._columnPath.ReadOnly = true;
-            this._columnPath.Visible = false;
-            this._columnPath.Width = 300;
-            // 
-            // _columnFullPath
-            // 
-            this._columnFullPath.HeaderText = "Full Path";
-            this._columnFullPath.Name = "_columnFullPath";
-            this._columnFullPath.ReadOnly = true;
-            this._columnFullPath.Visible = false;
             // 
             // _ContextMenuStrip
             // 
@@ -354,6 +312,7 @@
             // 
             // _TableLayoutPanel
             // 
+            this._TableLayoutPanel.BackColor = System.Drawing.SystemColors.Control;
             this._TableLayoutPanel.ColumnCount = 2;
             this._TableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 95.40816F));
             this._TableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 4.591837F));
@@ -390,6 +349,64 @@
             this._labelSelectedTrackPath.Size = new System.Drawing.Size(742, 28);
             this._labelSelectedTrackPath.TabIndex = 6;
             this._labelSelectedTrackPath.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // _columnID
+            // 
+            this._columnID.DataPropertyName = "ID";
+            this._columnID.HeaderText = "ID";
+            this._columnID.Name = "_columnID";
+            this._columnID.ReadOnly = true;
+            this._columnID.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this._columnID.Visible = false;
+            // 
+            // _columnImage
+            // 
+            this._columnImage.FillWeight = 30F;
+            this._columnImage.HeaderText = "";
+            this._columnImage.Name = "_columnImage";
+            this._columnImage.ReadOnly = true;
+            this._columnImage.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this._columnImage.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this._columnImage.Width = 30;
+            // 
+            // _columnTrack
+            // 
+            this._columnTrack.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this._columnTrack.DataPropertyName = "Details";
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._columnTrack.DefaultCellStyle = dataGridViewCellStyle1;
+            this._columnTrack.HeaderText = "Track";
+            this._columnTrack.Name = "_columnTrack";
+            this._columnTrack.ReadOnly = true;
+            // 
+            // _columnRating
+            // 
+            this._columnRating.FillWeight = 85F;
+            this._columnRating.HeaderText = "Rating";
+            this._columnRating.Name = "_columnRating";
+            this._columnRating.ReadOnly = true;
+            this._columnRating.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this._columnRating.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this._columnRating.Width = 85;
+            // 
+            // _columnPath
+            // 
+            this._columnPath.DataPropertyName = "Path";
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Silver;
+            this._columnPath.DefaultCellStyle = dataGridViewCellStyle2;
+            this._columnPath.FillWeight = 300F;
+            this._columnPath.HeaderText = "Path";
+            this._columnPath.Name = "_columnPath";
+            this._columnPath.ReadOnly = true;
+            this._columnPath.Visible = false;
+            this._columnPath.Width = 300;
+            // 
+            // _columnFullPath
+            // 
+            this._columnFullPath.HeaderText = "Full Path";
+            this._columnFullPath.Name = "_columnFullPath";
+            this._columnFullPath.ReadOnly = true;
+            this._columnFullPath.Visible = false;
             // 
             // MainView
             // 
@@ -446,15 +463,16 @@
         private System.Windows.Forms.ToolStripButton _buttonRefreshDatabase;
         private System.Windows.Forms.ToolStripMenuItem _menuitemEnqueueInKaraFun;
         private System.Windows.Forms.ToolStripMenuItem _menuitemPlayInKaraFun;
-        private System.Windows.Forms.DataGridViewTextBoxColumn _columnID;
-        private System.Windows.Forms.DataGridViewImageColumn _columnImage;
-        private System.Windows.Forms.DataGridViewTextBoxColumn _columnTrack;
-        private System.Windows.Forms.DataGridViewTextBoxColumn _columnPath;
-        private System.Windows.Forms.DataGridViewTextBoxColumn _columnFullPath;
         private System.Windows.Forms.TableLayoutPanel _TableLayoutPanel;
         private System.Windows.Forms.Button _buttonOpenContainingFolder;
         private System.Windows.Forms.Label _labelSelectedTrackPath;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton _buttonKaraFun;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _columnID;
+        private System.Windows.Forms.DataGridViewImageColumn _columnImage;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _columnTrack;
+        private System.Windows.Forms.DataGridViewImageColumn _columnRating;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _columnPath;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _columnFullPath;
     }
 }
