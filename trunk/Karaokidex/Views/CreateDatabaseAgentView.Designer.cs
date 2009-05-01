@@ -88,7 +88,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(474, 146);
-            this.ControlBox = false;
             this.Controls.Add(this._groupboxCurrentFile);
             this.Controls.Add(this._groupboxCurrentDirectory);
             this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -99,6 +98,7 @@
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Text = "Creating database ...";
             this._groupboxCurrentFile.ResumeLayout(false);
             this._groupboxCurrentDirectory.ResumeLayout(false);
             this.ResumeLayout(false);

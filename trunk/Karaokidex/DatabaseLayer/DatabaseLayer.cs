@@ -28,7 +28,9 @@ namespace Karaokidex
 
                             using (SQLiteCommand theCommand = theConnection.CreateCommand())
                             {
-                                theCommand.CommandText = "SELECT COUNT(*) FROM [Tracks]";
+                                theCommand.CommandText =
+                                    "SELECT COUNT(*) " +
+                                    "FROM [Tracks]";
 
                                 return Convert.ToInt32(
                                     theCommand.ExecuteScalar(),
@@ -89,105 +91,15 @@ namespace Karaokidex
                         theCommandText.Append("[ID] [integer] PRIMARY KEY AUTOINCREMENT,");
                         theCommandText.Append("[Path] [text],");
                         theCommandText.Append("[Details] [text],");
-                        theCommandText.Append("[Extension] [text])");
+                        theCommandText.Append("[Extension] [text],");
+                        theCommandText.Append("[Rating] [integer] DEFAULT 0,");
+                        theCommandText.Append("[Checksum] [text],");
+                        theCommandText.Append("[ToBeDeleted] [boolean] DEFAULT 0)");
 
                         theCommand.CommandText = theCommandText.ToString();
 
                         theCommand.ExecuteNonQuery();
                     }
-                }
-                finally
-                {
-                    theConnection.Close();
-                }
-            }
-        }
-
-        public static void ClearDatabase(
-            FileInfo theDatabaseFileInfo)
-        {
-            DatabaseLayer.ConnectionString = String.Format(
-                CultureInfo.CurrentCulture,
-                "Data Source={0}; UTF8Encoding=True; Version=3; Pooling=True",
-                theDatabaseFileInfo.FullName);
-
-            using (SQLiteConnection theConnection = new SQLiteConnection(DatabaseLayer.ConnectionString))
-            {
-                try
-                {
-                    theConnection.Open();
-
-                    using (SQLiteCommand theCommand = theConnection.CreateCommand())
-                    {
-                        StringBuilder theCommandText = new StringBuilder();
-
-                        theCommandText.Append("DELETE FROM [Settings]");
-
-                        theCommand.CommandText = theCommandText.ToString();
-
-                        theCommand.ExecuteNonQuery();
-                    }
-                }
-                catch (SQLiteException theException)
-                {
-                    if (theException.Message.Contains("no such table: Settings"))
-                    {
-                        using (SQLiteCommand theCommand = theConnection.CreateCommand())
-                        {
-                            StringBuilder theCommandText = new StringBuilder();
-
-                            theCommandText.Append("CREATE TABLE [Settings] (");
-                            theCommandText.Append("[ID] [integer] PRIMARY KEY AUTOINCREMENT,");
-                            theCommandText.Append("[Key] [text],");
-                            theCommandText.Append("[Value] [text])");
-
-                            theCommand.CommandText = theCommandText.ToString();
-
-                            theCommand.ExecuteNonQuery();
-                        }
-                    }
-                    else throw;
-                }
-                finally
-                {
-                    theConnection.Close();
-                }
-
-                try
-                {
-                    theConnection.Open();
-
-                    using (SQLiteCommand theCommand = theConnection.CreateCommand())
-                    {
-                        StringBuilder theCommandText = new StringBuilder();
-
-                        theCommandText.Append("DELETE FROM [Tracks]");
-
-                        theCommand.CommandText = theCommandText.ToString();
-
-                        theCommand.ExecuteNonQuery();
-                    }
-                }
-                catch (SQLiteException theException)
-                {
-                    if (theException.Message.Contains("no such table: Tracks"))
-                    {
-                        using (SQLiteCommand theCommand = theConnection.CreateCommand())
-                        {
-                            StringBuilder theCommandText = new StringBuilder();
-
-                            theCommandText.Append("CREATE TABLE [Tracks] (");
-                            theCommandText.Append("[ID] [integer] PRIMARY KEY AUTOINCREMENT,");
-                            theCommandText.Append("[Path] [text],");
-                            theCommandText.Append("[Details] [text],");
-                            theCommandText.Append("[Extension] [text])");
-
-                            theCommand.CommandText = theCommandText.ToString();
-
-                            theCommand.ExecuteNonQuery();
-                        }
-                    }
-                    else throw;
                 }
                 finally
                 {
@@ -212,7 +124,10 @@ namespace Karaokidex
 
                     using (SQLiteCommand theCommand = theConnection.CreateCommand())
                     {
-                        theCommand.CommandText = "SELECT [Value] FROM [Settings] WHERE [Key] = 'Source Directory'";
+                        theCommand.CommandText = 
+                            "SELECT [Value] " +
+                            "FROM [Settings] " +
+                            "WHERE [Key] = 'Source Directory'";
 
                         return Convert.ToString(
                             theCommand.ExecuteScalar(),
@@ -243,7 +158,11 @@ namespace Karaokidex
 
                     using (SQLiteCommand theCommand = theConnection.CreateCommand())
                     {
-                        theCommand.CommandText = "UPDATE [Settings] SET [Value] = ? WHERE [Key] = 'Source Directory'";
+                        theCommand.CommandText =
+                            "UPDATE [Settings] " +
+                            "SET [Value] = ? " +
+                            "WHERE [Key] = 'Source Directory'";
+
                         SQLiteParameter theSourceDirectortParameter = theCommand.CreateParameter();
                         theCommand.Parameters.Add(theSourceDirectortParameter);
 
@@ -275,7 +194,7 @@ namespace Karaokidex
                         {
                             StringBuilder theCommandBuilder = new StringBuilder(
                                 "SELECT [ID], [Path], [Details], [Extension], " +
-                                "[Path] || '\\' || [Details] || [Extension] AS [FullPath] ");
+                                    "[Path] || '\\' || [Details] || [Extension] AS [FullPath] ");
                             theCommandBuilder.Append("FROM [Tracks] ");
                             theCommandBuilder.Append("WHERE ");
 
@@ -298,6 +217,8 @@ namespace Karaokidex
 
                                 IsFirstParameter = false;
                             }
+                            theCommandBuilder.Append("ORDER BY [Rating] DESC, [Path], [Details]");
+
                             theCommand.CommandText = theCommandBuilder.ToString();
 
                             using (SQLiteDataAdapter theAdapter = new SQLiteDataAdapter(theCommand))

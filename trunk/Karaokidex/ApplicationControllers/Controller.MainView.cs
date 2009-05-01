@@ -164,6 +164,7 @@ namespace Karaokidex.ApplicationControllers
                             Convert.ToInt64(thisRow["ID"], CultureInfo.CurrentCulture),
                             Resources.mp3g_zipped,
                             Convert.ToString(thisRow["Details"], CultureInfo.CurrentCulture),
+                            Resources.no_stars,
                             Convert.ToString(thisRow["Path"], CultureInfo.CurrentCulture),
                             Convert.ToString(thisRow["FullPath"], CultureInfo.CurrentCulture));
                         break;
@@ -172,6 +173,7 @@ namespace Karaokidex.ApplicationControllers
                             Convert.ToInt64(thisRow["ID"], CultureInfo.CurrentCulture),
                             Resources.mp3g,
                             Convert.ToString(thisRow["Details"], CultureInfo.CurrentCulture),
+                            Resources.no_stars,
                             Convert.ToString(thisRow["Path"], CultureInfo.CurrentCulture),
                             Convert.ToString(thisRow["FullPath"], CultureInfo.CurrentCulture));
                         break;

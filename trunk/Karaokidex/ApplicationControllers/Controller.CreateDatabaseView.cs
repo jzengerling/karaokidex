@@ -15,7 +15,7 @@ namespace Karaokidex.ApplicationControllers
             DatabaseMode theMode)
         {
             // Instantiate an instance
-            CreateDatabaseView theView = new CreateDatabaseView();
+            CreateDatabaseView theView = new CreateDatabaseView(theMode);
 
             theView.buttonSourceDirectory.Click += 
                 new EventHandler(CreateDatabaseView_buttonSourceDirectory_Click);
@@ -101,6 +101,12 @@ namespace Karaokidex.ApplicationControllers
                 theOKButton.FindForm() as CreateDatabaseView;
 
             theParentView.DisableView();
+
+            if (theParentView.Mode.Equals(DatabaseMode.Create))
+            {
+                DatabaseLayer.CreateDatabase(
+                    new FileInfo(theParentView.textboxTargetFile.Text));
+            }
 
             this.CreateDatabaseAgentView_Show(
                 theParentView,
