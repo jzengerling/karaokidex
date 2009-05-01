@@ -178,7 +178,7 @@
             this._ButtonContainer.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
             this._ButtonContainer.Location = new System.Drawing.Point(0, 185);
             this._ButtonContainer.Name = "_ButtonContainer";
-            this._ButtonContainer.Size = new System.Drawing.Size(204, 32);
+            this._ButtonContainer.Size = new System.Drawing.Size(162, 32);
             this._ButtonContainer.TabIndex = 12;
             // 
             // _buttonCancel
@@ -186,7 +186,7 @@
             this._buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this._buttonCancel.Image = global::Karaokidex.Properties.Resources.cross;
             this._buttonCancel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this._buttonCancel.Location = new System.Drawing.Point(126, 3);
+            this._buttonCancel.Location = new System.Drawing.Point(84, 3);
             this._buttonCancel.Name = "_buttonCancel";
             this._buttonCancel.Size = new System.Drawing.Size(75, 27);
             this._buttonCancel.TabIndex = 1;
@@ -196,10 +196,9 @@
             // 
             // _buttonOK
             // 
-            this._buttonOK.Enabled = false;
             this._buttonOK.Image = global::Karaokidex.Properties.Resources.tick;
             this._buttonOK.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this._buttonOK.Location = new System.Drawing.Point(45, 3);
+            this._buttonOK.Location = new System.Drawing.Point(3, 3);
             this._buttonOK.Name = "_buttonOK";
             this._buttonOK.Size = new System.Drawing.Size(75, 27);
             this._buttonOK.TabIndex = 0;
@@ -209,10 +208,12 @@
             // 
             // TrackRatingView
             // 
+            this.AcceptButton = this._buttonOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(204, 217);
+            this.CancelButton = this._buttonCancel;
+            this.ClientSize = new System.Drawing.Size(162, 217);
             this.Controls.Add(this._ButtonContainer);
             this.Controls.Add(this._radio5star);
             this.Controls.Add(this._radio4star);
@@ -227,8 +228,10 @@
             this.Controls.Add(this._imageUnrated);
             this.Controls.Add(this._radioUnrated);
             this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "TrackRatingView";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Track Rating";
             ((System.ComponentModel.ISupportInitialize)(this._imageUnrated)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this._image1Star)).EndInit();

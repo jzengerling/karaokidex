@@ -22,8 +22,6 @@ namespace Karaokidex.ApplicationControllers
                 new EventHandler(OpenDatabaseView_buttonDatabaseFile_Click);
             theView.buttonOK.Click +=
                 new EventHandler(OpenDatabaseView_buttonOK_Click);
-            theView.buttonCancel.Click +=
-                new EventHandler(OpenDatabaseView_buttonCancel_Click);
 
             // Show the form
             theView.ShowDialog(this._MainView);
@@ -41,16 +39,18 @@ namespace Karaokidex.ApplicationControllers
                 new EventHandler(OpenDatabaseView_buttonDatabaseFile_Click);
             theView.buttonOK.Click +=
                 new EventHandler(OpenDatabaseView_buttonOK_Click);
-            theView.buttonCancel.Click +=
-                new EventHandler(OpenDatabaseView_buttonCancel_Click);
 
-            theView.textboxDatabaseFile.Text =
-                theDatabaseFileInfo.FullName;
+            if (theDatabaseFileInfo.Exists)
+            {
+                theView.textboxDatabaseFile.Text =
+                    theDatabaseFileInfo.FullName;
 
-            theView.textboxSourceDirectory.Text = DatabaseLayer.GetSourceDirectory(
-                new FileInfo(theDatabaseFileInfo.FullName));
+                theView.textboxSourceDirectory.Text =
+                    DatabaseLayer.GetSourceDirectory(
+                        new FileInfo(theDatabaseFileInfo.FullName));
 
-            Controller.ToggleOKButton(theView);
+                Controller.ToggleOKButton(theView);
+            }
 
             // Show the form
             theView.ShowDialog(this._MainView);
@@ -124,18 +124,6 @@ namespace Karaokidex.ApplicationControllers
             this.OpenDatabase();
 
             this._MainView.buttonSearch.Enabled = true;
-
-            theParentView.Close();
-        }
-
-        private void OpenDatabaseView_buttonCancel_Click(
-            object sender, 
-            EventArgs e)
-        {
-            Button theCancelButton =
-                sender as Button;
-            OpenDatabaseView theParentView =
-                theCancelButton.FindForm() as OpenDatabaseView;
 
             theParentView.Close();
         }

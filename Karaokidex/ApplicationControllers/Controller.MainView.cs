@@ -54,6 +54,8 @@ namespace Karaokidex.ApplicationControllers
                 new EventHandler(MainView_menuitemEnqueueInKaraFun_Click);
             this._MainView.menuitemPlayInKaraFun.Click += 
                 new EventHandler(MainView_menuitemPlayInKaraFun_Click);
+            this._MainView.menuitemEditTrackRating.Click += 
+                new EventHandler(MainView_menuitemEditTrackRating_Click);
             this._MainView.buttonOpenContainingFolder.Click += 
                 new EventHandler(MainView_buttonOpenContainingFolder_Click);
 
@@ -394,6 +396,33 @@ namespace Karaokidex.ApplicationControllers
 
                     Application.DoEvents();
                 }
+            }
+        }
+
+        private void MainView_menuitemEditTrackRating_Click(
+            object sender, 
+            EventArgs e)
+        {
+            Application.DoEvents();
+
+            ToolStripMenuItem theOpenContainingFolder =
+                sender as ToolStripMenuItem;
+            ContextMenuStrip theContextMenuStrip =
+                theOpenContainingFolder.Owner as ContextMenuStrip;
+            MainView theParentView =
+                theContextMenuStrip.SourceControl.FindForm() as MainView;
+
+            if (!theParentView.gridResults.SelectedRows.Count.Equals(0))
+            {
+                FileInfo theTrackFileInfo = new FileInfo(
+                    DatabaseLayer.GetSourceDirectory(new FileInfo(RegistryAgent.LastDatabase)) +
+                    "\\" + theParentView.gridResults.SelectedRows[0].Cells["_columnFullPath"].Value);
+
+                string theTrackChecksum =
+                    CreateDatabaseAgent.GetMD5HashFromFile(
+                        theTrackFileInfo.FullName);
+
+                this.TrackRatingView_Show(theTrackChecksum);
             }
         }
 

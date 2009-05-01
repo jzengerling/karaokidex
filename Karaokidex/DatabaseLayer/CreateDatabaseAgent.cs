@@ -295,20 +295,24 @@ namespace Karaokidex
             catch { }
         }
 
-        private static string GetMD5HashFromFile(
+        public static string GetMD5HashFromFile(
             string theFileName)
         {
-            using (MD5 theMD5Provider = new MD5CryptoServiceProvider())
+            if (File.Exists(theFileName))
             {
-                using (FileStream theFileStream = new FileStream(theFileName, FileMode.Open))
+                using (MD5 theMD5Provider = new MD5CryptoServiceProvider())
                 {
-                    byte[] theChecksum = theMD5Provider.ComputeHash(theFileStream);
+                    using (FileStream theFileStream = new FileStream(theFileName, FileMode.Open))
+                    {
+                        byte[] theChecksum = theMD5Provider.ComputeHash(theFileStream);
 
-                    theFileStream.Close();
+                        theFileStream.Close();
 
-                    return BitConverter.ToString(theChecksum).Replace("-","");
+                        return BitConverter.ToString(theChecksum).Replace("-", "");
+                    }
                 }
             }
+            return String.Empty;
         }
         #endregion
         #endregion
