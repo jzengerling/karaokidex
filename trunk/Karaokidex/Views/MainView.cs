@@ -46,6 +46,11 @@ namespace Karaokidex.Views
             get { return this._textboxCriteria; }
         }
 
+        public CheckBox checkboxShowOnlyRatedTracks
+        {
+            get { return this._checkboxShowOnlyRatedTracks; }
+        }
+
         public DataGridView gridResults
         {
             get { return this._gridResults; }

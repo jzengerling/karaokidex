@@ -50,20 +50,22 @@
             this._buttonExit = new System.Windows.Forms.Button();
             this._buttonSearch = new System.Windows.Forms.Button();
             this._gridResults = new System.Windows.Forms.DataGridView();
-            this._columnID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._columnImage = new System.Windows.Forms.DataGridViewImageColumn();
-            this._columnTrack = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._columnRating = new System.Windows.Forms.DataGridViewImageColumn();
-            this._columnPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._columnFullPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._ContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this._menuitemEnqueueInKaraFun = new System.Windows.Forms.ToolStripMenuItem();
             this._menuitemPlayInKaraFun = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this._menuitemEditTrackRating = new System.Windows.Forms.ToolStripMenuItem();
             this._TableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this._buttonOpenContainingFolder = new System.Windows.Forms.Button();
             this._labelSelectedTrackPath = new System.Windows.Forms.Label();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this._menuitemEditTrackRating = new System.Windows.Forms.ToolStripMenuItem();
+            this._columnID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._columnImage = new System.Windows.Forms.DataGridViewImageColumn();
+            this._columnTrack = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._columnRatingImage = new System.Windows.Forms.DataGridViewImageColumn();
+            this._columnRating = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._columnPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._columnFullPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._checkboxShowOnlyRatedTracks = new System.Windows.Forms.CheckBox();
             this._ToolStrip.SuspendLayout();
             this._StatusStrip.SuspendLayout();
             this._SplitContainer.Panel1.SuspendLayout();
@@ -196,6 +198,7 @@
             this._groupboxCriteria.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this._groupboxCriteria.Controls.Add(this._checkboxShowOnlyRatedTracks);
             this._groupboxCriteria.Controls.Add(this._textboxCriteria);
             this._groupboxCriteria.Controls.Add(this._labelCriteria);
             this._groupboxCriteria.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -211,7 +214,7 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this._textboxCriteria.Location = new System.Drawing.Point(106, 20);
             this._textboxCriteria.Name = "_textboxCriteria";
-            this._textboxCriteria.Size = new System.Drawing.Size(648, 27);
+            this._textboxCriteria.Size = new System.Drawing.Size(441, 27);
             this._textboxCriteria.TabIndex = 1;
             // 
             // _labelCriteria
@@ -274,6 +277,7 @@
             this._columnID,
             this._columnImage,
             this._columnTrack,
+            this._columnRatingImage,
             this._columnRating,
             this._columnPath,
             this._columnFullPath});
@@ -290,64 +294,6 @@
             this._gridResults.StandardTab = true;
             this._gridResults.TabIndex = 4;
             // 
-            // _columnID
-            // 
-            this._columnID.DataPropertyName = "ID";
-            this._columnID.HeaderText = "ID";
-            this._columnID.Name = "_columnID";
-            this._columnID.ReadOnly = true;
-            this._columnID.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this._columnID.Visible = false;
-            // 
-            // _columnImage
-            // 
-            this._columnImage.FillWeight = 30F;
-            this._columnImage.HeaderText = "";
-            this._columnImage.Name = "_columnImage";
-            this._columnImage.ReadOnly = true;
-            this._columnImage.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this._columnImage.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this._columnImage.Width = 30;
-            // 
-            // _columnTrack
-            // 
-            this._columnTrack.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this._columnTrack.DataPropertyName = "Details";
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._columnTrack.DefaultCellStyle = dataGridViewCellStyle1;
-            this._columnTrack.HeaderText = "Track";
-            this._columnTrack.Name = "_columnTrack";
-            this._columnTrack.ReadOnly = true;
-            // 
-            // _columnRating
-            // 
-            this._columnRating.FillWeight = 85F;
-            this._columnRating.HeaderText = "Rating";
-            this._columnRating.Name = "_columnRating";
-            this._columnRating.ReadOnly = true;
-            this._columnRating.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this._columnRating.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this._columnRating.Width = 85;
-            // 
-            // _columnPath
-            // 
-            this._columnPath.DataPropertyName = "Path";
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Silver;
-            this._columnPath.DefaultCellStyle = dataGridViewCellStyle2;
-            this._columnPath.FillWeight = 300F;
-            this._columnPath.HeaderText = "Path";
-            this._columnPath.Name = "_columnPath";
-            this._columnPath.ReadOnly = true;
-            this._columnPath.Visible = false;
-            this._columnPath.Width = 300;
-            // 
-            // _columnFullPath
-            // 
-            this._columnFullPath.HeaderText = "Full Path";
-            this._columnFullPath.Name = "_columnFullPath";
-            this._columnFullPath.ReadOnly = true;
-            this._columnFullPath.Visible = false;
-            // 
             // _ContextMenuStrip
             // 
             this._ContextMenuStrip.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -357,7 +303,7 @@
             this.toolStripSeparator2,
             this._menuitemEditTrackRating});
             this._ContextMenuStrip.Name = "_ContextMenuStrip";
-            this._ContextMenuStrip.Size = new System.Drawing.Size(185, 98);
+            this._ContextMenuStrip.Size = new System.Drawing.Size(185, 76);
             // 
             // _menuitemEnqueueInKaraFun
             // 
@@ -371,6 +317,17 @@
             this._menuitemPlayInKaraFun.Name = "_menuitemPlayInKaraFun";
             this._menuitemPlayInKaraFun.Size = new System.Drawing.Size(184, 22);
             this._menuitemPlayInKaraFun.Text = "&Play in KaraFun";
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(181, 6);
+            // 
+            // _menuitemEditTrackRating
+            // 
+            this._menuitemEditTrackRating.Name = "_menuitemEditTrackRating";
+            this._menuitemEditTrackRating.Size = new System.Drawing.Size(184, 22);
+            this._menuitemEditTrackRating.Text = "Edit Track &Rating";
             // 
             // _TableLayoutPanel
             // 
@@ -412,16 +369,80 @@
             this._labelSelectedTrackPath.TabIndex = 6;
             this._labelSelectedTrackPath.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // toolStripSeparator2
+            // _columnID
             // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(181, 6);
+            this._columnID.DataPropertyName = "ID";
+            this._columnID.HeaderText = "ID";
+            this._columnID.Name = "_columnID";
+            this._columnID.ReadOnly = true;
+            this._columnID.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this._columnID.Visible = false;
             // 
-            // _menuitemEditTrackRating
+            // _columnImage
             // 
-            this._menuitemEditTrackRating.Name = "_menuitemEditTrackRating";
-            this._menuitemEditTrackRating.Size = new System.Drawing.Size(184, 22);
-            this._menuitemEditTrackRating.Text = "Edit Track &Rating";
+            this._columnImage.FillWeight = 30F;
+            this._columnImage.HeaderText = "";
+            this._columnImage.Name = "_columnImage";
+            this._columnImage.ReadOnly = true;
+            this._columnImage.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this._columnImage.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this._columnImage.Width = 30;
+            // 
+            // _columnTrack
+            // 
+            this._columnTrack.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this._columnTrack.DataPropertyName = "Details";
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._columnTrack.DefaultCellStyle = dataGridViewCellStyle1;
+            this._columnTrack.HeaderText = "Track";
+            this._columnTrack.Name = "_columnTrack";
+            this._columnTrack.ReadOnly = true;
+            // 
+            // _columnRatingImage
+            // 
+            this._columnRatingImage.FillWeight = 85F;
+            this._columnRatingImage.HeaderText = "Rating";
+            this._columnRatingImage.Name = "_columnRatingImage";
+            this._columnRatingImage.ReadOnly = true;
+            this._columnRatingImage.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this._columnRatingImage.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this._columnRatingImage.Width = 85;
+            // 
+            // _columnRating
+            // 
+            this._columnRating.HeaderText = "Rating";
+            this._columnRating.Name = "_columnRating";
+            this._columnRating.ReadOnly = true;
+            this._columnRating.Visible = false;
+            // 
+            // _columnPath
+            // 
+            this._columnPath.DataPropertyName = "Path";
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Silver;
+            this._columnPath.DefaultCellStyle = dataGridViewCellStyle2;
+            this._columnPath.FillWeight = 300F;
+            this._columnPath.HeaderText = "Path";
+            this._columnPath.Name = "_columnPath";
+            this._columnPath.ReadOnly = true;
+            this._columnPath.Visible = false;
+            this._columnPath.Width = 300;
+            // 
+            // _columnFullPath
+            // 
+            this._columnFullPath.HeaderText = "Full Path";
+            this._columnFullPath.Name = "_columnFullPath";
+            this._columnFullPath.ReadOnly = true;
+            this._columnFullPath.Visible = false;
+            // 
+            // _checkboxShowOnlyRatedTracks
+            // 
+            this._checkboxShowOnlyRatedTracks.AutoSize = true;
+            this._checkboxShowOnlyRatedTracks.Location = new System.Drawing.Point(553, 22);
+            this._checkboxShowOnlyRatedTracks.Name = "_checkboxShowOnlyRatedTracks";
+            this._checkboxShowOnlyRatedTracks.Size = new System.Drawing.Size(201, 23);
+            this._checkboxShowOnlyRatedTracks.TabIndex = 2;
+            this._checkboxShowOnlyRatedTracks.Text = "Show Only Rated Tracks";
+            this._checkboxShowOnlyRatedTracks.UseVisualStyleBackColor = true;
             // 
             // MainView
             // 
@@ -483,13 +504,15 @@
         private System.Windows.Forms.Label _labelSelectedTrackPath;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton _buttonKaraFun;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem _menuitemEditTrackRating;
         private System.Windows.Forms.DataGridViewTextBoxColumn _columnID;
         private System.Windows.Forms.DataGridViewImageColumn _columnImage;
         private System.Windows.Forms.DataGridViewTextBoxColumn _columnTrack;
-        private System.Windows.Forms.DataGridViewImageColumn _columnRating;
+        private System.Windows.Forms.DataGridViewImageColumn _columnRatingImage;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _columnRating;
         private System.Windows.Forms.DataGridViewTextBoxColumn _columnPath;
         private System.Windows.Forms.DataGridViewTextBoxColumn _columnFullPath;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripMenuItem _menuitemEditTrackRating;
+        private System.Windows.Forms.CheckBox _checkboxShowOnlyRatedTracks;
     }
 }
