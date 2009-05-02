@@ -10,7 +10,17 @@ namespace Karaokidex.Views
 {
     public partial class TrackRatingView : Form
     {
+        #region Members
+        private string _TrackChecksum = String.Empty;
+        #endregion
+
         #region Properties
+        public string TrackChecksum
+        {
+            get { return this._TrackChecksum; }
+            set { this._TrackChecksum = value; }
+        }
+
         public RadioButton radioUnrated
         {
             get { return this._radioUnrated; }

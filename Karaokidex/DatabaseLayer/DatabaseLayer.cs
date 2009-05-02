@@ -180,7 +180,8 @@ namespace Karaokidex
         }
         
         public static DataTable SearchDatabase(
-            string theCriteria)
+            string theCriteria,
+            bool ShowOnlyRatedTracks)
         {
             using (DataSet theDataSet = new DataSet())
             {
@@ -193,7 +194,7 @@ namespace Karaokidex
                         using (SQLiteCommand theCommand = theConnection.CreateCommand())
                         {
                             StringBuilder theCommandBuilder = new StringBuilder(
-                                "SELECT [ID], [Path], [Details], [Extension], " +
+                                "SELECT [ID], [Path], [Details], [Extension], [Rating], " +
                                     "[Path] || '\\' || [Details] || [Extension] AS [FullPath] ");
                             theCommandBuilder.Append("FROM [Tracks] ");
                             theCommandBuilder.Append("WHERE ");
@@ -217,7 +218,13 @@ namespace Karaokidex
 
                                 IsFirstParameter = false;
                             }
-                            theCommandBuilder.Append("ORDER BY [Rating] DESC, [Path], [Details]");
+
+                            if (ShowOnlyRatedTracks)
+                            {
+                                theCommandBuilder.Append(" AND [Rating] > 0");
+                            }
+
+                            theCommandBuilder.Append(" ORDER BY [Rating] DESC, [Path], [Details]");
 
                             theCommand.CommandText = theCommandBuilder.ToString();
 
@@ -233,6 +240,43 @@ namespace Karaokidex
                     }
                 }
                 return theDataSet.Tables[0];
+            }
+        }
+
+        public static void UpdateTrackRating(
+            string theChecksum,
+            int theTrackRating)
+        {
+            using (SQLiteConnection theConnection = new SQLiteConnection(DatabaseLayer.ConnectionString))
+            {
+                try
+                {
+                    theConnection.Open();
+
+                    using (SQLiteCommand theCommand = theConnection.CreateCommand())
+                    {
+                        theCommand.CommandText =
+                            "UPDATE [Tracks] " +
+                            "SET [Rating] = ? " +
+                            "WHERE [Checksum] = ?";
+
+                        SQLiteParameter theRatingParameter = theCommand.CreateParameter();
+                        theCommand.Parameters.Add(theRatingParameter);
+                        SQLiteParameter theChecksumParameter = theCommand.CreateParameter();
+                        theCommand.Parameters.Add(theChecksumParameter);
+
+                        theRatingParameter.Value =
+                            theTrackRating;
+                        theChecksumParameter.Value =
+                            theChecksum;
+
+                        theCommand.ExecuteNonQuery();
+                    }
+                }
+                finally
+                {
+                    theConnection.Close();
+                }
             }
         }
         #endregion

@@ -9,6 +9,7 @@ using Karaokidex.Properties;
 using System.Runtime.InteropServices;
 using System.Text;
 using Karaokidex.Enumerators;
+using System.Drawing;
 
 namespace Karaokidex.ApplicationControllers
 {
@@ -153,33 +154,59 @@ namespace Karaokidex.ApplicationControllers
                 Cursors.WaitCursor;
 
             foreach (DataRow thisRow in DatabaseLayer.SearchDatabase(
-                theParentView.textboxCriteria.Text).Rows)
+                    theParentView.textboxCriteria.Text,
+                    theParentView.checkboxShowOnlyRatedTracks.Checked)
+                .Rows)
             {
                 string thisExtension = Convert.ToString(
                     thisRow["Extension"],
                     CultureInfo.CurrentCulture);
+                int thisRating = Convert.ToInt32(
+                    thisRow["Rating"],
+                    CultureInfo.CurrentCulture);
 
+                Bitmap theExtensionImage = Resources.mp3g;
                 switch (thisExtension)
                 {
                     case ".zip":
-                        theParentView.gridResults.Rows.Add(
-                            Convert.ToInt64(thisRow["ID"], CultureInfo.CurrentCulture),
-                            Resources.mp3g_zipped,
-                            Convert.ToString(thisRow["Details"], CultureInfo.CurrentCulture),
-                            Resources.no_stars,
-                            Convert.ToString(thisRow["Path"], CultureInfo.CurrentCulture),
-                            Convert.ToString(thisRow["FullPath"], CultureInfo.CurrentCulture));
+                        theExtensionImage = Resources.mp3g_zipped;
                         break;
-                    case ".cdg":
-                        theParentView.gridResults.Rows.Add(
-                            Convert.ToInt64(thisRow["ID"], CultureInfo.CurrentCulture),
-                            Resources.mp3g,
-                            Convert.ToString(thisRow["Details"], CultureInfo.CurrentCulture),
-                            Resources.no_stars,
-                            Convert.ToString(thisRow["Path"], CultureInfo.CurrentCulture),
-                            Convert.ToString(thisRow["FullPath"], CultureInfo.CurrentCulture));
+                    default:
+                        theExtensionImage = Resources.mp3g;
                         break;
                 }
+
+                Bitmap theRatingImage = Resources.no_stars;
+                switch (thisRating)
+                {
+                    case 1:
+                        theRatingImage = Resources._1_star;
+                        break;
+                    case 2:
+                        theRatingImage = Resources._2_stars;
+                        break;
+                    case 3:
+                        theRatingImage = Resources._3_stars;
+                        break;
+                    case 4:
+                        theRatingImage = Resources._4_stars;
+                        break;
+                    case 5:
+                        theRatingImage = Resources._5_stars;
+                        break;
+                    default:
+                        theRatingImage = Resources.no_stars;
+                        break;
+                }
+
+                    theParentView.gridResults.Rows.Add(
+                        Convert.ToInt64(thisRow["ID"], CultureInfo.CurrentCulture),
+                        theExtensionImage,
+                        Convert.ToString(thisRow["Details"], CultureInfo.CurrentCulture),
+                        theRatingImage,
+                        thisRating,
+                        Convert.ToString(thisRow["Path"], CultureInfo.CurrentCulture),
+                        Convert.ToString(thisRow["FullPath"], CultureInfo.CurrentCulture));
 
                 Application.DoEvents();
             }
@@ -228,6 +255,16 @@ namespace Karaokidex.ApplicationControllers
             theParentView.menuitemEnqueueInKaraFun.Enabled =
                 theParentView.menuitemPlayInKaraFun.Enabled =
                     RegistryAgent.IsKaraFunInstalled;
+
+            if (!theResultsGrid.SelectedRows.Count.Equals(0))
+            {
+                FileInfo theTrackFileInfo = new FileInfo(
+                    DatabaseLayer.GetSourceDirectory(new FileInfo(RegistryAgent.LastDatabase)) +
+                    "\\" + theResultsGrid.SelectedRows[0].Cells["_columnFullPath"].Value);
+
+                theParentView.menuitemEditTrackRating.Enabled =
+                    theTrackFileInfo.Exists;
+            }
         }
 
         private void MainView_gridResults_KeyDown(
@@ -418,11 +455,20 @@ namespace Karaokidex.ApplicationControllers
                     DatabaseLayer.GetSourceDirectory(new FileInfo(RegistryAgent.LastDatabase)) +
                     "\\" + theParentView.gridResults.SelectedRows[0].Cells["_columnFullPath"].Value);
 
-                string theTrackChecksum =
-                    CreateDatabaseAgent.GetMD5HashFromFile(
-                        theTrackFileInfo.FullName);
+                if (theTrackFileInfo.Exists)
+                {
+                    string theTrackChecksum =
+                        CreateDatabaseAgent.GetMD5HashFromFile(
+                            theTrackFileInfo.FullName);
+                    int theTrackRating =
+                        Convert.ToInt32(
+                            theParentView.gridResults.SelectedRows[0].Cells["_columnRating"].Value,
+                            CultureInfo.CurrentCulture);
 
-                this.TrackRatingView_Show(theTrackChecksum);
+                    this.TrackRatingView_Show(
+                        theTrackChecksum,
+                        theTrackRating);
+                }
             }
         }
 
