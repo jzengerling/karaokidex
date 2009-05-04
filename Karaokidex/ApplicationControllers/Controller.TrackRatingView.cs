@@ -13,7 +13,7 @@ namespace Karaokidex.ApplicationControllers
         #region Methods
         private void TrackRatingView_Show(
             string theTrackChecksum,
-            int theTrackRating)
+            TrackRating theTrackRating)
         {
             // Instantiate an instance
             TrackRatingView theView = new TrackRatingView();
@@ -25,19 +25,19 @@ namespace Karaokidex.ApplicationControllers
 
             switch (theTrackRating)
             {
-                case 1:
+                case TrackRating.OneStar:
                     theView.radio1Star.Checked = true;
                     break;
-                case 2:
+                case TrackRating.TwoStar:
                     theView.radio2Star.Checked = true;
                     break;
-                case 3:
+                case TrackRating.ThreeStar:
                     theView.radio3Star.Checked = true;
                     break;
-                case 4:
+                case TrackRating.FourStar:
                     theView.radio4star.Checked = true;
                     break;
-                case 5:
+                case TrackRating.FiveStar:
                     theView.radio5star.Checked = true;
                     break;
                 default:
