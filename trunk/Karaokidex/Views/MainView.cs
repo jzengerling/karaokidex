@@ -81,6 +81,11 @@ namespace Karaokidex.Views
             get { return this._menuitemEditTrackRating; }
         }
 
+        public ToolStripMenuItem menuitemMarkTrackAsInvalid
+        {
+            get { return this._menuitemMarkTrackAsInvalid; }
+        }
+
         public ToolStripLabel labelDatabaseLocation
         {
             get { return this._labelDatabaseLocation; }

@@ -57,6 +57,8 @@ namespace Karaokidex.ApplicationControllers
                 new EventHandler(MainView_menuitemPlayInKaraFun_Click);
             this._MainView.menuitemEditTrackRating.Click += 
                 new EventHandler(MainView_menuitemEditTrackRating_Click);
+            this._MainView.menuitemMarkTrackAsInvalid.Click +=
+                new EventHandler(MainView_menuitemMarkTrackAsInvalid_Click);
             this._MainView.buttonOpenContainingFolder.Click += 
                 new EventHandler(MainView_buttonOpenContainingFolder_Click);
 
@@ -147,57 +149,59 @@ namespace Karaokidex.ApplicationControllers
             MainView theParentView =
                 theSearchButton.FindForm() as MainView;
 
-            theParentView.buttonSearch.Enabled = false;
-            theParentView.gridResults.Rows.Clear();
-
-            theParentView.Cursor = 
+            theParentView.Cursor =
                 Cursors.WaitCursor;
 
-            foreach (DataRow thisRow in DatabaseLayer.SearchDatabase(
-                    theParentView.textboxCriteria.Text,
-                    theParentView.checkboxShowOnlyRatedTracks.Checked)
-                .Rows)
+            if (String.IsNullOrEmpty(theParentView.textboxCriteria.Text))
             {
-                string thisExtension = Convert.ToString(
-                    thisRow["Extension"],
-                    CultureInfo.CurrentCulture);
-                int thisRating = Convert.ToInt32(
-                    thisRow["Rating"],
-                    CultureInfo.CurrentCulture);
+                theParentView.buttonSearch.Enabled = false;
+                theParentView.gridResults.Rows.Clear();
 
-                Bitmap theExtensionImage = Resources.mp3g;
-                switch (thisExtension)
+                foreach (DataRow thisRow in DatabaseLayer.SearchDatabase(
+                        theParentView.textboxCriteria.Text,
+                        theParentView.checkboxShowOnlyRatedTracks.Checked)
+                    .Rows)
                 {
-                    case ".zip":
-                        theExtensionImage = Resources.mp3g_zipped;
-                        break;
-                    default:
-                        theExtensionImage = Resources.mp3g;
-                        break;
-                }
+                    string thisExtension = Convert.ToString(
+                        thisRow["Extension"],
+                        CultureInfo.CurrentCulture);
+                    TrackRating thisRating = (TrackRating)Convert.ToInt32(
+                        thisRow["Rating"],
+                        CultureInfo.CurrentCulture);
 
-                Bitmap theRatingImage = Resources.no_stars;
-                switch (thisRating)
-                {
-                    case 1:
-                        theRatingImage = Resources._1_star;
-                        break;
-                    case 2:
-                        theRatingImage = Resources._2_stars;
-                        break;
-                    case 3:
-                        theRatingImage = Resources._3_stars;
-                        break;
-                    case 4:
-                        theRatingImage = Resources._4_stars;
-                        break;
-                    case 5:
-                        theRatingImage = Resources._5_stars;
-                        break;
-                    default:
-                        theRatingImage = Resources.no_stars;
-                        break;
-                }
+                    Bitmap theExtensionImage = Resources.mp3g;
+                    switch (thisExtension)
+                    {
+                        case ".zip":
+                            theExtensionImage = Resources.mp3g_zipped;
+                            break;
+                        default:
+                            theExtensionImage = Resources.mp3g;
+                            break;
+                    }
+
+                    Bitmap theRatingImage = Resources.no_stars;
+                    switch (thisRating)
+                    {
+                        case TrackRating.OneStar:
+                            theRatingImage = Resources._1_star;
+                            break;
+                        case TrackRating.TwoStar:
+                            theRatingImage = Resources._2_stars;
+                            break;
+                        case TrackRating.ThreeStar:
+                            theRatingImage = Resources._3_stars;
+                            break;
+                        case TrackRating.FourStar:
+                            theRatingImage = Resources._4_stars;
+                            break;
+                        case TrackRating.FiveStar:
+                            theRatingImage = Resources._5_stars;
+                            break;
+                        default:
+                            theRatingImage = Resources.no_stars;
+                            break;
+                    }
 
                     theParentView.gridResults.Rows.Add(
                         Convert.ToInt64(thisRow["ID"], CultureInfo.CurrentCulture),
@@ -208,19 +212,32 @@ namespace Karaokidex.ApplicationControllers
                         Convert.ToString(thisRow["Path"], CultureInfo.CurrentCulture),
                         Convert.ToString(thisRow["FullPath"], CultureInfo.CurrentCulture));
 
-                Application.DoEvents();
+                    Application.DoEvents();
+                }
+
+                theParentView.labelResults.Text = String.Format(
+                    CultureInfo.CurrentCulture,
+                    "{0:N0} results",
+                    theParentView.gridResults.Rows.Count);
+
+                theParentView.buttonSearch.Enabled = true;
+
+                if (!theParentView.gridResults.Rows.Count.Equals(0))
+                {
+                    theParentView.gridResults.Focus();
+                }
             }
-            
-            theParentView.labelResults.Text = String.Format(
-                CultureInfo.CurrentCulture,
-                "{0:N0} results",
-                theParentView.gridResults.Rows.Count);
-
-            theParentView.buttonSearch.Enabled = true;
-
-            if (!theParentView.gridResults.Rows.Count.Equals(0))
+            else
             {
-                theParentView.gridResults.Focus();
+                MessageBox.Show(
+                    theParentView,
+                    "There is no search criteria specified\n\nDo you want to show all tracks?",
+                    theParentView.Text,
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning,
+                    MessageBoxDefaultButton.Button2);
+
+                Application.DoEvents();
             }
 
             theParentView.Cursor =
@@ -460,14 +477,46 @@ namespace Karaokidex.ApplicationControllers
                     string theTrackChecksum =
                         CreateDatabaseAgent.GetMD5HashFromFile(
                             theTrackFileInfo.FullName);
-                    int theTrackRating =
-                        Convert.ToInt32(
+                    TrackRating theTrackRating =
+                        (TrackRating)Convert.ToInt32(
                             theParentView.gridResults.SelectedRows[0].Cells["_columnRating"].Value,
                             CultureInfo.CurrentCulture);
 
                     this.TrackRatingView_Show(
                         theTrackChecksum,
                         theTrackRating);
+                }
+            }
+        }
+
+        private void MainView_menuitemMarkTrackAsInvalid_Click(
+            object sender, 
+            EventArgs e)
+        {
+            Application.DoEvents();
+
+            ToolStripMenuItem theOpenContainingFolder =
+                sender as ToolStripMenuItem;
+            ContextMenuStrip theContextMenuStrip =
+                theOpenContainingFolder.Owner as ContextMenuStrip;
+            MainView theParentView =
+                theContextMenuStrip.SourceControl.FindForm() as MainView;
+
+            if (!theParentView.gridResults.SelectedRows.Count.Equals(0))
+            {
+                FileInfo theTrackFileInfo = new FileInfo(
+                    DatabaseLayer.GetSourceDirectory(new FileInfo(RegistryAgent.LastDatabase)) +
+                    "\\" + theParentView.gridResults.SelectedRows[0].Cells["_columnFullPath"].Value);
+
+                if (theTrackFileInfo.Exists)
+                {
+                    string theTrackChecksum =
+                        CreateDatabaseAgent.GetMD5HashFromFile(
+                            theTrackFileInfo.FullName);
+
+                    this.TrackRatingView_Show(
+                        theTrackChecksum,
+                        TrackRating.Invalid);
                 }
             }
         }

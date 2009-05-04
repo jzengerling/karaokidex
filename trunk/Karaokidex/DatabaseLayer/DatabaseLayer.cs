@@ -223,6 +223,10 @@ namespace Karaokidex
                             {
                                 theCommandBuilder.Append(" AND [Rating] > 0");
                             }
+                            else
+                            {
+                                theCommandBuilder.Append(" AND [Rating] > -1");
+                            }
 
                             theCommandBuilder.Append(" ORDER BY [Rating] DESC, [Path], [Details]");
 
