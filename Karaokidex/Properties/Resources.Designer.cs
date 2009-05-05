@@ -144,6 +144,13 @@ namespace Karaokidex.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap invalid {
+            get {
+                object obj = ResourceManager.GetObject("invalid", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap KaraFun_16x16x32 {
             get {
                 object obj = ResourceManager.GetObject("KaraFun-16x16x32", resourceCulture);
@@ -168,6 +175,13 @@ namespace Karaokidex.Properties {
         internal static System.Drawing.Bitmap no_stars {
             get {
                 object obj = ResourceManager.GetObject("no_stars", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap page_white_delete {
+            get {
+                object obj = ResourceManager.GetObject("page_white_delete", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
