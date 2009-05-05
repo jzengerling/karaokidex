@@ -31,6 +31,8 @@ namespace Karaokidex.ApplicationControllers
             // Instantiate an instance
             this._MainView = new MainView();
 
+            this._MainView.KeyUp += 
+                new KeyEventHandler(MainView_KeyUp);
             this._MainView.buttonOpenDatabase.Click +=
                 new EventHandler(MainView_buttonOpenDatabase_Click);
             this._MainView.buttonCreateDatabase.Click +=
@@ -85,6 +87,42 @@ namespace Karaokidex.ApplicationControllers
         }
 
         #region Event Handlers
+        private void MainView_KeyUp(
+            object sender, 
+            KeyEventArgs e)
+        {
+            Application.DoEvents();
+
+            switch (e.KeyCode)
+            {
+                case Keys.F2:
+                    this.MainView_buttonOpenDatabase_Click(
+                        this._MainView.buttonOpenDatabase,
+                        new EventArgs());
+                    break;
+                case Keys.F3:
+                    this.MainView_buttonCreateDatabase_Click(
+                        this._MainView.buttonCreateDatabase,
+                        new EventArgs());
+                    break;
+                case Keys.F4:
+                    this.MainView_buttonRefreshDatabase_Click(
+                        this._MainView.buttonRefreshDatabase,
+                        new EventArgs());
+                    break;
+                case Keys.F5:
+                    this.MainView_buttonListInvalidTracks_Click(
+                        this._MainView.buttonListInvalidTracks,
+                        new EventArgs());
+                    break;
+                case Keys.F6:
+                    this.MainView_buttonKaraFun_Click(
+                        this._MainView.buttonKaraFun,
+                        new EventArgs());
+                    break;
+            }
+        }
+
         private void MainView_buttonOpenDatabase_Click(
             object sender, 
             EventArgs e)
@@ -126,13 +164,12 @@ namespace Karaokidex.ApplicationControllers
         {
             Application.DoEvents();
 
+            this._MainView.gridResults.Rows.Clear();
+
             foreach (DataRow thisRow in DatabaseLayer.ListInvalidTracks().Rows)
             {
                 string thisExtension = Convert.ToString(
                     thisRow["Extension"],
-                    CultureInfo.CurrentCulture);
-                TrackRating thisRating = (TrackRating)Convert.ToInt32(
-                    thisRow["Rating"],
                     CultureInfo.CurrentCulture);
 
                 Bitmap theExtensionImage = Resources.mp3g;
@@ -146,35 +183,12 @@ namespace Karaokidex.ApplicationControllers
                         break;
                 }
 
-                Bitmap theRatingImage = Resources.no_stars;
-                switch (thisRating)
-                {
-                    case TrackRating.OneStar:
-                        theRatingImage = Resources._1_star;
-                        break;
-                    case TrackRating.TwoStar:
-                        theRatingImage = Resources._2_stars;
-                        break;
-                    case TrackRating.ThreeStar:
-                        theRatingImage = Resources._3_stars;
-                        break;
-                    case TrackRating.FourStar:
-                        theRatingImage = Resources._4_stars;
-                        break;
-                    case TrackRating.FiveStar:
-                        theRatingImage = Resources._5_stars;
-                        break;
-                    default:
-                        theRatingImage = Resources.no_stars;
-                        break;
-                }
-
                 this._MainView.gridResults.Rows.Add(
                     Convert.ToInt64(thisRow["ID"], CultureInfo.CurrentCulture),
                     theExtensionImage,
                     Convert.ToString(thisRow["Details"], CultureInfo.CurrentCulture),
-                    theRatingImage,
-                    thisRating,
+                    Resources.invalid,
+                    Convert.ToInt32(thisRow["Rating"], CultureInfo.CurrentCulture),
                     Convert.ToString(thisRow["Path"], CultureInfo.CurrentCulture),
                     Convert.ToString(thisRow["FullPath"], CultureInfo.CurrentCulture));
 
@@ -186,6 +200,11 @@ namespace Karaokidex.ApplicationControllers
                 "{0:N0} results",
                 this._MainView.gridResults.Rows.Count);
 
+            if (!this._MainView.gridResults.Rows.Count.Equals(0))
+            {
+                this._MainView.gridResults.ClearSelection();
+                this._MainView.gridResults.Focus();
+            }
         }
 
         private void MainView_buttonKaraFun_Click(
@@ -222,7 +241,9 @@ namespace Karaokidex.ApplicationControllers
             theParentView.Cursor =
                 Cursors.WaitCursor;
 
-            if (String.IsNullOrEmpty(theParentView.textboxCriteria.Text))
+            theParentView.gridResults.Rows.Clear();
+
+            if (!String.IsNullOrEmpty(theParentView.textboxCriteria.Text))
             {
                 theParentView.buttonSearch.Enabled = false;
                 theParentView.gridResults.Rows.Clear();
@@ -278,7 +299,7 @@ namespace Karaokidex.ApplicationControllers
                         theExtensionImage,
                         Convert.ToString(thisRow["Details"], CultureInfo.CurrentCulture),
                         theRatingImage,
-                        thisRating,
+                        Convert.ToInt32(thisRow["Rating"], CultureInfo.CurrentCulture),
                         Convert.ToString(thisRow["Path"], CultureInfo.CurrentCulture),
                         Convert.ToString(thisRow["FullPath"], CultureInfo.CurrentCulture));
 
@@ -294,6 +315,7 @@ namespace Karaokidex.ApplicationControllers
 
                 if (!theParentView.gridResults.Rows.Count.Equals(0))
                 {
+                    theParentView.gridResults.ClearSelection();
                     theParentView.gridResults.Focus();
                 }
             }
