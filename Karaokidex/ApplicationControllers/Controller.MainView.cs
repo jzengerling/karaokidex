@@ -646,39 +646,42 @@ namespace Karaokidex.ApplicationControllers
             MainView theParentView =
                 theOpenContainingFolderButton.FindForm() as MainView;
 
-            DirectoryInfo theTrackDirectoryInfo = new DirectoryInfo(
-                DatabaseLayer.GetSourceDirectory(new FileInfo(RegistryAgent.LastDatabase)) +
-                "\\" + theParentView.gridResults.SelectedRows[0].Cells["_columnPath"].Value);
-
-            if (theTrackDirectoryInfo.Exists)
+            if (theParentView.gridResults.SelectedRows.Count.Equals(1))
             {
-                this._MainView.Cursor =
-                    Cursors.WaitCursor;
+                DirectoryInfo theTrackDirectoryInfo = new DirectoryInfo(
+                    DatabaseLayer.GetSourceDirectory(new FileInfo(RegistryAgent.LastDatabase)) +
+                    "\\" + theParentView.gridResults.SelectedRows[0].Cells["_columnPath"].Value);
 
-                Process.Start(
-                    "explorer.exe",
-                    String.Format(
-                        CultureInfo.CurrentCulture,
-                        "/e,/root,{0}",
-                        theTrackDirectoryInfo.FullName));
+                if (theTrackDirectoryInfo.Exists)
+                {
+                    this._MainView.Cursor =
+                        Cursors.WaitCursor;
 
-                this._MainView.Cursor =
-                    Cursors.Default;
-            }
-            else
-            {
-                MessageBox.Show(
-                    theParentView,
-                    String.Format(
-                        CultureInfo.CurrentCulture,
-                        "{0}\n\nThe selected directory does not exist",
-                        theTrackDirectoryInfo.ToString()),
-                        theParentView.Text,
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information,
-                        MessageBoxDefaultButton.Button1);
+                    Process.Start(
+                        "explorer.exe",
+                        String.Format(
+                            CultureInfo.CurrentCulture,
+                            "/e,/root,{0}",
+                            theTrackDirectoryInfo.FullName));
 
-                Application.DoEvents();
+                    this._MainView.Cursor =
+                        Cursors.Default;
+                }
+                else
+                {
+                    MessageBox.Show(
+                        theParentView,
+                        String.Format(
+                            CultureInfo.CurrentCulture,
+                            "{0}\n\nThe selected directory does not exist",
+                            theTrackDirectoryInfo.ToString()),
+                            theParentView.Text,
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Information,
+                            MessageBoxDefaultButton.Button1);
+
+                    Application.DoEvents();
+                }
             }
         }
         #endregion
