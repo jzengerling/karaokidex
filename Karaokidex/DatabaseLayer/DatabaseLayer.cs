@@ -247,6 +247,42 @@ namespace Karaokidex
             }
         }
 
+        public static DataTable ListInvalidTracks()
+        {
+            using (DataSet theDataSet = new DataSet())
+            {
+                using (SQLiteConnection theConnection = new SQLiteConnection(DatabaseLayer.ConnectionString))
+                {
+                    try
+                    {
+                        theConnection.Open();
+
+                        using (SQLiteCommand theCommand = theConnection.CreateCommand())
+                        {
+                            StringBuilder theCommandBuilder = new StringBuilder(
+                                "SELECT [ID], [Path], [Details], [Extension], [Rating], " +
+                                    "[Path] || '\\' || [Details] || [Extension] AS [FullPath] ");
+                            theCommandBuilder.Append("FROM [Tracks] ");
+                            theCommandBuilder.Append("WHERE [Rating] = -1 ");
+                            theCommandBuilder.Append("ORDER BY [Path], [Details]");
+
+                            theCommand.CommandText = theCommandBuilder.ToString();
+
+                            using (SQLiteDataAdapter theAdapter = new SQLiteDataAdapter(theCommand))
+                            {
+                                theAdapter.Fill(theDataSet);
+                            }
+                        }
+                    }
+                    finally
+                    {
+                        theConnection.Close();
+                    }
+                }
+                return theDataSet.Tables[0];
+            }
+        }
+
         public static void UpdateTrackRating(
             string theChecksum,
             int theTrackRating)

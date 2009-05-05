@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainView));
             this._ToolStrip = new System.Windows.Forms.ToolStrip();
             this._buttonOpenDatabase = new System.Windows.Forms.ToolStripButton();
@@ -63,10 +63,12 @@
             this._menuitemPlayInKaraFun = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this._menuitemEditTrackRating = new System.Windows.Forms.ToolStripMenuItem();
+            this._menuitemMarkTrackAsInvalid = new System.Windows.Forms.ToolStripMenuItem();
             this._TableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this._buttonOpenContainingFolder = new System.Windows.Forms.Button();
             this._labelSelectedTrackPath = new System.Windows.Forms.Label();
-            this._menuitemMarkTrackAsInvalid = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this._buttonListInvalidTracks = new System.Windows.Forms.ToolStripButton();
             this._ToolStrip.SuspendLayout();
             this._StatusStrip.SuspendLayout();
             this._SplitContainer.Panel1.SuspendLayout();
@@ -85,6 +87,8 @@
             this._buttonOpenDatabase,
             this._buttonCreateDatabase,
             this._buttonRefreshDatabase,
+            this.toolStripSeparator3,
+            this._buttonListInvalidTracks,
             this.toolStripSeparator1,
             this._buttonKaraFun});
             this._ToolStrip.Location = new System.Drawing.Point(0, 0);
@@ -328,8 +332,8 @@
             // 
             this._columnTrack.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this._columnTrack.DataPropertyName = "Details";
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._columnTrack.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._columnTrack.DefaultCellStyle = dataGridViewCellStyle3;
             this._columnTrack.HeaderText = "Track";
             this._columnTrack.Name = "_columnTrack";
             this._columnTrack.ReadOnly = true;
@@ -354,8 +358,8 @@
             // _columnPath
             // 
             this._columnPath.DataPropertyName = "Path";
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Silver;
-            this._columnPath.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.Silver;
+            this._columnPath.DefaultCellStyle = dataGridViewCellStyle4;
             this._columnPath.FillWeight = 300F;
             this._columnPath.HeaderText = "Path";
             this._columnPath.Name = "_columnPath";
@@ -380,7 +384,7 @@
             this._menuitemEditTrackRating,
             this._menuitemMarkTrackAsInvalid});
             this._ContextMenuStrip.Name = "_ContextMenuStrip";
-            this._ContextMenuStrip.Size = new System.Drawing.Size(202, 120);
+            this._ContextMenuStrip.Size = new System.Drawing.Size(227, 120);
             // 
             // _menuitemEnqueueInKaraFun
             // 
@@ -406,6 +410,13 @@
             this._menuitemEditTrackRating.ShortcutKeys = System.Windows.Forms.Keys.F10;
             this._menuitemEditTrackRating.Size = new System.Drawing.Size(201, 22);
             this._menuitemEditTrackRating.Text = "Edit Track &Rating";
+            // 
+            // _menuitemMarkTrackAsInvalid
+            // 
+            this._menuitemMarkTrackAsInvalid.Name = "_menuitemMarkTrackAsInvalid";
+            this._menuitemMarkTrackAsInvalid.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F11)));
+            this._menuitemMarkTrackAsInvalid.Size = new System.Drawing.Size(226, 22);
+            this._menuitemMarkTrackAsInvalid.Text = "Mark Track As Invalid";
             // 
             // _TableLayoutPanel
             // 
@@ -447,12 +458,19 @@
             this._labelSelectedTrackPath.TabIndex = 6;
             this._labelSelectedTrackPath.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // _menuitemMarkTrackAsInvalid
+            // toolStripSeparator3
             // 
-            this._menuitemMarkTrackAsInvalid.Name = "_menuitemMarkTrackAsInvalid";
-            this._menuitemMarkTrackAsInvalid.ShortcutKeys = System.Windows.Forms.Keys.F11;
-            this._menuitemMarkTrackAsInvalid.Size = new System.Drawing.Size(201, 22);
-            this._menuitemMarkTrackAsInvalid.Text = "Mark Track As Invalid";
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            // 
+            // _buttonListInvalidTracks
+            // 
+            this._buttonListInvalidTracks.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this._buttonListInvalidTracks.Image = ((System.Drawing.Image)(resources.GetObject("_buttonListInvalidTracks.Image")));
+            this._buttonListInvalidTracks.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._buttonListInvalidTracks.Name = "_buttonListInvalidTracks";
+            this._buttonListInvalidTracks.Size = new System.Drawing.Size(23, 22);
+            this._buttonListInvalidTracks.Text = "List invalid tracks";
             // 
             // MainView
             // 
@@ -525,5 +543,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn _columnFullPath;
         private System.Windows.Forms.CheckBox _checkboxShowOnlyRatedTracks;
         private System.Windows.Forms.ToolStripMenuItem _menuitemMarkTrackAsInvalid;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripButton _buttonListInvalidTracks;
     }
 }

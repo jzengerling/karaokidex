@@ -37,6 +37,8 @@ namespace Karaokidex.ApplicationControllers
                 new EventHandler(MainView_buttonCreateDatabase_Click);
             this._MainView.buttonRefreshDatabase.Click += 
                 new EventHandler(MainView_buttonRefreshDatabase_Click);
+            this._MainView.buttonListInvalidTracks.Click += 
+                new EventHandler(MainView_buttonListInvalidTracks_Click);
             this._MainView.buttonKaraFun.Click += 
                 new EventHandler(MainView_buttonKaraFun_Click);
             this._MainView.buttonSearch.Click += 
@@ -116,6 +118,74 @@ namespace Karaokidex.ApplicationControllers
             Application.DoEvents();
 
             this.CreateDatabaseView_Show(DatabaseMode.Refresh);
+        }
+
+        private void MainView_buttonListInvalidTracks_Click(
+            object sender, 
+            EventArgs e)
+        {
+            Application.DoEvents();
+
+            foreach (DataRow thisRow in DatabaseLayer.ListInvalidTracks().Rows)
+            {
+                string thisExtension = Convert.ToString(
+                    thisRow["Extension"],
+                    CultureInfo.CurrentCulture);
+                TrackRating thisRating = (TrackRating)Convert.ToInt32(
+                    thisRow["Rating"],
+                    CultureInfo.CurrentCulture);
+
+                Bitmap theExtensionImage = Resources.mp3g;
+                switch (thisExtension)
+                {
+                    case ".zip":
+                        theExtensionImage = Resources.mp3g_zipped;
+                        break;
+                    default:
+                        theExtensionImage = Resources.mp3g;
+                        break;
+                }
+
+                Bitmap theRatingImage = Resources.no_stars;
+                switch (thisRating)
+                {
+                    case TrackRating.OneStar:
+                        theRatingImage = Resources._1_star;
+                        break;
+                    case TrackRating.TwoStar:
+                        theRatingImage = Resources._2_stars;
+                        break;
+                    case TrackRating.ThreeStar:
+                        theRatingImage = Resources._3_stars;
+                        break;
+                    case TrackRating.FourStar:
+                        theRatingImage = Resources._4_stars;
+                        break;
+                    case TrackRating.FiveStar:
+                        theRatingImage = Resources._5_stars;
+                        break;
+                    default:
+                        theRatingImage = Resources.no_stars;
+                        break;
+                }
+
+                this._MainView.gridResults.Rows.Add(
+                    Convert.ToInt64(thisRow["ID"], CultureInfo.CurrentCulture),
+                    theExtensionImage,
+                    Convert.ToString(thisRow["Details"], CultureInfo.CurrentCulture),
+                    theRatingImage,
+                    thisRating,
+                    Convert.ToString(thisRow["Path"], CultureInfo.CurrentCulture),
+                    Convert.ToString(thisRow["FullPath"], CultureInfo.CurrentCulture));
+
+                Application.DoEvents();
+            }
+
+            this._MainView.labelResults.Text = String.Format(
+                CultureInfo.CurrentCulture,
+                "{0:N0} results",
+                this._MainView.gridResults.Rows.Count);
+
         }
 
         private void MainView_buttonKaraFun_Click(
@@ -271,16 +341,23 @@ namespace Karaokidex.ApplicationControllers
 
             theParentView.menuitemEnqueueInKaraFun.Enabled =
                 theParentView.menuitemPlayInKaraFun.Enabled =
-                    RegistryAgent.IsKaraFunInstalled;
+                theParentView.menuitemEditTrackRating.Enabled =
+                theParentView.menuitemMarkTrackAsInvalid.Enabled =
+                    false;
 
             if (!theResultsGrid.SelectedRows.Count.Equals(0))
             {
+                theParentView.menuitemEnqueueInKaraFun.Enabled =
+                    theParentView.menuitemPlayInKaraFun.Enabled =
+                        RegistryAgent.IsKaraFunInstalled;
+
                 FileInfo theTrackFileInfo = new FileInfo(
                     DatabaseLayer.GetSourceDirectory(new FileInfo(RegistryAgent.LastDatabase)) +
                     "\\" + theResultsGrid.SelectedRows[0].Cells["_columnFullPath"].Value);
 
                 theParentView.menuitemEditTrackRating.Enabled =
-                    theTrackFileInfo.Exists;
+                    theParentView.menuitemMarkTrackAsInvalid.Enabled =
+                        theTrackFileInfo.Exists;
             }
         }
 
@@ -510,6 +587,21 @@ namespace Karaokidex.ApplicationControllers
 
                 if (theTrackFileInfo.Exists)
                 {
+                    switch (MessageBox.Show(
+                        theParentView,
+                        "Are you sure you want to mark this track as invalid?",
+                        theParentView.Text,
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Warning,
+                        MessageBoxDefaultButton.Button2))
+                    {
+                        case DialogResult.No:
+                            Application.DoEvents();
+                            return;
+                    }
+
+                    Application.DoEvents();
+
                     string theTrackChecksum =
                         CreateDatabaseAgent.GetMD5HashFromFile(
                             theTrackFileInfo.FullName);
