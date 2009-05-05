@@ -26,6 +26,11 @@ namespace Karaokidex.Views
             get { return this._buttonRefreshDatabase; }
         }
 
+        public ToolStripButton buttonListInvalidTracks
+        {
+            get { return this._buttonListInvalidTracks; }
+        }
+
         public ToolStripButton buttonKaraFun
         {
             get { return this._buttonKaraFun; }
