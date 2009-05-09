@@ -40,17 +40,16 @@
             this._buttonListInvalidTracks = new System.Windows.Forms.ToolStripButton();
             this._separator2 = new System.Windows.Forms.ToolStripSeparator();
             this._buttonKaraFun = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this._buttonExit = new System.Windows.Forms.ToolStripButton();
             this._StatusStrip = new System.Windows.Forms.StatusStrip();
             this._labelDatabaseLocation = new System.Windows.Forms.ToolStripStatusLabel();
             this._labelTrackCount = new System.Windows.Forms.ToolStripStatusLabel();
             this._labelResults = new System.Windows.Forms.ToolStripStatusLabel();
             this._SplitContainer = new System.Windows.Forms.SplitContainer();
-            this._groupboxCriteria = new System.Windows.Forms.GroupBox();
             this._checkboxShowOnlyRatedTracks = new System.Windows.Forms.CheckBox();
             this._textboxCriteria = new System.Windows.Forms.TextBox();
             this._labelCriteria = new System.Windows.Forms.Label();
-            this._ButtonContainer = new System.Windows.Forms.FlowLayoutPanel();
-            this._buttonExit = new System.Windows.Forms.Button();
             this._buttonSearch = new System.Windows.Forms.Button();
             this._gridResults = new System.Windows.Forms.DataGridView();
             this._columnID = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -74,8 +73,6 @@
             this._SplitContainer.Panel1.SuspendLayout();
             this._SplitContainer.Panel2.SuspendLayout();
             this._SplitContainer.SuspendLayout();
-            this._groupboxCriteria.SuspendLayout();
-            this._ButtonContainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._gridResults)).BeginInit();
             this._ContextMenuStrip.SuspendLayout();
             this._TableLayoutPanel.SuspendLayout();
@@ -90,7 +87,9 @@
             this._separator1,
             this._buttonListInvalidTracks,
             this._separator2,
-            this._buttonKaraFun});
+            this._buttonKaraFun,
+            this.toolStripSeparator1,
+            this._buttonExit});
             this._ToolStrip.Location = new System.Drawing.Point(0, 0);
             this._ToolStrip.Name = "_ToolStrip";
             this._ToolStrip.Size = new System.Drawing.Size(784, 25);
@@ -154,6 +153,20 @@
             this._buttonKaraFun.Text = "Launch KaraFun (F6)";
             this._buttonKaraFun.ToolTipText = "Launch KaraFun";
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // _buttonExit
+            // 
+            this._buttonExit.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this._buttonExit.Image = global::Karaokidex.Properties.Resources.door_in;
+            this._buttonExit.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._buttonExit.Name = "_buttonExit";
+            this._buttonExit.Size = new System.Drawing.Size(23, 22);
+            this._buttonExit.Text = "Exit Karaokidex";
+            // 
             // _StatusStrip
             // 
             this._StatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -201,87 +214,49 @@
             // _SplitContainer.Panel1
             // 
             this._SplitContainer.Panel1.BackColor = System.Drawing.Color.White;
-            this._SplitContainer.Panel1.Controls.Add(this._groupboxCriteria);
-            this._SplitContainer.Panel1.Controls.Add(this._ButtonContainer);
+            this._SplitContainer.Panel1.Controls.Add(this._checkboxShowOnlyRatedTracks);
+            this._SplitContainer.Panel1.Controls.Add(this._textboxCriteria);
+            this._SplitContainer.Panel1.Controls.Add(this._labelCriteria);
+            this._SplitContainer.Panel1.Controls.Add(this._buttonSearch);
+            this._SplitContainer.Panel1.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             // 
             // _SplitContainer.Panel2
             // 
             this._SplitContainer.Panel2.Controls.Add(this._gridResults);
             this._SplitContainer.Panel2.Controls.Add(this._TableLayoutPanel);
             this._SplitContainer.Size = new System.Drawing.Size(784, 395);
-            this._SplitContainer.SplitterDistance = 100;
+            this._SplitContainer.SplitterDistance = 64;
             this._SplitContainer.TabIndex = 0;
             this._SplitContainer.TabStop = false;
-            // 
-            // _groupboxCriteria
-            // 
-            this._groupboxCriteria.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this._groupboxCriteria.Controls.Add(this._checkboxShowOnlyRatedTracks);
-            this._groupboxCriteria.Controls.Add(this._textboxCriteria);
-            this._groupboxCriteria.Controls.Add(this._labelCriteria);
-            this._groupboxCriteria.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._groupboxCriteria.Location = new System.Drawing.Point(12, 3);
-            this._groupboxCriteria.Name = "_groupboxCriteria";
-            this._groupboxCriteria.Size = new System.Drawing.Size(760, 57);
-            this._groupboxCriteria.TabIndex = 0;
-            this._groupboxCriteria.TabStop = false;
             // 
             // _checkboxShowOnlyRatedTracks
             // 
             this._checkboxShowOnlyRatedTracks.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._checkboxShowOnlyRatedTracks.AutoSize = true;
-            this._checkboxShowOnlyRatedTracks.Location = new System.Drawing.Point(553, 22);
+            this._checkboxShowOnlyRatedTracks.Location = new System.Drawing.Point(103, 38);
             this._checkboxShowOnlyRatedTracks.Name = "_checkboxShowOnlyRatedTracks";
             this._checkboxShowOnlyRatedTracks.Size = new System.Drawing.Size(201, 23);
-            this._checkboxShowOnlyRatedTracks.TabIndex = 2;
-            this._checkboxShowOnlyRatedTracks.Text = "Show Only Rated Tracks";
+            this._checkboxShowOnlyRatedTracks.TabIndex = 6;
+            this._checkboxShowOnlyRatedTracks.Text = "Show Only &Rated Tracks";
             this._checkboxShowOnlyRatedTracks.UseVisualStyleBackColor = true;
             // 
             // _textboxCriteria
             // 
             this._textboxCriteria.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this._textboxCriteria.Location = new System.Drawing.Point(106, 20);
+            this._textboxCriteria.Location = new System.Drawing.Point(103, 5);
             this._textboxCriteria.Name = "_textboxCriteria";
-            this._textboxCriteria.Size = new System.Drawing.Size(441, 27);
-            this._textboxCriteria.TabIndex = 1;
+            this._textboxCriteria.Size = new System.Drawing.Size(571, 27);
+            this._textboxCriteria.TabIndex = 4;
             // 
             // _labelCriteria
             // 
             this._labelCriteria.AutoSize = true;
-            this._labelCriteria.Location = new System.Drawing.Point(6, 23);
+            this._labelCriteria.Location = new System.Drawing.Point(3, 8);
             this._labelCriteria.Name = "_labelCriteria";
             this._labelCriteria.Size = new System.Drawing.Size(94, 19);
-            this._labelCriteria.TabIndex = 0;
+            this._labelCriteria.TabIndex = 3;
             this._labelCriteria.Text = "Artist / Title";
-            // 
-            // _ButtonContainer
-            // 
-            this._ButtonContainer.BackColor = System.Drawing.SystemColors.Control;
-            this._ButtonContainer.Controls.Add(this._buttonExit);
-            this._ButtonContainer.Controls.Add(this._buttonSearch);
-            this._ButtonContainer.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this._ButtonContainer.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this._ButtonContainer.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._ButtonContainer.Location = new System.Drawing.Point(0, 66);
-            this._ButtonContainer.Name = "_ButtonContainer";
-            this._ButtonContainer.Size = new System.Drawing.Size(784, 34);
-            this._ButtonContainer.TabIndex = 0;
-            // 
-            // _buttonExit
-            // 
-            this._buttonExit.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this._buttonExit.Image = global::Karaokidex.Properties.Resources.door_in;
-            this._buttonExit.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this._buttonExit.Location = new System.Drawing.Point(681, 3);
-            this._buttonExit.Name = "_buttonExit";
-            this._buttonExit.Size = new System.Drawing.Size(100, 29);
-            this._buttonExit.TabIndex = 3;
-            this._buttonExit.Text = "E&xit";
-            this._buttonExit.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this._buttonExit.UseVisualStyleBackColor = true;
             // 
             // _buttonSearch
             // 
@@ -289,10 +264,10 @@
             this._buttonSearch.Enabled = false;
             this._buttonSearch.Image = global::Karaokidex.Properties.Resources.find;
             this._buttonSearch.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this._buttonSearch.Location = new System.Drawing.Point(575, 3);
+            this._buttonSearch.Location = new System.Drawing.Point(680, 3);
             this._buttonSearch.Name = "_buttonSearch";
             this._buttonSearch.Size = new System.Drawing.Size(100, 29);
-            this._buttonSearch.TabIndex = 2;
+            this._buttonSearch.TabIndex = 5;
             this._buttonSearch.Text = "&Search";
             this._buttonSearch.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this._buttonSearch.UseVisualStyleBackColor = true;
@@ -321,7 +296,7 @@
             this._gridResults.RowHeadersVisible = false;
             this._gridResults.RowTemplate.Height = 30;
             this._gridResults.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this._gridResults.Size = new System.Drawing.Size(784, 257);
+            this._gridResults.Size = new System.Drawing.Size(784, 293);
             this._gridResults.StandardTab = true;
             this._gridResults.TabIndex = 4;
             // 
@@ -444,7 +419,7 @@
             this._TableLayoutPanel.Controls.Add(this._labelSelectedTrackPath, 0, 0);
             this._TableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
             this._TableLayoutPanel.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._TableLayoutPanel.Location = new System.Drawing.Point(0, 257);
+            this._TableLayoutPanel.Location = new System.Drawing.Point(0, 293);
             this._TableLayoutPanel.Name = "_TableLayoutPanel";
             this._TableLayoutPanel.RowCount = 1;
             this._TableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -479,7 +454,6 @@
             this.AcceptButton = this._buttonSearch;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this._buttonExit;
             this.ClientSize = new System.Drawing.Size(784, 444);
             this.Controls.Add(this._SplitContainer);
             this.Controls.Add(this._StatusStrip);
@@ -494,12 +468,9 @@
             this._StatusStrip.ResumeLayout(false);
             this._StatusStrip.PerformLayout();
             this._SplitContainer.Panel1.ResumeLayout(false);
+            this._SplitContainer.Panel1.PerformLayout();
             this._SplitContainer.Panel2.ResumeLayout(false);
             this._SplitContainer.ResumeLayout(false);
-            this._groupboxCriteria.ResumeLayout(false);
-            this._groupboxCriteria.PerformLayout();
-            this._ButtonContainer.ResumeLayout(false);
-            this._ButtonContainer.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this._gridResults)).EndInit();
             this._ContextMenuStrip.ResumeLayout(false);
             this._TableLayoutPanel.ResumeLayout(false);
@@ -516,14 +487,8 @@
         private System.Windows.Forms.StatusStrip _StatusStrip;
         private System.Windows.Forms.ToolStripStatusLabel _labelDatabaseLocation;
         private System.Windows.Forms.SplitContainer _SplitContainer;
-        private System.Windows.Forms.GroupBox _groupboxCriteria;
-        private System.Windows.Forms.TextBox _textboxCriteria;
-        private System.Windows.Forms.Label _labelCriteria;
-        private System.Windows.Forms.FlowLayoutPanel _ButtonContainer;
-        private System.Windows.Forms.Button _buttonSearch;
         private System.Windows.Forms.DataGridView _gridResults;
         private System.Windows.Forms.ToolStripStatusLabel _labelTrackCount;
-        private System.Windows.Forms.Button _buttonExit;
         private System.Windows.Forms.ContextMenuStrip _ContextMenuStrip;
         private System.Windows.Forms.ToolStripStatusLabel _labelResults;
         private System.Windows.Forms.ToolStripButton _buttonRefreshDatabase;
@@ -543,9 +508,14 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn _columnRating;
         private System.Windows.Forms.DataGridViewTextBoxColumn _columnPath;
         private System.Windows.Forms.DataGridViewTextBoxColumn _columnFullPath;
-        private System.Windows.Forms.CheckBox _checkboxShowOnlyRatedTracks;
         private System.Windows.Forms.ToolStripMenuItem _menuitemMarkTrackAsInvalid;
         private System.Windows.Forms.ToolStripSeparator _separator1;
         private System.Windows.Forms.ToolStripButton _buttonListInvalidTracks;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripButton _buttonExit;
+        private System.Windows.Forms.CheckBox _checkboxShowOnlyRatedTracks;
+        private System.Windows.Forms.TextBox _textboxCriteria;
+        private System.Windows.Forms.Label _labelCriteria;
+        private System.Windows.Forms.Button _buttonSearch;
     }
 }

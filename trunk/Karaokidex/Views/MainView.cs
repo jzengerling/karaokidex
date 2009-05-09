@@ -36,14 +36,14 @@ namespace Karaokidex.Views
             get { return this._buttonKaraFun; }
         }
 
+        public ToolStripButton buttonExit
+        {
+            get { return this._buttonExit; }
+        }
+
         public Button buttonSearch
         {
             get { return this._buttonSearch; }
-        }
-
-        public Button buttonExit
-        {
-            get { return this._buttonExit; }
         }
 
         public TextBox textboxCriteria

@@ -43,10 +43,10 @@ namespace Karaokidex.ApplicationControllers
                 new EventHandler(MainView_buttonListInvalidTracks_Click);
             this._MainView.buttonKaraFun.Click += 
                 new EventHandler(MainView_buttonKaraFun_Click);
+            this._MainView.buttonExit.Click +=
+                new EventHandler(MainView_buttonExit_Click);
             this._MainView.buttonSearch.Click += 
                 new EventHandler(MainView_buttonSearch_Click);
-            this._MainView.buttonExit.Click += 
-                new EventHandler(MainView_buttonExit_Click);
             this._MainView.gridResults.MouseUp += 
                 new MouseEventHandler(MainView_gridResults_MouseUp);
             this._MainView.gridResults.DoubleClick += 
@@ -227,6 +227,18 @@ namespace Karaokidex.ApplicationControllers
             }
         }
 
+        private void MainView_buttonExit_Click(
+            object sender,
+            EventArgs e)
+        {
+            Application.DoEvents();
+
+            ToolStripButton theExitButton =
+                sender as ToolStripButton;
+
+            Application.Exit();
+        }
+        
         private void MainView_buttonSearch_Click(
             object sender, 
             EventArgs e)
@@ -334,20 +346,6 @@ namespace Karaokidex.ApplicationControllers
 
             theParentView.Cursor =
                 Cursors.Default;
-        }
-
-        private void MainView_buttonExit_Click(
-            object sender,
-            EventArgs e)
-        {
-            Application.DoEvents();
-
-            Button theExitButton =
-                sender as Button;
-            MainView theParentView =
-                theExitButton.FindForm() as MainView;
-
-            Application.Exit();
         }
 
         private void MainView_gridResults_MouseUp(
