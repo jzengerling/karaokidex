@@ -231,7 +231,6 @@
             // 
             // _checkboxShowOnlyRatedTracks
             // 
-            this._checkboxShowOnlyRatedTracks.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._checkboxShowOnlyRatedTracks.AutoSize = true;
             this._checkboxShowOnlyRatedTracks.Location = new System.Drawing.Point(103, 38);
             this._checkboxShowOnlyRatedTracks.Name = "_checkboxShowOnlyRatedTracks";
@@ -260,6 +259,7 @@
             // 
             // _buttonSearch
             // 
+            this._buttonSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._buttonSearch.AutoSize = true;
             this._buttonSearch.Enabled = false;
             this._buttonSearch.Image = global::Karaokidex.Properties.Resources.find;

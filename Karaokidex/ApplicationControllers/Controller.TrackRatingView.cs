@@ -12,7 +12,7 @@ namespace Karaokidex.ApplicationControllers
     {
         #region Methods
         private void TrackRatingView_Show(
-            string theTrackChecksum,
+            long theTrackID,
             TrackRating theTrackRating)
         {
             // Instantiate an instance
@@ -21,7 +21,7 @@ namespace Karaokidex.ApplicationControllers
             theView.buttonOK.Click +=
                 new EventHandler(TrackRatingView_buttonOK_Click);
 
-            theView.TrackChecksum = theTrackChecksum;
+            theView.TrackID = theTrackID;
 
             switch (theTrackRating)
             {
@@ -62,32 +62,38 @@ namespace Karaokidex.ApplicationControllers
             if (theParentView.radio1Star.Checked)
             {
                 DatabaseLayer.UpdateTrackRating(
-                    theParentView.TrackChecksum, 1);
+                    theParentView.TrackID,
+                    TrackRating.OneStar);
             }
             else if (theParentView.radio2Star.Checked)
             {
                 DatabaseLayer.UpdateTrackRating(
-                    theParentView.TrackChecksum, 2);
+                    theParentView.TrackID,
+                    TrackRating.TwoStar);
             }
             else if (theParentView.radio3Star.Checked)
             {
                 DatabaseLayer.UpdateTrackRating(
-                    theParentView.TrackChecksum, 3);
+                    theParentView.TrackID,
+                    TrackRating.ThreeStar);
             }
             else if (theParentView.radio4star.Checked)
             {
                 DatabaseLayer.UpdateTrackRating(
-                    theParentView.TrackChecksum, 4);
+                    theParentView.TrackID,
+                    TrackRating.FourStar);
             }
             else if (theParentView.radio5star.Checked)
             {
                 DatabaseLayer.UpdateTrackRating(
-                    theParentView.TrackChecksum, 5);
+                    theParentView.TrackID,
+                    TrackRating.FiveStar);
             }
             else if (theParentView.radioUnrated.Checked)
             {
                 DatabaseLayer.UpdateTrackRating(
-                    theParentView.TrackChecksum, 0);
+                    theParentView.TrackID,
+                    TrackRating.Unrated);
             }
 
             this.MainView_buttonSearch_Click(

@@ -196,7 +196,7 @@ namespace Karaokidex
                         if (thisFileInfo.Extension.Contains("cdg") || theArchiveContainsCDG)
                         {
                             string thisChecksum = 
-                                CreateDatabaseAgent.GetMD5HashFromFile(
+                                IOOperations.GetMD5HashFromFile(
                                     thisFileInfo.FullName);
                             long thisTrackID = 0;
 
@@ -239,7 +239,7 @@ namespace Karaokidex
                                     theExtensionParameter.Value =
                                         thisFileInfo.Extension;
                                     theChecksumParameter.Value =
-                                        CreateDatabaseAgent.GetMD5HashFromFile(
+                                        IOOperations.GetMD5HashFromFile(
                                             thisFileInfo.FullName);
 
                                     theCommand.ExecuteNonQuery();
@@ -293,26 +293,6 @@ namespace Karaokidex
                 }
             }
             catch { }
-        }
-
-        public static string GetMD5HashFromFile(
-            string theFileName)
-        {
-            if (File.Exists(theFileName))
-            {
-                using (MD5 theMD5Provider = new MD5CryptoServiceProvider())
-                {
-                    using (FileStream theFileStream = new FileStream(theFileName, FileMode.Open))
-                    {
-                        byte[] theChecksum = theMD5Provider.ComputeHash(theFileStream);
-
-                        theFileStream.Close();
-
-                        return BitConverter.ToString(theChecksum).Replace("-", "");
-                    }
-                }
-            }
-            return String.Empty;
         }
         #endregion
         #endregion

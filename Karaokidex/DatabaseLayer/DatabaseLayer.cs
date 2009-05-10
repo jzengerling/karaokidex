@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Data;
+using Karaokidex.Enumerators;
 
 namespace Karaokidex
 {
@@ -284,8 +285,8 @@ namespace Karaokidex
         }
 
         public static void UpdateTrackRating(
-            string theChecksum,
-            int theTrackRating)
+            long theTrackID,
+            TrackRating theTrackRating)
         {
             using (SQLiteConnection theConnection = new SQLiteConnection(DatabaseLayer.ConnectionString))
             {
@@ -298,17 +299,17 @@ namespace Karaokidex
                         theCommand.CommandText =
                             "UPDATE [Tracks] " +
                             "SET [Rating] = ? " +
-                            "WHERE [Checksum] = ?";
+                            "WHERE [ID] = ?";
 
                         SQLiteParameter theRatingParameter = theCommand.CreateParameter();
                         theCommand.Parameters.Add(theRatingParameter);
-                        SQLiteParameter theChecksumParameter = theCommand.CreateParameter();
-                        theCommand.Parameters.Add(theChecksumParameter);
+                        SQLiteParameter theTrackIDParameter = theCommand.CreateParameter();
+                        theCommand.Parameters.Add(theTrackIDParameter);
 
                         theRatingParameter.Value =
-                            theTrackRating;
-                        theChecksumParameter.Value =
-                            theChecksum;
+                            (int)theTrackRating;
+                        theTrackIDParameter.Value =
+                            theTrackID;
 
                         theCommand.ExecuteNonQuery();
                     }
