@@ -15,6 +15,16 @@ namespace Karaokidex
         [STAThread]
         static void Main()
         {
+            if (NativeMethods.IsReallyVista && !NativeMethods.IsElevated)
+            {
+                ProcessStartInfo theStartInfo =
+                    new ProcessStartInfo("KaraokidexUACElevationCheckHelper.exe");
+                theStartInfo.UseShellExecute = true;
+                Process.Start(theStartInfo);
+
+                return;
+            } 
+            
             Controller theController = new Controller();
             theController.StartApp();
         }

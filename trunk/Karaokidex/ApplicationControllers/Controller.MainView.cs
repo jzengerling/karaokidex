@@ -565,24 +565,18 @@ namespace Karaokidex.ApplicationControllers
 
             if (!theParentView.gridResults.SelectedRows.Count.Equals(0))
             {
-                FileInfo theTrackFileInfo = new FileInfo(
-                    DatabaseLayer.GetSourceDirectory(new FileInfo(RegistryAgent.LastDatabase)) +
-                    "\\" + theParentView.gridResults.SelectedRows[0].Cells["_columnFullPath"].Value);
+                long theTrackID = Convert.ToInt64(
+                    theParentView.gridResults.SelectedRows[0].Cells["_columnID"].Value,
+                    CultureInfo.CurrentCulture);
 
-                if (theTrackFileInfo.Exists)
-                {
-                    string theTrackChecksum =
-                        CreateDatabaseAgent.GetMD5HashFromFile(
-                            theTrackFileInfo.FullName);
-                    TrackRating theTrackRating =
-                        (TrackRating)Convert.ToInt32(
-                            theParentView.gridResults.SelectedRows[0].Cells["_columnRating"].Value,
-                            CultureInfo.CurrentCulture);
+                TrackRating theTrackRating =
+                    (TrackRating)Convert.ToInt32(
+                        theParentView.gridResults.SelectedRows[0].Cells["_columnRating"].Value,
+                        CultureInfo.CurrentCulture);
 
-                    this.TrackRatingView_Show(
-                        theTrackChecksum,
-                        theTrackRating);
-                }
+                this.TrackRatingView_Show(
+                    theTrackID,
+                    theTrackRating);
             }
         }
 
@@ -622,13 +616,17 @@ namespace Karaokidex.ApplicationControllers
 
                     Application.DoEvents();
 
-                    string theTrackChecksum =
-                        CreateDatabaseAgent.GetMD5HashFromFile(
-                            theTrackFileInfo.FullName);
+                    long theTrackID = Convert.ToInt64(
+                        theParentView.gridResults.SelectedRows[0].Cells["_columnID"].Value,
+                        CultureInfo.CurrentCulture);
 
-                    this.TrackRatingView_Show(
-                        theTrackChecksum,
+                    DatabaseLayer.UpdateTrackRating(
+                        theTrackID,
                         TrackRating.Invalid);
+
+                    this.MainView_buttonSearch_Click(
+                        theParentView.buttonSearch,
+                        new EventArgs());
                 }
             }
         }
