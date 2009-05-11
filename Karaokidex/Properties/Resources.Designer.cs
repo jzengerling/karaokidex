@@ -186,6 +186,13 @@ namespace Karaokidex.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap page_white_acrobat {
+            get {
+                object obj = ResourceManager.GetObject("page_white_acrobat", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap page_white_delete {
             get {
                 object obj = ResourceManager.GetObject("page_white_delete", resourceCulture);

@@ -36,6 +36,11 @@ namespace Karaokidex.Views
             get { return this._buttonKaraFun; }
         }
 
+        public ToolStripButton buttonOpenKaraokeRequestSheet
+        {
+            get { return this._buttonOpenKaraokeRequestSheet; }
+        }
+
         public ToolStripButton buttonExit
         {
             get { return this._buttonExit; }
