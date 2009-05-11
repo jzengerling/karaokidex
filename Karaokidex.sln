@@ -2,8 +2,11 @@
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Karaokidex", "Karaokidex\Karaokidex.csproj", "{14ABB76C-E47F-4C17-A85E-61D27D618439}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3844D793-A372-45E5-A170-52A659128727} = {3844D793-A372-45E5-A170-52A659128727}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KaraokidexUACElevationCheckHelper", "..\rapidspider\RapidSpiderUACElevationCheckHelper\KaraokidexUACElevationCheckHelper.csproj", "{3844D793-A372-45E5-A170-52A659128727}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KaraokidexUACElevationCheckHelper", "KaraokidexUACElevationCheckHelper\KaraokidexUACElevationCheckHelper.csproj", "{3844D793-A372-45E5-A170-52A659128727}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
