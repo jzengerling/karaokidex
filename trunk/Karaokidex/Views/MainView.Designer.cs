@@ -47,6 +47,7 @@
             this._labelTrackCount = new System.Windows.Forms.ToolStripStatusLabel();
             this._labelResults = new System.Windows.Forms.ToolStripStatusLabel();
             this._SplitContainer = new System.Windows.Forms.SplitContainer();
+            this._buttonClear = new System.Windows.Forms.Button();
             this._checkboxShowOnlyRatedTracks = new System.Windows.Forms.CheckBox();
             this._textboxCriteria = new System.Windows.Forms.TextBox();
             this._labelCriteria = new System.Windows.Forms.Label();
@@ -68,7 +69,6 @@
             this._TableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this._buttonOpenContainingFolder = new System.Windows.Forms.Button();
             this._labelSelectedTrackPath = new System.Windows.Forms.Label();
-            this._buttonClear = new System.Windows.Forms.Button();
             this._ToolStrip.SuspendLayout();
             this._StatusStrip.SuspendLayout();
             this._SplitContainer.Panel1.SuspendLayout();
@@ -230,6 +230,21 @@
             this._SplitContainer.SplitterDistance = 70;
             this._SplitContainer.TabIndex = 0;
             this._SplitContainer.TabStop = false;
+            // 
+            // _buttonClear
+            // 
+            this._buttonClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._buttonClear.AutoSize = true;
+            this._buttonClear.Enabled = false;
+            this._buttonClear.Image = global::Karaokidex.Properties.Resources.page_white;
+            this._buttonClear.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this._buttonClear.Location = new System.Drawing.Point(680, 38);
+            this._buttonClear.Name = "_buttonClear";
+            this._buttonClear.Size = new System.Drawing.Size(100, 29);
+            this._buttonClear.TabIndex = 7;
+            this._buttonClear.Text = "&Clear";
+            this._buttonClear.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this._buttonClear.UseVisualStyleBackColor = true;
             // 
             // _checkboxShowOnlyRatedTracks
             // 
@@ -450,21 +465,6 @@
             this._labelSelectedTrackPath.Size = new System.Drawing.Size(742, 28);
             this._labelSelectedTrackPath.TabIndex = 6;
             this._labelSelectedTrackPath.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // _buttonClear
-            // 
-            this._buttonClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._buttonClear.AutoSize = true;
-            this._buttonClear.Enabled = false;
-            this._buttonClear.Image = global::Karaokidex.Properties.Resources.page_white;
-            this._buttonClear.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this._buttonClear.Location = new System.Drawing.Point(680, 38);
-            this._buttonClear.Name = "_buttonClear";
-            this._buttonClear.Size = new System.Drawing.Size(100, 29);
-            this._buttonClear.TabIndex = 7;
-            this._buttonClear.Text = "&Clear";
-            this._buttonClear.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this._buttonClear.UseVisualStyleBackColor = true;
             // 
             // MainView
             // 

@@ -259,7 +259,9 @@ namespace Karaokidex.ApplicationControllers
 
             if (!String.IsNullOrEmpty(theParentView.textboxCriteria.Text))
             {
-                theParentView.buttonSearch.Enabled = false;
+                theParentView.buttonSearch.Enabled = 
+                    theParentView.buttonClear.Enabled =
+                        false;
                 theParentView.gridResults.Rows.Clear();
 
                 foreach (DataRow thisRow in DatabaseLayer.SearchDatabase(
@@ -329,6 +331,7 @@ namespace Karaokidex.ApplicationControllers
 
                 if (!theParentView.gridResults.Rows.Count.Equals(0))
                 {
+                    theParentView.buttonClear.Enabled = true;
                     theParentView.gridResults.Focus();
                 }
             }
