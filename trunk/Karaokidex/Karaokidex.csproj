@@ -40,7 +40,7 @@
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>index.html</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>55</ApplicationRevision>
+    <ApplicationRevision>60</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -89,6 +89,7 @@
     <Compile Include="DatabaseLayer\DatabaseLayer.cs" />
     <Compile Include="Enumerators\TrackRating.Enumerator.cs" />
     <Compile Include="Enumerators\DatabaseMode.Enumerator.cs" />
+    <Compile Include="FileAssociation.cs" />
     <Compile Include="FileSort.cs" />
     <Compile Include="DirectorySort.cs" />
     <Compile Include="IOOperations.cs" />
@@ -126,6 +127,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="app.config" />
+    <Content Include="KaraokeRequest.pdf" />
     <None Include="Karaokidex_TemporaryKey.pfx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

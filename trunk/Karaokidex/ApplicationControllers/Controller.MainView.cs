@@ -43,6 +43,8 @@ namespace Karaokidex.ApplicationControllers
                 new EventHandler(MainView_buttonListInvalidTracks_Click);
             this._MainView.buttonKaraFun.Click += 
                 new EventHandler(MainView_buttonKaraFun_Click);
+            this._MainView.buttonOpenKaraokeRequestSheet.Click += 
+                new EventHandler(MainView_buttonOpenKaraokeRequestSheet_Click);
             this._MainView.buttonExit.Click +=
                 new EventHandler(MainView_buttonExit_Click);
             this._MainView.buttonSearch.Click += 
@@ -120,6 +122,11 @@ namespace Karaokidex.ApplicationControllers
                 case Keys.F6:
                     this.MainView_buttonKaraFun_Click(
                         this._MainView.buttonKaraFun,
+                        new EventArgs());
+                    break;
+                case Keys.F7:
+                    this.MainView_buttonOpenKaraokeRequestSheet_Click(
+                        this._MainView.buttonOpenKaraokeRequestSheet,
                         new EventArgs());
                     break;
             }
@@ -226,6 +233,22 @@ namespace Karaokidex.ApplicationControllers
                 default:
                     Process.Start(RegistryAgent.KaraFunExecutablePath);
                     break;
+            }
+        }
+
+        private void MainView_buttonOpenKaraokeRequestSheet_Click(
+            object sender, 
+            EventArgs e)
+        {
+            Application.DoEvents();
+
+            if (String.IsNullOrEmpty(FileAssociation.Get(".pdf")))
+            {
+                Process.Start("http://get.adobe.com/uk/reader/");
+            }
+            else
+            {
+                Process.Start("KaraokeRequest.pdf");
             }
         }
 
@@ -379,8 +402,6 @@ namespace Karaokidex.ApplicationControllers
 
             theParentView.menuitemEnqueueInKaraFun.Enabled =
                 theParentView.menuitemPlayInKaraFun.Enabled =
-                theParentView.menuitemEditTrackRating.Enabled =
-                theParentView.menuitemMarkTrackAsInvalid.Enabled =
                     false;
 
             if (!theResultsGrid.SelectedRows.Count.Equals(0))
@@ -388,14 +409,6 @@ namespace Karaokidex.ApplicationControllers
                 theParentView.menuitemEnqueueInKaraFun.Enabled =
                     theParentView.menuitemPlayInKaraFun.Enabled =
                         RegistryAgent.IsKaraFunInstalled;
-
-                FileInfo theTrackFileInfo = new FileInfo(
-                    DatabaseLayer.GetSourceDirectory(new FileInfo(RegistryAgent.LastDatabase)) +
-                    "\\" + theResultsGrid.SelectedRows[0].Cells["_columnFullPath"].Value);
-
-                theParentView.menuitemEditTrackRating.Enabled =
-                    theParentView.menuitemMarkTrackAsInvalid.Enabled =
-                        theTrackFileInfo.Exists;
             }
         }
 
