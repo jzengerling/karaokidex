@@ -68,6 +68,7 @@
             this._TableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this._buttonOpenContainingFolder = new System.Windows.Forms.Button();
             this._labelSelectedTrackPath = new System.Windows.Forms.Label();
+            this._buttonClear = new System.Windows.Forms.Button();
             this._ToolStrip.SuspendLayout();
             this._StatusStrip.SuspendLayout();
             this._SplitContainer.Panel1.SuspendLayout();
@@ -214,6 +215,7 @@
             // _SplitContainer.Panel1
             // 
             this._SplitContainer.Panel1.BackColor = System.Drawing.Color.White;
+            this._SplitContainer.Panel1.Controls.Add(this._buttonClear);
             this._SplitContainer.Panel1.Controls.Add(this._checkboxShowOnlyRatedTracks);
             this._SplitContainer.Panel1.Controls.Add(this._textboxCriteria);
             this._SplitContainer.Panel1.Controls.Add(this._labelCriteria);
@@ -225,14 +227,14 @@
             this._SplitContainer.Panel2.Controls.Add(this._gridResults);
             this._SplitContainer.Panel2.Controls.Add(this._TableLayoutPanel);
             this._SplitContainer.Size = new System.Drawing.Size(784, 395);
-            this._SplitContainer.SplitterDistance = 64;
+            this._SplitContainer.SplitterDistance = 70;
             this._SplitContainer.TabIndex = 0;
             this._SplitContainer.TabStop = false;
             // 
             // _checkboxShowOnlyRatedTracks
             // 
             this._checkboxShowOnlyRatedTracks.AutoSize = true;
-            this._checkboxShowOnlyRatedTracks.Location = new System.Drawing.Point(103, 38);
+            this._checkboxShowOnlyRatedTracks.Location = new System.Drawing.Point(103, 42);
             this._checkboxShowOnlyRatedTracks.Name = "_checkboxShowOnlyRatedTracks";
             this._checkboxShowOnlyRatedTracks.Size = new System.Drawing.Size(201, 23);
             this._checkboxShowOnlyRatedTracks.TabIndex = 6;
@@ -296,7 +298,7 @@
             this._gridResults.RowHeadersVisible = false;
             this._gridResults.RowTemplate.Height = 30;
             this._gridResults.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this._gridResults.Size = new System.Drawing.Size(784, 293);
+            this._gridResults.Size = new System.Drawing.Size(784, 287);
             this._gridResults.StandardTab = true;
             this._gridResults.TabIndex = 4;
             // 
@@ -419,7 +421,7 @@
             this._TableLayoutPanel.Controls.Add(this._labelSelectedTrackPath, 0, 0);
             this._TableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
             this._TableLayoutPanel.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._TableLayoutPanel.Location = new System.Drawing.Point(0, 293);
+            this._TableLayoutPanel.Location = new System.Drawing.Point(0, 287);
             this._TableLayoutPanel.Name = "_TableLayoutPanel";
             this._TableLayoutPanel.RowCount = 1;
             this._TableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -448,6 +450,21 @@
             this._labelSelectedTrackPath.Size = new System.Drawing.Size(742, 28);
             this._labelSelectedTrackPath.TabIndex = 6;
             this._labelSelectedTrackPath.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // _buttonClear
+            // 
+            this._buttonClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._buttonClear.AutoSize = true;
+            this._buttonClear.Enabled = false;
+            this._buttonClear.Image = global::Karaokidex.Properties.Resources.page_white;
+            this._buttonClear.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this._buttonClear.Location = new System.Drawing.Point(680, 38);
+            this._buttonClear.Name = "_buttonClear";
+            this._buttonClear.Size = new System.Drawing.Size(100, 29);
+            this._buttonClear.TabIndex = 7;
+            this._buttonClear.Text = "&Clear";
+            this._buttonClear.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this._buttonClear.UseVisualStyleBackColor = true;
             // 
             // MainView
             // 
@@ -517,5 +534,6 @@
         private System.Windows.Forms.TextBox _textboxCriteria;
         private System.Windows.Forms.Label _labelCriteria;
         private System.Windows.Forms.Button _buttonSearch;
+        private System.Windows.Forms.Button _buttonClear;
     }
 }
