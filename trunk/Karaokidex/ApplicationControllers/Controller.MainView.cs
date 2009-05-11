@@ -47,6 +47,8 @@ namespace Karaokidex.ApplicationControllers
                 new EventHandler(MainView_buttonExit_Click);
             this._MainView.buttonSearch.Click += 
                 new EventHandler(MainView_buttonSearch_Click);
+            this._MainView.buttonClear.Click += 
+                new EventHandler(MainView_buttonClear_Click);
             this._MainView.gridResults.MouseUp += 
                 new MouseEventHandler(MainView_gridResults_MouseUp);
             this._MainView.gridResults.DoubleClick += 
@@ -327,7 +329,6 @@ namespace Karaokidex.ApplicationControllers
 
                 if (!theParentView.gridResults.Rows.Count.Equals(0))
                 {
-                    theParentView.gridResults.ClearSelection();
                     theParentView.gridResults.Focus();
                 }
             }
@@ -346,6 +347,20 @@ namespace Karaokidex.ApplicationControllers
 
             theParentView.Cursor =
                 Cursors.Default;
+        }
+
+        private void MainView_buttonClear_Click(
+            object sender, 
+            EventArgs e)
+        {
+            Application.DoEvents();
+
+            Button theClearButton =
+                sender as Button;
+            MainView theParentView =
+                theClearButton.FindForm() as MainView;
+
+            theParentView.gridResults.Rows.Clear();
         }
 
         private void MainView_gridResults_MouseUp(

@@ -46,6 +46,11 @@ namespace Karaokidex.Views
             get { return this._buttonSearch; }
         }
 
+        public Button buttonClear
+        {
+            get { return this._buttonClear; }
+        }
+
         public TextBox textboxCriteria
         {
             get { return this._textboxCriteria; }
