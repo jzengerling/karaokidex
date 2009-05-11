@@ -5,14 +5,15 @@ using System.Diagnostics;
 
 namespace KaraokidexUACElevationCheckHelper
 {
-    class Program
+    static class Program
     {
         static void Main(string[] args)
         {
-            string appExe = 
+            string theApplicationExecutable = 
                 Environment.GetFolderPath(Environment.SpecialFolder.Programs) + 
                 @"\www.ne0ge0.com\Karaokidex.appref-ms";
-            Process.Start(appExe);
+            
+            Process.Start(theApplicationExecutable);
         }
     }
 }

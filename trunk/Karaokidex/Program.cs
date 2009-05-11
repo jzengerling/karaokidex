@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using System.Configuration;
 using System.Diagnostics;
 using Karaokidex.ApplicationControllers;
+using System.IO;
 
 namespace Karaokidex
 {
@@ -20,8 +21,8 @@ namespace Karaokidex
                 ProcessStartInfo theStartInfo =
                     new ProcessStartInfo("KaraokidexUACElevationCheckHelper.exe");
                 theStartInfo.UseShellExecute = true;
-                Process.Start(theStartInfo);
 
+                Process.Start(theStartInfo);
                 return;
             } 
             
