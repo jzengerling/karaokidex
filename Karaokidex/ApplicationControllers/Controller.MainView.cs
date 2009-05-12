@@ -520,7 +520,9 @@ namespace Karaokidex.ApplicationControllers
             ContextMenuStrip theContextMenuStrip =
                 theOpenContainingFolder.Owner as ContextMenuStrip;
             MainView theParentView =
-                theContextMenuStrip.SourceControl.FindForm() as MainView;
+                null == theContextMenuStrip.SourceControl
+                ? this._MainView
+                : theContextMenuStrip.SourceControl.FindForm() as MainView;
 
             this.MainView_gridResults_DoubleClick(
                 theParentView.gridResults, new EventArgs());
@@ -537,7 +539,9 @@ namespace Karaokidex.ApplicationControllers
             ContextMenuStrip theContextMenuStrip =
                 theOpenContainingFolder.Owner as ContextMenuStrip;
             MainView theParentView =
-                theContextMenuStrip.SourceControl.FindForm() as MainView;
+                null == theContextMenuStrip.SourceControl
+                ? this._MainView
+                : theContextMenuStrip.SourceControl.FindForm() as MainView;
 
             if (!theParentView.gridResults.SelectedRows.Count.Equals(0))
             {
@@ -592,7 +596,9 @@ namespace Karaokidex.ApplicationControllers
             ContextMenuStrip theContextMenuStrip =
                 theOpenContainingFolder.Owner as ContextMenuStrip;
             MainView theParentView =
-                theContextMenuStrip.SourceControl.FindForm() as MainView;
+                null == theContextMenuStrip.SourceControl 
+                ? this._MainView
+                : theContextMenuStrip.SourceControl.FindForm() as MainView;
 
             if (!theParentView.gridResults.SelectedRows.Count.Equals(0))
             {
@@ -622,7 +628,9 @@ namespace Karaokidex.ApplicationControllers
             ContextMenuStrip theContextMenuStrip =
                 theOpenContainingFolder.Owner as ContextMenuStrip;
             MainView theParentView =
-                theContextMenuStrip.SourceControl.FindForm() as MainView;
+                null == theContextMenuStrip.SourceControl
+                ? this._MainView
+                : theContextMenuStrip.SourceControl.FindForm() as MainView;
 
             if (!theParentView.gridResults.SelectedRows.Count.Equals(0))
             {
