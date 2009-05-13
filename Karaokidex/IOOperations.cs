@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using System.Security.Cryptography;
+using ICSharpCode.SharpZipLib.Checksums;
 
 namespace Karaokidex
 {
@@ -26,6 +27,25 @@ namespace Karaokidex
                 }
             }
             return String.Empty;
+        }
+
+        public static long CalculateCRC32(
+            string theFileName)
+        {
+            using (FileStream theFileStream = File.OpenRead(theFileName))
+            {
+                Crc32 theCRC32Provider = new Crc32();
+
+                byte[] theBuffer = new byte[theFileStream.Length];
+
+                theFileStream.Read(theBuffer, 0, theBuffer.Length);
+
+                theCRC32Provider.Reset();
+
+                theCRC32Provider.Update(theBuffer);
+
+                return theCRC32Provider.Value;
+            }
         }
     }
 }
