@@ -5,6 +5,7 @@ using System.Threading;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
 using System.Globalization;
+using System.Deployment.Application;
 
 #endregion
 
@@ -15,6 +16,29 @@ namespace Karaokidex.ApplicationControllers
         #region Members
         private ApplicationContext _AppContext;
         private IntPtr _NativeResource;
+        #endregion
+
+        #region Properties
+        public static string PublishVersion
+        {
+            get
+            {
+                if (ApplicationDeployment.IsNetworkDeployed)
+                {
+                    ApplicationDeployment ad =
+                        ApplicationDeployment.CurrentDeployment;
+
+                    return String.Format(
+                        CultureInfo.CurrentCulture,
+                        "Version: {0}.{1}.{2}.{3}",
+                        ad.CurrentVersion.Major,
+                        ad.CurrentVersion.Minor,
+                        ad.CurrentVersion.Build,
+                        ad.CurrentVersion.Revision);
+                }
+                return "Not Deployed";
+            }
+        }
         #endregion
 
         #region Methods

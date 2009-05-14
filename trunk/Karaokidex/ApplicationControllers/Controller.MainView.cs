@@ -64,6 +64,9 @@ namespace Karaokidex.ApplicationControllers
             this._MainView.buttonOpenContainingFolder.Click += 
                 new EventHandler(MainView_buttonOpenContainingFolder_Click);
 
+            this._MainView.labelVersion.Text =
+                Controller.PublishVersion; 
+            
             this._AppContext.MainForm = this._MainView;
 
             this._MainView.Show();

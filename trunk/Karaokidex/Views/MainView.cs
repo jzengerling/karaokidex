@@ -11,9 +11,12 @@ namespace Karaokidex.Views
 {
     public partial class MainView : Form
     {
+        #region Constants
         private const int SNAP_OFFSET = 30;
         private const int WM_WINDOWPOSCHANGING = 70;
+        #endregion
 
+        #region Structs
         [StructLayout(LayoutKind.Sequential)]
         public struct WINDOWPOS
         {
@@ -25,6 +28,7 @@ namespace Karaokidex.Views
             public int cy;
             public int flags;
         }
+        #endregion
 
         #region Properties
         public ToolStripButton buttonCreateDatabase
@@ -115,6 +119,11 @@ namespace Karaokidex.Views
         public ToolStripMenuItem menuitemMarkTrackAsInvalid
         {
             get { return this._menuitemMarkTrackAsInvalid; }
+        }
+
+        public ToolStripLabel labelVersion
+        {
+            get { return this._labelVersion; }
         }
 
         public ToolStripLabel labelDatabaseLocation
