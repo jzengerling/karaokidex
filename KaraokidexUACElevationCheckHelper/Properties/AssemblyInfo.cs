@@ -6,11 +6,11 @@ using System.Resources;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("KaraokidexCheckHelper for RapidSpider")]
+[assembly: AssemblyTitle("UACElevationCheckHelper for Karaokidex")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("www.ne0ge0.com")]
-[assembly: AssemblyProduct("UACElevationCheckHelper for RapidSpider")]
+[assembly: AssemblyProduct("UACElevationCheckHelper for Karaokidex")]
 [assembly: AssemblyCopyright("Copyright © www.ne0ge0.com 2009")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

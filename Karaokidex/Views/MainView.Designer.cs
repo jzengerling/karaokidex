@@ -70,6 +70,7 @@
             this._TableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this._buttonOpenContainingFolder = new System.Windows.Forms.Button();
             this._labelSelectedTrackPath = new System.Windows.Forms.Label();
+            this._labelVersion = new System.Windows.Forms.ToolStripStatusLabel();
             this._ToolStrip.SuspendLayout();
             this._StatusStrip.SuspendLayout();
             this._SplitContainer.Panel1.SuspendLayout();
@@ -182,10 +183,11 @@
             // _StatusStrip
             // 
             this._StatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this._labelVersion,
             this._labelDatabaseLocation,
             this._labelTrackCount,
             this._labelResults});
-            this._StatusStrip.Location = new System.Drawing.Point(0, 420);
+            this._StatusStrip.Location = new System.Drawing.Point(0, 260);
             this._StatusStrip.Name = "_StatusStrip";
             this._StatusStrip.Size = new System.Drawing.Size(784, 24);
             this._StatusStrip.TabIndex = 0;
@@ -193,8 +195,10 @@
             // 
             // _labelDatabaseLocation
             // 
+            this._labelDatabaseLocation.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
+            this._labelDatabaseLocation.BorderStyle = System.Windows.Forms.Border3DStyle.Etched;
             this._labelDatabaseLocation.Name = "_labelDatabaseLocation";
-            this._labelDatabaseLocation.Size = new System.Drawing.Size(116, 19);
+            this._labelDatabaseLocation.Size = new System.Drawing.Size(120, 19);
             this._labelDatabaseLocation.Text = "No database opened";
             // 
             // _labelTrackCount
@@ -237,7 +241,7 @@
             // 
             this._SplitContainer.Panel2.Controls.Add(this._gridResults);
             this._SplitContainer.Panel2.Controls.Add(this._TableLayoutPanel);
-            this._SplitContainer.Size = new System.Drawing.Size(784, 395);
+            this._SplitContainer.Size = new System.Drawing.Size(784, 235);
             this._SplitContainer.SplitterDistance = 70;
             this._SplitContainer.TabIndex = 0;
             this._SplitContainer.TabStop = false;
@@ -324,7 +328,7 @@
             this._gridResults.RowHeadersVisible = false;
             this._gridResults.RowTemplate.Height = 30;
             this._gridResults.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this._gridResults.Size = new System.Drawing.Size(784, 287);
+            this._gridResults.Size = new System.Drawing.Size(784, 127);
             this._gridResults.StandardTab = true;
             this._gridResults.TabIndex = 4;
             // 
@@ -447,7 +451,7 @@
             this._TableLayoutPanel.Controls.Add(this._labelSelectedTrackPath, 0, 0);
             this._TableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
             this._TableLayoutPanel.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._TableLayoutPanel.Location = new System.Drawing.Point(0, 287);
+            this._TableLayoutPanel.Location = new System.Drawing.Point(0, 127);
             this._TableLayoutPanel.Name = "_TableLayoutPanel";
             this._TableLayoutPanel.RowCount = 1;
             this._TableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -477,12 +481,18 @@
             this._labelSelectedTrackPath.TabIndex = 6;
             this._labelSelectedTrackPath.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // _labelVersion
+            // 
+            this._labelVersion.Name = "_labelVersion";
+            this._labelVersion.Size = new System.Drawing.Size(66, 19);
+            this._labelVersion.Text = "Version: {0}";
+            // 
             // MainView
             // 
             this.AcceptButton = this._buttonSearch;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(784, 444);
+            this.ClientSize = new System.Drawing.Size(784, 284);
             this.Controls.Add(this._SplitContainer);
             this.Controls.Add(this._StatusStrip);
             this.Controls.Add(this._ToolStrip);
@@ -548,5 +558,6 @@
         private System.Windows.Forms.Button _buttonSearch;
         private System.Windows.Forms.Button _buttonClear;
         private System.Windows.Forms.ToolStripButton _buttonOpenKaraokeRequestSheet;
+        private System.Windows.Forms.ToolStripStatusLabel _labelVersion;
     }
 }
