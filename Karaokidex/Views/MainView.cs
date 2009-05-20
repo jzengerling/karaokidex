@@ -56,11 +56,16 @@ namespace Karaokidex.Views
             get { return this._buttonKaraFun; }
         }
 
-        public ToolStripButton buttonOpenKaraokeRequestSheet
+        public ToolStripMenuItem menuitemOpenKaraokeRequestSheet
         {
-            get { return this._buttonOpenKaraokeRequestSheet; }
+            get { return this._menuitemOpenKaraokeRequestSheet; }
         }
 
+        public ToolStripMenuItem menuitemCreateKaraokeTrackCatalogue
+        {
+            get { return this._menuitemCreateKaraokeTrackCatalogue; }
+        }
+        
         public ToolStripButton buttonExit
         {
             get { return this._buttonExit; }
@@ -139,6 +144,11 @@ namespace Karaokidex.Views
         public ToolStripLabel labelResults
         {
             get { return this._labelResults; }
+        }
+
+        public SaveFileDialog SaveFileDialog
+        {
+            get { return this._SaveFileDialog; }
         }
         #endregion
 
