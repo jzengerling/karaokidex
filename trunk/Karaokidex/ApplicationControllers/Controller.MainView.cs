@@ -37,8 +37,10 @@ namespace Karaokidex.ApplicationControllers
                 new EventHandler(MainView_buttonListInvalidTracks_Click);
             this._MainView.buttonKaraFun.Click += 
                 new EventHandler(MainView_buttonKaraFun_Click);
-            this._MainView.buttonOpenKaraokeRequestSheet.Click += 
-                new EventHandler(MainView_buttonOpenKaraokeRequestSheet_Click);
+            this._MainView.menuitemOpenKaraokeRequestSheet.Click += 
+                new EventHandler(MainView_menuitemOpenKaraokeRequestSheet_Click);
+            this._MainView.menuitemCreateKaraokeTrackCatalogue.Click +=
+                new EventHandler(MainView_menuitemCreateKaraokeTrackCatalogue_Click);
             this._MainView.buttonExit.Click +=
                 new EventHandler(MainView_buttonExit_Click);
             this._MainView.buttonSearch.Click += 
@@ -122,8 +124,8 @@ namespace Karaokidex.ApplicationControllers
                         new EventArgs());
                     break;
                 case Keys.F7:
-                    this.MainView_buttonOpenKaraokeRequestSheet_Click(
-                        this._MainView.buttonOpenKaraokeRequestSheet,
+                    this.MainView_menuitemOpenKaraokeRequestSheet_Click(
+                        this._MainView.menuitemOpenKaraokeRequestSheet,
                         new EventArgs());
                     break;
             }
@@ -233,7 +235,7 @@ namespace Karaokidex.ApplicationControllers
             }
         }
 
-        private void MainView_buttonOpenKaraokeRequestSheet_Click(
+        private void MainView_menuitemOpenKaraokeRequestSheet_Click(
             object sender, 
             EventArgs e)
         {
@@ -247,6 +249,59 @@ namespace Karaokidex.ApplicationControllers
             {
                 Process.Start("KaraokeRequest.pdf");
             }
+        }
+
+        private void MainView_menuitemCreateKaraokeTrackCatalogue_Click(
+            object sender, 
+            EventArgs e)
+        {
+            Application.DoEvents();
+
+            switch (this._MainView.SaveFileDialog.ShowDialog(
+                this._MainView))
+            {
+                case DialogResult.Cancel:
+                    Application.DoEvents();
+                    return;
+            }
+
+            Application.DoEvents();
+
+            this._MainView.Cursor =
+                Cursors.WaitCursor;
+
+            if (File.Exists(this._MainView.SaveFileDialog.FileName))
+            {
+                File.Delete(this._MainView.SaveFileDialog.FileName);
+            }
+
+            using (StreamWriter theStreamWriter = File.AppendText(
+                this._MainView.SaveFileDialog.FileName))
+            {
+                theStreamWriter.WriteLine("Track Listing created using Karaokidex");
+                theStreamWriter.WriteLine("http://code.google.com/p/karaokidex");
+                theStreamWriter.WriteLine("");
+
+                foreach (DataRow thisRow in DatabaseLayer.ListValidTracks().Rows)
+                {
+                    theStreamWriter.WriteLine(thisRow[0].ToString());
+                }
+
+                theStreamWriter.WriteLine("");
+                theStreamWriter.WriteLine(String.Format(
+                    CultureInfo.CurrentCulture,
+                    "Listing generated on {0}",
+                    DateTime.Now.ToString("dd MMMM yyyy @ HH:mm")));
+                theStreamWriter.WriteLine(String.Format(
+                    CultureInfo.CurrentCulture,
+                    "{0} tracks in database",
+                    DatabaseLayer.ListValidTracks().Rows.Count));
+
+                theStreamWriter.Close();
+            }
+
+            this._MainView.Cursor =
+                Cursors.Default;
         }
 
         private void MainView_buttonExit_Click(
