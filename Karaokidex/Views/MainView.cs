@@ -31,29 +31,49 @@ namespace Karaokidex.Views
         #endregion
 
         #region Properties
-        public ToolStripButton buttonCreateDatabase
+        public ToolStripMenuItem menuitemLaunchKaraFun
         {
-            get { return this._buttonCreateDatabase; }
+            get { return this._menuitemLaunchKaraFun; }
         }
 
-        public ToolStripButton buttonOpenDatabase
+        public ToolStripMenuItem menuitemExit
         {
-            get { return this._buttonOpenDatabase; }
+            get { return this._menuitemExit; }
         }
 
-        public ToolStripButton buttonRefreshDatabase
+        public ToolStripMenuItem menuitemOpenKaraokeDatabase
         {
-            get { return this._buttonRefreshDatabase; }
+            get { return this._menuitemOpenKaraokeDatabase; }
         }
 
-        public ToolStripButton buttonListInvalidTracks
+        public ToolStripMenuItem menuitemCreateKaraokeDatabase
         {
-            get { return this._buttonListInvalidTracks; }
+            get { return this._menuitemCreateKaraokeDatabase; }
         }
 
-        public ToolStripButton buttonKaraFun
+        public ToolStripMenuItem menuitemRefreshKaraokeDatabase
         {
-            get { return this._buttonKaraFun; }
+            get { return this._menuitemRefreshKaraokeDatabase; }
+        }
+
+        public ToolStripMenuItem menuitemListInvalidKaraokeTracks
+        {
+            get { return this._menuitemListInvalidKaraokeTracks; }
+        }
+
+        public ToolStripMenuItem menuitemOpenMusicDatabase
+        {
+            get { return this._menuitemOpenMusicDatabase; }
+        }
+
+        public ToolStripMenuItem menuitemCreateMusicDatabase
+        {
+            get { return this._menuitemCreateMusicDatabase; }
+        }
+
+        public ToolStripMenuItem menuitemRefreshMusicDatabase
+        {
+            get { return this._menuitemRefreshMusicDatabase; }
         }
 
         public ToolStripMenuItem menuitemOpenKaraokeRequestSheet
@@ -64,11 +84,6 @@ namespace Karaokidex.Views
         public ToolStripMenuItem menuitemCreateKaraokeTrackCatalogue
         {
             get { return this._menuitemCreateKaraokeTrackCatalogue; }
-        }
-        
-        public ToolStripButton buttonExit
-        {
-            get { return this._buttonExit; }
         }
 
         public Button buttonSearch
@@ -131,14 +146,14 @@ namespace Karaokidex.Views
             get { return this._labelVersion; }
         }
 
-        public ToolStripLabel labelDatabaseLocation
+        public ToolStripLabel labelKaraokeDatabase
         {
-            get { return this._labelDatabaseLocation; }
+            get { return this._labelKaraokeDatabase; }
         }
 
-        public ToolStripLabel labelTrackCount
+        public ToolStripLabel labelMusicDatabase
         {
-            get { return this._labelTrackCount; }
+            get { return this._labelMusicDatabase; }
         }
 
         public ToolStripLabel labelResults

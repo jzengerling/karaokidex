@@ -173,7 +173,6 @@
             this.Name = "CreateDatabaseView";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Create a Database";
             this._ButtonContainer.ResumeLayout(false);
             this._groupboxSourceDirectory.ResumeLayout(false);
             this._groupboxSourceDirectory.PerformLayout();

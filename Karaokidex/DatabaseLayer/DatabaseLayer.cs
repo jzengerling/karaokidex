@@ -54,7 +54,7 @@ namespace Karaokidex
         #endregion
 
         #region Methods
-        public static void CreateDatabase(
+        public static void CreateKaraokeDatabase(
             FileInfo theDatabaseFileInfo)
         {
             SQLiteConnection.CreateFile(theDatabaseFileInfo.FullName);
@@ -109,6 +109,60 @@ namespace Karaokidex
             }
         }
 
+        public static void CreateMusicDatabase(
+            FileInfo theDatabaseFileInfo)
+        {
+            SQLiteConnection.CreateFile(theDatabaseFileInfo.FullName);
+
+            DatabaseLayer.ConnectionString = String.Format(
+                CultureInfo.CurrentCulture,
+                "Data Source={0}; UTF8Encoding=True; Version=3; Pooling=True",
+                theDatabaseFileInfo.FullName);
+
+            using (SQLiteConnection theConnection = new SQLiteConnection(DatabaseLayer.ConnectionString))
+            {
+                try
+                {
+                    theConnection.Open();
+
+                    using (SQLiteCommand theCommand = theConnection.CreateCommand())
+                    {
+                        StringBuilder theCommandText = new StringBuilder();
+
+                        theCommandText.Append("CREATE TABLE [Settings] (");
+                        theCommandText.Append("[ID] [integer] PRIMARY KEY AUTOINCREMENT,");
+                        theCommandText.Append("[Key] [text],");
+                        theCommandText.Append("[Value] [text])");
+
+                        theCommand.CommandText = theCommandText.ToString();
+
+                        theCommand.ExecuteNonQuery();
+                    }
+
+                    using (SQLiteCommand theCommand = theConnection.CreateCommand())
+                    {
+                        StringBuilder theCommandText = new StringBuilder();
+
+                        theCommandText.Append("CREATE TABLE [Tracks] (");
+                        theCommandText.Append("[ID] [integer] PRIMARY KEY AUTOINCREMENT,");
+                        theCommandText.Append("[Path] [text],");
+                        theCommandText.Append("[Details] [text],");
+                        theCommandText.Append("[Extension] [text],");
+                        theCommandText.Append("[Checksum] [text],");
+                        theCommandText.Append("[ToBeDeleted] [boolean] DEFAULT 0)");
+
+                        theCommand.CommandText = theCommandText.ToString();
+
+                        theCommand.ExecuteNonQuery();
+                    }
+                }
+                finally
+                {
+                    theConnection.Close();
+                }
+            }
+        }
+        
         public static string GetSourceDirectory(
             FileInfo theDatabaseFileInfo)
         {
