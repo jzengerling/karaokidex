@@ -26,17 +26,19 @@ namespace Karaokidex.ApplicationControllers
 
             switch (theMode)
             {
-                case DatabaseMode.Refresh:
+                case DatabaseMode.RefreshMusic:
                     theView.textboxSourceDirectory.Text = 
                         DatabaseLayer.GetSourceDirectory(
-                            new FileInfo(RegistryAgent.LastDatabase));
+                            new FileInfo(RegistryAgent.LastMusicDatabase));
                     theView.textboxTargetFile.Text =
-                        RegistryAgent.LastDatabase;
-
-                    theView.Text = "Refresh Database";
+                        RegistryAgent.LastMusicDatabase;
                     break;
                 default:
-                    theView.Text = "Create a Database";
+                    theView.textboxSourceDirectory.Text =
+                        DatabaseLayer.GetSourceDirectory(
+                            new FileInfo(RegistryAgent.LastKaraokeDatabase));
+                    theView.textboxTargetFile.Text =
+                        RegistryAgent.LastKaraokeDatabase;
                     break;
             }
 
@@ -100,10 +102,16 @@ namespace Karaokidex.ApplicationControllers
 
             theParentView.DisableView();
 
-            if (theParentView.Mode.Equals(DatabaseMode.Create))
+            switch (theParentView.Mode)
             {
-                DatabaseLayer.CreateDatabase(
-                    new FileInfo(theParentView.textboxTargetFile.Text));
+                case DatabaseMode.CreateKaraoke:
+                    DatabaseLayer.CreateKaraokeDatabase(
+                        new FileInfo(theParentView.textboxTargetFile.Text));
+                    break;
+                case DatabaseMode.CreateMusic:
+                    DatabaseLayer.CreateMusicDatabase(
+                        new FileInfo(theParentView.textboxTargetFile.Text));
+                    break;
             }
 
             this.CreateDatabaseAgentView_Show(

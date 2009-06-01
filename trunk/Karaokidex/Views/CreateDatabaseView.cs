@@ -12,7 +12,7 @@ namespace Karaokidex.Views
     public partial class CreateDatabaseView : Form
     {
         #region Members
-        private DatabaseMode _Mode = DatabaseMode.Create;
+        private DatabaseMode _Mode = DatabaseMode.CreateKaraoke;
         #endregion
 
         #region Properties
@@ -69,6 +69,22 @@ namespace Karaokidex.Views
             InitializeComponent();
 
             this._Mode = theMode;
+
+            switch (theMode)
+            {
+                case DatabaseMode.RefreshKaraoke:
+                    this.Text = "Refresh a Karaoke Database";
+                    break;
+                case DatabaseMode.CreateMusic:
+                    this.Text = "Create a Music Database";
+                    break;
+                case DatabaseMode.RefreshMusic:
+                    this.Text = "Refresh a Music Database";
+                    break;
+                default:
+                    this.Text = "Create a Karaoke Database";
+                    break;
+            }
         }
 
         #region Private Helpers

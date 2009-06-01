@@ -5,12 +5,22 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using Karaokidex.Enumerators;
 
 namespace Karaokidex.Views
 {
     public partial class OpenDatabaseView : Form
     {
+        #region Members
+        private OpenDatabaseModeEnumerator _Mode = OpenDatabaseModeEnumerator.Karaoke;
+        #endregion
+
         #region Properties
+        public OpenDatabaseModeEnumerator Mode
+        {
+            get { return this._Mode; }
+        }
+
         public TextBox textboxSourceDirectory
         {
             get { return this._textboxSourceDirectory; }
@@ -53,9 +63,12 @@ namespace Karaokidex.Views
         #endregion
 
         #region Methods
-        public OpenDatabaseView()
+        public OpenDatabaseView(
+            OpenDatabaseModeEnumerator theMode)
         {
             InitializeComponent();
+
+            this._Mode = theMode;
         }
 
         #region Private Helpers

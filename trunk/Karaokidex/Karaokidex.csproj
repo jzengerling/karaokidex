@@ -40,7 +40,7 @@
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>index.html</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>73</ApplicationRevision>
+    <ApplicationRevision>76</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -87,6 +87,7 @@
     <Compile Include="ApplicationControllers\Controller.TrackRatingView.cs" />
     <Compile Include="DatabaseLayer\CreateDatabaseAgent.cs" />
     <Compile Include="DatabaseLayer\DatabaseLayer.cs" />
+    <Compile Include="Enumerators\OpenDatabaseModeEnumerator.cs" />
     <Compile Include="Enumerators\TrackRating.Enumerator.cs" />
     <Compile Include="Enumerators\DatabaseMode.Enumerator.cs" />
     <Compile Include="FileAssociation.cs" />

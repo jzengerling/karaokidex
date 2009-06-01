@@ -11,10 +11,11 @@ namespace Karaokidex.ApplicationControllers
     public partial class Controller
     {
         #region Methods
-        private void OpenDatabaseView_Show()
+        private void OpenDatabaseView_Show(
+            OpenDatabaseModeEnumerator theMode)
         {
             // Instantiate an instance
-            OpenDatabaseView theView = new OpenDatabaseView();
+            OpenDatabaseView theView = new OpenDatabaseView(theMode);
 
             theView.buttonSourceDirectory.Click +=
                 new EventHandler(OpenDatabaseView_buttonSourceDirectory_Click);
@@ -28,10 +29,11 @@ namespace Karaokidex.ApplicationControllers
         }
         
         private void OpenDatabaseView_Show(
+            OpenDatabaseModeEnumerator theMode,
             FileInfo theDatabaseFileInfo)
         {
             // Instantiate an instance
-            OpenDatabaseView theView = new OpenDatabaseView();
+            OpenDatabaseView theView = new OpenDatabaseView(theMode);
 
             theView.buttonSourceDirectory.Click += 
                 new EventHandler(OpenDatabaseView_buttonSourceDirectory_Click);
@@ -114,12 +116,25 @@ namespace Karaokidex.ApplicationControllers
             OpenDatabaseView theParentView =
                 theOKButton.FindForm() as OpenDatabaseView;
 
-            RegistryAgent.LastDatabase =
-                theParentView.textboxDatabaseFile.Text;
+            switch (theParentView.Mode)
+            {
+                case OpenDatabaseModeEnumerator.Music:
+                    RegistryAgent.LastMusicDatabase =
+                        theParentView.textboxDatabaseFile.Text;
 
-            DatabaseLayer.SetSourceDirectory(
-                new FileInfo(RegistryAgent.LastDatabase),
-                new DirectoryInfo(theParentView.textboxSourceDirectory.Text));
+                    DatabaseLayer.SetSourceDirectory(
+                        new FileInfo(RegistryAgent.LastMusicDatabase),
+                        new DirectoryInfo(theParentView.textboxSourceDirectory.Text));
+                    break;
+                default:
+                    RegistryAgent.LastKaraokeDatabase =
+                        theParentView.textboxDatabaseFile.Text;
+
+                    DatabaseLayer.SetSourceDirectory(
+                        new FileInfo(RegistryAgent.LastKaraokeDatabase),
+                        new DirectoryInfo(theParentView.textboxSourceDirectory.Text));
+                    break;
+            }
 
             this.OpenDatabase();
 

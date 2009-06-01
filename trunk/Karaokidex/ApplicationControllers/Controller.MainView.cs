@@ -27,10 +27,10 @@ namespace Karaokidex.ApplicationControllers
 
             this._MainView.KeyUp += 
                 new KeyEventHandler(MainView_KeyUp);
-            this._MainView.buttonOpenDatabase.Click +=
-                new EventHandler(MainView_buttonOpenDatabase_Click);
-            this._MainView.buttonCreateDatabase.Click +=
-                new EventHandler(MainView_buttonCreateDatabase_Click);
+            this._MainView.menuitemOpenKaraokeDatabase.Click +=
+                new EventHandler(MainView_menuitemOpenKaraokeDatabase_Click);
+            this._MainView.menuitemCreateKaraokeDatabase.Click +=
+                new EventHandler(MainView_menuitemCreateKaraokeDatabase_Click);
             this._MainView.buttonRefreshDatabase.Click += 
                 new EventHandler(MainView_buttonRefreshDatabase_Click);
             this._MainView.buttonListInvalidTracks.Click += 
@@ -73,10 +73,18 @@ namespace Karaokidex.ApplicationControllers
 
             this._MainView.Show();
 
-            if (!String.IsNullOrEmpty(RegistryAgent.LastDatabase))
+            if (!String.IsNullOrEmpty(RegistryAgent.LastKaraokeDatabase))
             {
                 this.OpenDatabaseView_Show(
-                    new FileInfo(RegistryAgent.LastDatabase));
+                    OpenDatabaseModeEnumerator.Karaoke,
+                    new FileInfo(RegistryAgent.LastKaraokeDatabase));
+            }
+
+            if (!String.IsNullOrEmpty(RegistryAgent.LastMusicDatabase))
+            {
+                this.OpenDatabaseView_Show(
+                    OpenDatabaseModeEnumerator.Music,
+                    new FileInfo(RegistryAgent.LastMusicDatabase));
             }
 
             if (RegistryAgent.IsKaraFunInstalled)
@@ -99,7 +107,7 @@ namespace Karaokidex.ApplicationControllers
             switch (e.KeyCode)
             {
                 case Keys.F2:
-                    this.MainView_buttonOpenDatabase_Click(
+                    this.MainView_menuitemOpenKaraokeDatabase_Click(
                         this._MainView.buttonOpenDatabase,
                         new EventArgs());
                     break;
@@ -131,30 +139,33 @@ namespace Karaokidex.ApplicationControllers
             }
         }
 
-        private void MainView_buttonOpenDatabase_Click(
+        private void MainView_menuitemOpenKaraokeDatabase_Click(
             object sender, 
             EventArgs e)
         {
             Application.DoEvents();
 
-            if (!String.IsNullOrEmpty(RegistryAgent.LastDatabase))
+            if (!String.IsNullOrEmpty(RegistryAgent.LastKaraokeDatabase))
             {
                 this.OpenDatabaseView_Show(
-                    new FileInfo(RegistryAgent.LastDatabase));
+                    OpenDatabaseModeEnumerator.Karaoke,
+                    new FileInfo(RegistryAgent.LastKaraokeDatabase));
             }
             else
             {
-                this.OpenDatabaseView_Show();
+                this.OpenDatabaseView_Show(
+                    OpenDatabaseModeEnumerator.Karaoke);
             }
         }
 
-        private void MainView_buttonCreateDatabase_Click(
+        private void MainView_menuitemCreateKaraokeDatabase_Click(
             object sender, 
             EventArgs e)
         {
             Application.DoEvents();
 
-            this.CreateDatabaseView_Show(DatabaseMode.Create);
+            this.CreateDatabaseView_Show(
+                CreateDatabaseModeEnumerator.Karaoke);
         }
 
         private void MainView_buttonRefreshDatabase_Click(
@@ -257,6 +268,11 @@ namespace Karaokidex.ApplicationControllers
         {
             Application.DoEvents();
 
+            this._MainView.SaveFileDialog.FileName = String.Format(
+                CultureInfo.CurrentCulture,
+                "TrackListing_{0}.txt",
+                DateTime.Now.ToString("yyyyMMdd_HHmm"));
+
             switch (this._MainView.SaveFileDialog.ShowDialog(
                 this._MainView))
             {
@@ -265,10 +281,10 @@ namespace Karaokidex.ApplicationControllers
                     return;
             }
 
-            Application.DoEvents();
-
             this._MainView.Cursor =
                 Cursors.WaitCursor;
+
+            Application.DoEvents();
 
             if (File.Exists(this._MainView.SaveFileDialog.FileName))
             {
@@ -285,6 +301,7 @@ namespace Karaokidex.ApplicationControllers
                 foreach (DataRow thisRow in DatabaseLayer.ListValidTracks().Rows)
                 {
                     theStreamWriter.WriteLine(thisRow[0].ToString());
+                    Application.DoEvents();
                 }
 
                 theStreamWriter.WriteLine("");
@@ -792,6 +809,7 @@ namespace Karaokidex.ApplicationControllers
                     RegistryAgent.LastDatabase;
 
                 this._MainView.buttonRefreshDatabase.Enabled =
+                    this._MainView.menuitemCreateKaraokeTrackCatalogue.Enabled =
                     this._MainView.textboxCriteria.Enabled =
                     this._MainView.buttonSearch.Enabled =
                     this._MainView.gridResults.Enabled =

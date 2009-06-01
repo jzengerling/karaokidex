@@ -10,7 +10,8 @@ namespace Karaokidex
     public sealed class RegistryAgent
     {
         #region Constants
-        private const string KEY_LAST_DATABASE = "Last Database";
+        private const string KEY_LAST_KARAOKE_DATABASE = "Last Karaoke Database";
+        private const string KEY_LAST_MUSIC_DATABASE = "Last Music Database";
         #endregion
 
         #region Properties
@@ -33,24 +34,42 @@ namespace Karaokidex
             }
         }
 
-        public static string LastDatabase
+        public static string LastKaraokeDatabase
         {
             get
             {
-                if (null == RegistryAgent.SettingsKey.GetValue(RegistryAgent.KEY_LAST_DATABASE))
+                if (null == RegistryAgent.SettingsKey.GetValue(RegistryAgent.KEY_LAST_KARAOKE_DATABASE))
                 {
                     RegistryAgent.SettingsKey.SetValue(
-                        RegistryAgent.KEY_LAST_DATABASE,
+                        RegistryAgent.KEY_LAST_KARAOKE_DATABASE,
                         String.Empty);
                 }
-                return RegistryAgent.SettingsKey.GetValue(RegistryAgent.KEY_LAST_DATABASE).ToString();
+                return RegistryAgent.SettingsKey.GetValue(RegistryAgent.KEY_LAST_KARAOKE_DATABASE).ToString();
             }
             set
             {
-                RegistryAgent.SettingsKey.SetValue(RegistryAgent.KEY_LAST_DATABASE, value);
+                RegistryAgent.SettingsKey.SetValue(RegistryAgent.KEY_LAST_KARAOKE_DATABASE, value);
             }
         }
 
+        public static string LastMusicDatabase
+        {
+            get
+            {
+                if (null == RegistryAgent.SettingsKey.GetValue(RegistryAgent.KEY_LAST_MUSIC_DATABASE))
+                {
+                    RegistryAgent.SettingsKey.SetValue(
+                        RegistryAgent.KEY_LAST_MUSIC_DATABASE,
+                        String.Empty);
+                }
+                return RegistryAgent.SettingsKey.GetValue(RegistryAgent.KEY_LAST_MUSIC_DATABASE).ToString();
+            }
+            set
+            {
+                RegistryAgent.SettingsKey.SetValue(RegistryAgent.KEY_LAST_MUSIC_DATABASE, value);
+            }
+        }
+        
         public static bool IsKaraFunInstalled
         {
             get { return null != Registry.ClassesRoot.OpenSubKey("KaraFun.File\\Shell\\Enqueue\\Command", false); }

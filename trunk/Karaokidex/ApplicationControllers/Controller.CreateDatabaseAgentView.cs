@@ -4,6 +4,7 @@ using System.IO;
 using Karaokidex.Views;
 using System.Drawing;
 using System.Threading;
+using Karaokidex.Enumerators;
 
 namespace Karaokidex.ApplicationControllers
 {
@@ -15,42 +16,6 @@ namespace Karaokidex.ApplicationControllers
 
         #region Methods
         public void CreateDatabaseAgentView_Show(
-            MainView theCallingView,
-            DirectoryInfo theSourceDirectoryInfo,
-            FileInfo theTargetFileInfo)
-        {
-            this._CreateDatabaseAgentView =
-                new CreateDatabaseAgentView(
-                    theSourceDirectoryInfo,
-                    theTargetFileInfo);
-
-            //DatabaseLayer.ClearDatabase(
-            //    theTargetFileInfo);
-
-            CreateDatabaseAgent theAgent =
-                new CreateDatabaseAgent(theSourceDirectoryInfo);
-
-            theAgent.Inserting +=
-                new EventHandler(CreateDatabaseAgent_Inserting);
-            theAgent.Updating +=
-                new EventHandler(CreateDatabaseAgent_Updating);
-            theAgent.Completed +=
-                new EventHandler(CreateDatabaseAgent_Completed);
-
-            Thread thisThread = new Thread(
-                new ThreadStart(theAgent.Start));
-
-            thisThread.Start();
-
-            this._CreateDatabaseAgentView.ShowDialog(
-                theCallingView);
-
-            RegistryAgent.LastDatabase = theTargetFileInfo.FullName;
-
-            this.OpenDatabase();
-        }
-        
-        public void CreateDatabaseAgentView_Show(
             CreateDatabaseView theCallingView,
             DirectoryInfo theSourceDirectoryInfo,
             FileInfo theTargetFileInfo)
@@ -59,9 +24,6 @@ namespace Karaokidex.ApplicationControllers
                 new CreateDatabaseAgentView(
                     theSourceDirectoryInfo,
                     theTargetFileInfo);
-
-            //DatabaseLayer.ClearDatabase(
-            //    theTargetFileInfo);
 
             CreateDatabaseAgent theAgent = 
                 new CreateDatabaseAgent(theSourceDirectoryInfo);
@@ -73,6 +35,19 @@ namespace Karaokidex.ApplicationControllers
             theAgent.Completed +=
                 new EventHandler(CreateDatabaseAgent_Completed);
 
+            switch (theCallingView.Mode)
+            {
+                case DatabaseMode.CreateMusic:
+                case DatabaseMode.RefreshMusic:
+                    RegistryAgent.LastMusicDatabase = 
+                        theTargetFileInfo.FullName;
+                    break;
+                default:
+                    RegistryAgent.LastKaraokeDatabase =
+                        theTargetFileInfo.FullName;
+                    break;
+            }
+
             Thread thisThread = new Thread(
                 new ThreadStart(theAgent.Start));
 
@@ -82,8 +57,6 @@ namespace Karaokidex.ApplicationControllers
                 theCallingView);
 
             theCallingView.Close();
-
-            RegistryAgent.LastDatabase = theTargetFileInfo.FullName;
 
             this.OpenDatabase();
         }
