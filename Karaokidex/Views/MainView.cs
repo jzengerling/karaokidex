@@ -116,6 +116,16 @@ namespace Karaokidex.Views
             get { return this._checkboxShowOnlyRatedTracks; }
         }
 
+        public RadioButton radioSearchKaraokeDatabase
+        {
+            get { return this._radioSearchKaraokeDatabase; }
+        }
+
+        public RadioButton radioSearchMusicDatabase
+        {
+            get { return this._radioSearchMusicDatabase; }
+        }
+
         public DataGridView gridResults
         {
             get { return this._gridResults; }

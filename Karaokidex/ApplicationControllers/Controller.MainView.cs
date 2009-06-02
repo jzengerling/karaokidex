@@ -50,10 +50,16 @@ namespace Karaokidex.ApplicationControllers
                 new EventHandler(MainView_menuitemOpenKaraokeRequestSheet_Click);
             this._MainView.menuitemCreateKaraokeTrackCatalogue.Click +=
                 new EventHandler(MainView_menuitemCreateKaraokeTrackCatalogue_Click);
+            
             this._MainView.buttonSearch.Click += 
                 new EventHandler(MainView_buttonSearch_Click);
             this._MainView.buttonClear.Click += 
                 new EventHandler(MainView_buttonClear_Click);
+            this._MainView.radioSearchKaraokeDatabase.CheckedChanged +=
+                new EventHandler(MainView_radioSearchKaraokeDatabase_CheckedChanged);
+            this._MainView.radioSearchMusicDatabase.CheckedChanged +=
+                new EventHandler(MainView_radioSearchMusicDatabase_CheckedChanged);
+
             this._MainView.gridResults.MouseUp += 
                 new MouseEventHandler(MainView_gridResults_MouseUp);
             this._MainView.gridResults.DoubleClick += 
@@ -93,6 +99,10 @@ namespace Karaokidex.ApplicationControllers
                     DatabaseMode.OpenMusicDatabase,
                     new FileInfo(RegistryAgent.LastMusicDatabase));
             }
+
+            this.MainView_radioSearchKaraokeDatabase_CheckedChanged(
+                this._MainView.radioSearchKaraokeDatabase,
+                new EventArgs());
 
             if (RegistryAgent.IsKaraFunInstalled)
             {
@@ -493,6 +503,44 @@ namespace Karaokidex.ApplicationControllers
             theParentView.gridResults.Rows.Clear();
         }
 
+        private void MainView_radioSearchKaraokeDatabase_CheckedChanged(
+            object sender, 
+            EventArgs e)
+        {
+            Application.DoEvents();
+
+            RadioButton theSearchKaraokeRadioButton =
+                sender as RadioButton;
+            MainView theParentView =
+                theSearchKaraokeRadioButton.FindForm() as MainView;
+
+            if (theSearchKaraokeRadioButton.Checked)
+            {
+                theParentView.buttonSearch.Enabled =
+                    !String.IsNullOrEmpty(
+                        RegistryAgent.LastKaraokeDatabase);
+            }
+        }
+
+        private void MainView_radioSearchMusicDatabase_CheckedChanged(
+            object sender,
+            EventArgs e)
+        {
+            Application.DoEvents();
+
+            RadioButton theSearchMusicRadioButton =
+                sender as RadioButton;
+            MainView theParentView =
+                theSearchMusicRadioButton.FindForm() as MainView;
+
+            if (theSearchMusicRadioButton.Checked)
+            {
+                theParentView.buttonSearch.Enabled =
+                    !String.IsNullOrEmpty(
+                        RegistryAgent.LastMusicDatabase);
+            }
+        }
+        
         private void MainView_gridResults_MouseUp(
             object sender, 
             MouseEventArgs e)
