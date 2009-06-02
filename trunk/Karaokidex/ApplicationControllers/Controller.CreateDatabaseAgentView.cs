@@ -71,7 +71,7 @@ namespace Karaokidex.ApplicationControllers
             theAgent.Completed +=
                 new EventHandler(CreateDatabaseAgent_Completed);
 
-            RegistryAgent.LastKaraokeDatabase =
+            RegistryAgent.LastMusicDatabase =
                 theTargetFileInfo.FullName;
 
             Thread thisThread = new Thread(
