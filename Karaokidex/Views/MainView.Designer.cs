@@ -35,8 +35,11 @@
             this._StatusStrip = new System.Windows.Forms.StatusStrip();
             this._labelVersion = new System.Windows.Forms.ToolStripStatusLabel();
             this._labelKaraokeDatabase = new System.Windows.Forms.ToolStripStatusLabel();
+            this._labelMusicDatabase = new System.Windows.Forms.ToolStripStatusLabel();
             this._labelResults = new System.Windows.Forms.ToolStripStatusLabel();
             this._SplitContainer = new System.Windows.Forms.SplitContainer();
+            this._radioSearchMusicDatabase = new System.Windows.Forms.RadioButton();
+            this._radioSearchKaraokeDatabase = new System.Windows.Forms.RadioButton();
             this._buttonClear = new System.Windows.Forms.Button();
             this._checkboxShowOnlyRatedTracks = new System.Windows.Forms.CheckBox();
             this._textboxCriteria = new System.Windows.Forms.TextBox();
@@ -78,7 +81,6 @@
             this.documentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._menuitemOpenKaraokeRequestSheet = new System.Windows.Forms.ToolStripMenuItem();
             this._menuitemCreateKaraokeTrackCatalogue = new System.Windows.Forms.ToolStripMenuItem();
-            this._labelMusicDatabase = new System.Windows.Forms.ToolStripStatusLabel();
             this._StatusStrip.SuspendLayout();
             this._SplitContainer.Panel1.SuspendLayout();
             this._SplitContainer.Panel2.SuspendLayout();
@@ -116,6 +118,14 @@
             this._labelKaraokeDatabase.Size = new System.Drawing.Size(120, 19);
             this._labelKaraokeDatabase.Text = "No database opened";
             // 
+            // _labelMusicDatabase
+            // 
+            this._labelMusicDatabase.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
+            this._labelMusicDatabase.BorderStyle = System.Windows.Forms.Border3DStyle.Etched;
+            this._labelMusicDatabase.Name = "_labelMusicDatabase";
+            this._labelMusicDatabase.Size = new System.Drawing.Size(120, 19);
+            this._labelMusicDatabase.Text = "No database opened";
+            // 
             // _labelResults
             // 
             this._labelResults.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
@@ -137,6 +147,8 @@
             // _SplitContainer.Panel1
             // 
             this._SplitContainer.Panel1.BackColor = System.Drawing.Color.White;
+            this._SplitContainer.Panel1.Controls.Add(this._radioSearchMusicDatabase);
+            this._SplitContainer.Panel1.Controls.Add(this._radioSearchKaraokeDatabase);
             this._SplitContainer.Panel1.Controls.Add(this._buttonClear);
             this._SplitContainer.Panel1.Controls.Add(this._checkboxShowOnlyRatedTracks);
             this._SplitContainer.Panel1.Controls.Add(this._textboxCriteria);
@@ -152,6 +164,30 @@
             this._SplitContainer.SplitterDistance = 70;
             this._SplitContainer.TabIndex = 0;
             this._SplitContainer.TabStop = false;
+            // 
+            // _radioSearchMusicDatabase
+            // 
+            this._radioSearchMusicDatabase.AutoSize = true;
+            this._radioSearchMusicDatabase.Location = new System.Drawing.Point(192, 41);
+            this._radioSearchMusicDatabase.Name = "_radioSearchMusicDatabase";
+            this._radioSearchMusicDatabase.Size = new System.Drawing.Size(66, 23);
+            this._radioSearchMusicDatabase.TabIndex = 9;
+            this._radioSearchMusicDatabase.Text = "&Music";
+            this._radioSearchMusicDatabase.UseVisualStyleBackColor = true;
+            this._radioSearchMusicDatabase.CheckedChanged += new System.EventHandler(this._RadioButtonMode_CheckedChanged);
+            // 
+            // _radioSearchKaraokeDatabase
+            // 
+            this._radioSearchKaraokeDatabase.AutoSize = true;
+            this._radioSearchKaraokeDatabase.Checked = true;
+            this._radioSearchKaraokeDatabase.Location = new System.Drawing.Point(103, 41);
+            this._radioSearchKaraokeDatabase.Name = "_radioSearchKaraokeDatabase";
+            this._radioSearchKaraokeDatabase.Size = new System.Drawing.Size(83, 23);
+            this._radioSearchKaraokeDatabase.TabIndex = 8;
+            this._radioSearchKaraokeDatabase.TabStop = true;
+            this._radioSearchKaraokeDatabase.Text = "&Karaoke";
+            this._radioSearchKaraokeDatabase.UseVisualStyleBackColor = true;
+            this._radioSearchKaraokeDatabase.CheckedChanged += new System.EventHandler(this._RadioButtonMode_CheckedChanged);
             // 
             // _buttonClear
             // 
@@ -171,7 +207,7 @@
             // _checkboxShowOnlyRatedTracks
             // 
             this._checkboxShowOnlyRatedTracks.AutoSize = true;
-            this._checkboxShowOnlyRatedTracks.Location = new System.Drawing.Point(103, 42);
+            this._checkboxShowOnlyRatedTracks.Location = new System.Drawing.Point(473, 42);
             this._checkboxShowOnlyRatedTracks.Name = "_checkboxShowOnlyRatedTracks";
             this._checkboxShowOnlyRatedTracks.Size = new System.Drawing.Size(201, 23);
             this._checkboxShowOnlyRatedTracks.TabIndex = 6;
@@ -387,6 +423,7 @@
             this._labelSelectedTrackPath.Size = new System.Drawing.Size(742, 28);
             this._labelSelectedTrackPath.TabIndex = 6;
             this._labelSelectedTrackPath.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this._labelSelectedTrackPath.UseMnemonic = false;
             // 
             // _SaveFileDialog
             // 
@@ -420,19 +457,20 @@
             // 
             this._menuitemLaunchKaraFun.Image = global::Karaokidex.Properties.Resources.KaraFun_16x16x32;
             this._menuitemLaunchKaraFun.Name = "_menuitemLaunchKaraFun";
-            this._menuitemLaunchKaraFun.Size = new System.Drawing.Size(159, 22);
+            this._menuitemLaunchKaraFun.ShortcutKeys = System.Windows.Forms.Keys.F6;
+            this._menuitemLaunchKaraFun.Size = new System.Drawing.Size(178, 22);
             this._menuitemLaunchKaraFun.Text = "Launch &KaraFun";
             // 
             // _separator1
             // 
             this._separator1.Name = "_separator1";
-            this._separator1.Size = new System.Drawing.Size(156, 6);
+            this._separator1.Size = new System.Drawing.Size(175, 6);
             // 
             // _menuitemExit
             // 
             this._menuitemExit.Image = global::Karaokidex.Properties.Resources.door_in;
             this._menuitemExit.Name = "_menuitemExit";
-            this._menuitemExit.Size = new System.Drawing.Size(159, 22);
+            this._menuitemExit.Size = new System.Drawing.Size(178, 22);
             this._menuitemExit.Text = "E&xit";
             // 
             // karaokeToolStripMenuItem
@@ -445,39 +483,43 @@
             this._menuitemListInvalidKaraokeTracks});
             this.karaokeToolStripMenuItem.Name = "karaokeToolStripMenuItem";
             this.karaokeToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
-            this.karaokeToolStripMenuItem.Text = "&Karaoke";
+            this.karaokeToolStripMenuItem.Text = "K&araoke";
             // 
             // _menuitemOpenKaraokeDatabase
             // 
             this._menuitemOpenKaraokeDatabase.Image = global::Karaokidex.Properties.Resources.database_connect;
             this._menuitemOpenKaraokeDatabase.Name = "_menuitemOpenKaraokeDatabase";
-            this._menuitemOpenKaraokeDatabase.Size = new System.Drawing.Size(167, 22);
+            this._menuitemOpenKaraokeDatabase.ShortcutKeys = System.Windows.Forms.Keys.F2;
+            this._menuitemOpenKaraokeDatabase.Size = new System.Drawing.Size(186, 22);
             this._menuitemOpenKaraokeDatabase.Text = "&Open Database";
             // 
             // _menuitemCreateKaraokeDatabase
             // 
             this._menuitemCreateKaraokeDatabase.Image = global::Karaokidex.Properties.Resources.database_lightning;
             this._menuitemCreateKaraokeDatabase.Name = "_menuitemCreateKaraokeDatabase";
-            this._menuitemCreateKaraokeDatabase.Size = new System.Drawing.Size(167, 22);
+            this._menuitemCreateKaraokeDatabase.ShortcutKeys = System.Windows.Forms.Keys.F3;
+            this._menuitemCreateKaraokeDatabase.Size = new System.Drawing.Size(186, 22);
             this._menuitemCreateKaraokeDatabase.Text = "&Create Database";
             // 
             // _menuitemRefreshKaraokeDatabase
             // 
             this._menuitemRefreshKaraokeDatabase.Image = global::Karaokidex.Properties.Resources.database_refresh;
             this._menuitemRefreshKaraokeDatabase.Name = "_menuitemRefreshKaraokeDatabase";
-            this._menuitemRefreshKaraokeDatabase.Size = new System.Drawing.Size(167, 22);
+            this._menuitemRefreshKaraokeDatabase.ShortcutKeys = System.Windows.Forms.Keys.F4;
+            this._menuitemRefreshKaraokeDatabase.Size = new System.Drawing.Size(186, 22);
             this._menuitemRefreshKaraokeDatabase.Text = "&Refresh Database";
             // 
             // _separator2
             // 
             this._separator2.Name = "_separator2";
-            this._separator2.Size = new System.Drawing.Size(164, 6);
+            this._separator2.Size = new System.Drawing.Size(183, 6);
             // 
             // _menuitemListInvalidKaraokeTracks
             // 
             this._menuitemListInvalidKaraokeTracks.Image = global::Karaokidex.Properties.Resources.page_white_delete;
             this._menuitemListInvalidKaraokeTracks.Name = "_menuitemListInvalidKaraokeTracks";
-            this._menuitemListInvalidKaraokeTracks.Size = new System.Drawing.Size(167, 22);
+            this._menuitemListInvalidKaraokeTracks.ShortcutKeys = System.Windows.Forms.Keys.F5;
+            this._menuitemListInvalidKaraokeTracks.Size = new System.Drawing.Size(186, 22);
             this._menuitemListInvalidKaraokeTracks.Text = "List &Invalid Tracks";
             // 
             // musicToolStripMenuItem
@@ -488,27 +530,30 @@
             this._menuitemRefreshMusicDatabase});
             this.musicToolStripMenuItem.Name = "musicToolStripMenuItem";
             this.musicToolStripMenuItem.Size = new System.Drawing.Size(51, 20);
-            this.musicToolStripMenuItem.Text = "&Music";
+            this.musicToolStripMenuItem.Text = "M&usic";
             // 
             // _menuitemOpenMusicDatabase
             // 
             this._menuitemOpenMusicDatabase.Image = global::Karaokidex.Properties.Resources.database_connect;
             this._menuitemOpenMusicDatabase.Name = "_menuitemOpenMusicDatabase";
-            this._menuitemOpenMusicDatabase.Size = new System.Drawing.Size(164, 22);
+            this._menuitemOpenMusicDatabase.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F2)));
+            this._menuitemOpenMusicDatabase.Size = new System.Drawing.Size(206, 22);
             this._menuitemOpenMusicDatabase.Text = "&Open Database";
             // 
             // _menuitemCreateMusicDatabase
             // 
             this._menuitemCreateMusicDatabase.Image = global::Karaokidex.Properties.Resources.database_lightning;
             this._menuitemCreateMusicDatabase.Name = "_menuitemCreateMusicDatabase";
-            this._menuitemCreateMusicDatabase.Size = new System.Drawing.Size(164, 22);
+            this._menuitemCreateMusicDatabase.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F3)));
+            this._menuitemCreateMusicDatabase.Size = new System.Drawing.Size(206, 22);
             this._menuitemCreateMusicDatabase.Text = "&Create Database";
             // 
             // _menuitemRefreshMusicDatabase
             // 
             this._menuitemRefreshMusicDatabase.Image = global::Karaokidex.Properties.Resources.database_refresh;
             this._menuitemRefreshMusicDatabase.Name = "_menuitemRefreshMusicDatabase";
-            this._menuitemRefreshMusicDatabase.Size = new System.Drawing.Size(164, 22);
+            this._menuitemRefreshMusicDatabase.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
+            this._menuitemRefreshMusicDatabase.Size = new System.Drawing.Size(206, 22);
             this._menuitemRefreshMusicDatabase.Text = "&Refresh Database";
             // 
             // documentsToolStripMenuItem
@@ -524,7 +569,8 @@
             // 
             this._menuitemOpenKaraokeRequestSheet.Image = global::Karaokidex.Properties.Resources.page_white_acrobat;
             this._menuitemOpenKaraokeRequestSheet.Name = "_menuitemOpenKaraokeRequestSheet";
-            this._menuitemOpenKaraokeRequestSheet.Size = new System.Drawing.Size(242, 22);
+            this._menuitemOpenKaraokeRequestSheet.ShortcutKeys = System.Windows.Forms.Keys.F7;
+            this._menuitemOpenKaraokeRequestSheet.Size = new System.Drawing.Size(261, 22);
             this._menuitemOpenKaraokeRequestSheet.Text = "&Open Karaoke Request Sheet";
             // 
             // _menuitemCreateKaraokeTrackCatalogue
@@ -532,16 +578,9 @@
             this._menuitemCreateKaraokeTrackCatalogue.Enabled = false;
             this._menuitemCreateKaraokeTrackCatalogue.Image = global::Karaokidex.Properties.Resources.page_white_text;
             this._menuitemCreateKaraokeTrackCatalogue.Name = "_menuitemCreateKaraokeTrackCatalogue";
-            this._menuitemCreateKaraokeTrackCatalogue.Size = new System.Drawing.Size(242, 22);
+            this._menuitemCreateKaraokeTrackCatalogue.ShortcutKeys = System.Windows.Forms.Keys.F8;
+            this._menuitemCreateKaraokeTrackCatalogue.Size = new System.Drawing.Size(261, 22);
             this._menuitemCreateKaraokeTrackCatalogue.Text = "&Create Karaoke Track Catalogue";
-            // 
-            // _labelMusicDatabase
-            // 
-            this._labelMusicDatabase.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
-            this._labelMusicDatabase.BorderStyle = System.Windows.Forms.Border3DStyle.Etched;
-            this._labelMusicDatabase.Name = "_labelMusicDatabase";
-            this._labelMusicDatabase.Size = new System.Drawing.Size(120, 19);
-            this._labelMusicDatabase.Text = "No database opened";
             // 
             // MainView
             // 
@@ -624,5 +663,7 @@
         private System.Windows.Forms.ToolStripSeparator _separator1;
         private System.Windows.Forms.ToolStripMenuItem _menuitemExit;
         private System.Windows.Forms.ToolStripStatusLabel _labelMusicDatabase;
+        private System.Windows.Forms.RadioButton _radioSearchKaraokeDatabase;
+        private System.Windows.Forms.RadioButton _radioSearchMusicDatabase;
     }
 }

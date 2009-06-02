@@ -26,19 +26,28 @@ namespace Karaokidex.ApplicationControllers
 
             switch (theMode)
             {
-                case DatabaseMode.RefreshMusic:
-                    theView.textboxSourceDirectory.Text = 
-                        DatabaseLayer.GetSourceDirectory(
-                            new FileInfo(RegistryAgent.LastMusicDatabase));
-                    theView.textboxTargetFile.Text =
-                        RegistryAgent.LastMusicDatabase;
+                case DatabaseMode.CreateMusicDatabase:
+                case DatabaseMode.RefreshMusicDatabase:
+                    if (!String.IsNullOrEmpty(RegistryAgent.LastMusicDatabase))
+                    {
+                        theView.textboxSourceDirectory.Text =
+                            DatabaseLayer.GetSourceDirectory(
+                                new FileInfo(RegistryAgent.LastMusicDatabase));
+
+                        theView.textboxTargetFile.Text =
+                            RegistryAgent.LastMusicDatabase;
+                    }
                     break;
                 default:
-                    theView.textboxSourceDirectory.Text =
-                        DatabaseLayer.GetSourceDirectory(
-                            new FileInfo(RegistryAgent.LastKaraokeDatabase));
-                    theView.textboxTargetFile.Text =
-                        RegistryAgent.LastKaraokeDatabase;
+                    if (!String.IsNullOrEmpty(RegistryAgent.LastKaraokeDatabase))
+                    {
+                        theView.textboxSourceDirectory.Text =
+                            DatabaseLayer.GetSourceDirectory(
+                                new FileInfo(RegistryAgent.LastKaraokeDatabase));
+
+                        theView.textboxTargetFile.Text =
+                            RegistryAgent.LastKaraokeDatabase;
+                    }
                     break;
             }
 
@@ -104,20 +113,25 @@ namespace Karaokidex.ApplicationControllers
 
             switch (theParentView.Mode)
             {
-                case DatabaseMode.CreateKaraoke:
+                case DatabaseMode.CreateKaraokeDatabase:
                     DatabaseLayer.CreateKaraokeDatabase(
                         new FileInfo(theParentView.textboxTargetFile.Text));
+
+                    this.CreateDatabaseAgentView_ShowForKaraoke(
+                        theParentView,
+                        new DirectoryInfo(theParentView.textboxSourceDirectory.Text),
+                        new FileInfo(theParentView.textboxTargetFile.Text));
                     break;
-                case DatabaseMode.CreateMusic:
+                case DatabaseMode.CreateMusicDatabase:
                     DatabaseLayer.CreateMusicDatabase(
+                        new FileInfo(theParentView.textboxTargetFile.Text));
+
+                    this.CreateDatabaseAgentView_ShowForMusic(
+                        theParentView,
+                        new DirectoryInfo(theParentView.textboxSourceDirectory.Text),
                         new FileInfo(theParentView.textboxTargetFile.Text));
                     break;
             }
-
-            this.CreateDatabaseAgentView_Show(
-                theParentView,
-                new DirectoryInfo(theParentView.textboxSourceDirectory.Text),
-                new FileInfo(theParentView.textboxTargetFile.Text));
         }
         #endregion
 

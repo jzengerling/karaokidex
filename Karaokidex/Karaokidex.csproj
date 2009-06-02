@@ -85,9 +85,12 @@
     <Compile Include="ApplicationControllers\Controller.CreateDatabaseAgentView.cs" />
     <Compile Include="ApplicationControllers\Controller.OpenDatabaseView.cs" />
     <Compile Include="ApplicationControllers\Controller.TrackRatingView.cs" />
-    <Compile Include="DatabaseLayer\CreateDatabaseAgent.cs" />
     <Compile Include="DatabaseLayer\DatabaseLayer.cs" />
-    <Compile Include="Enumerators\OpenDatabaseModeEnumerator.cs" />
+    <Compile Include="DatabaseLayer\CreateMusicDatabaseAgent.cs" />
+    <Compile Include="DatabaseLayer\DatabaseLayer.Karaoke.cs" />
+    <Compile Include="DatabaseLayer\CreateKaraokeDatabaseAgent.cs" />
+    <Compile Include="DatabaseLayer\DatabaseLayer.Music.cs" />
+    <Compile Include="DatabaseLayer\ICreateDatabaseAgent.cs" />
     <Compile Include="Enumerators\TrackRating.Enumerator.cs" />
     <Compile Include="Enumerators\DatabaseMode.Enumerator.cs" />
     <Compile Include="FileAssociation.cs" />
