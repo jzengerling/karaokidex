@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows.Forms;
 
 namespace Karaokidex.ApplicationControllers
 {
@@ -12,10 +9,11 @@ namespace Karaokidex.ApplicationControllers
             object sender, 
             EventArgs e)
         {
-            CreateDatabaseAgent theAgent =
-                sender as CreateDatabaseAgent;
+            ICreateDatabaseAgent theAgent =
+                sender as ICreateDatabaseAgent;
 
             this.OnCreateDatabaseAgentInserting(
+                theAgent.CallingView,
                 theAgent.CurrentFileInfo);
         }
 
@@ -23,10 +21,11 @@ namespace Karaokidex.ApplicationControllers
             object sender,
             EventArgs e)
         {
-            CreateDatabaseAgent theAgent =
-                sender as CreateDatabaseAgent;
+            ICreateDatabaseAgent theAgent =
+                sender as ICreateDatabaseAgent;
 
             this.OnCreateDatabaseAgentUpdating(
+                theAgent.CallingView,
                 theAgent.CurrentFileInfo);
         }
         
@@ -34,7 +33,11 @@ namespace Karaokidex.ApplicationControllers
             object sender,
             EventArgs e)
         {
-            this.OnCreateDatabaseAgentCompleted();
+            ICreateDatabaseAgent theAgent =
+                sender as ICreateDatabaseAgent;
+
+            this.OnCreateDatabaseAgentCompleted(
+                theAgent.CallingView);
         }
         #endregion
     }

@@ -1,22 +1,27 @@
 ﻿using System;
-using System.Text;
 using System.Data.SQLite;
-using System.Globalization;
 using System.IO;
 using ICSharpCode.SharpZipLib.Zip;
-using System.Security.Cryptography;
+using Karaokidex.Enumerators;
+using Karaokidex.Views;
 
 namespace Karaokidex
 {
-    public class CreateDatabaseAgent
+    public class CreateMusicDatabaseAgent : ICreateDatabaseAgent
     {
         #region Members
+        private CreateDatabaseAgentView _CallingView;
         private DirectoryInfo _SourceDirectoryInfo;
         private DirectoryInfo _CurrentDirectoryInfo;
         private FileInfo _CurrentFileInfo;
         #endregion
 
         #region Properties
+        public CreateDatabaseAgentView CallingView
+        {
+            get { return this._CallingView; }
+        }
+
         public DirectoryInfo CurrentDirectoryInfo
         {
             get { return this._CurrentDirectoryInfo; }
@@ -29,17 +34,19 @@ namespace Karaokidex
         #endregion
 
         #region Methods
-        public CreateDatabaseAgent(
+        public CreateMusicDatabaseAgent(
+            CreateDatabaseAgentView theCallingView,
             DirectoryInfo theDirectoryInfo)
         {
+            this._CallingView = theCallingView;
             this._SourceDirectoryInfo = theDirectoryInfo;
         }
 
         #region Private Helpers
         public void Start()
         {
-            using (SQLiteConnection theConnection = 
-                new SQLiteConnection(DatabaseLayer.ConnectionString))
+            using (SQLiteConnection theConnection =
+                new SQLiteConnection(DatabaseLayer.MusicConnectionString))
             {
                 try
                 {
@@ -166,8 +173,7 @@ namespace Karaokidex
 
                 this._CurrentDirectoryInfo = thisDirectoryInfo;
 
-                if (!thisDirectoryInfo.GetFiles("*.cdg").Length.Equals(0) ||
-                    !thisDirectoryInfo.GetFiles("*.zip").Length.Equals(0))
+                if (!thisDirectoryInfo.GetFiles("*.mp3").Length.Equals(0))
                 {
                     FileInfo[] theFiles =
                         thisDirectoryInfo.GetFiles();
@@ -182,111 +188,97 @@ namespace Karaokidex
                     {
                         this._CurrentFileInfo = thisFileInfo;
 
-                        bool theArchiveContainsCDG = false;
+                        string thisChecksum = 
+                            IOOperations.GetMD5HashFromFile(
+                                thisFileInfo.FullName);
+                        long thisTrackID = 0;
 
-                        if (thisFileInfo.Extension.Contains("zip"))
+                        using (SQLiteCommand theCommand = theConnection.CreateCommand())
                         {
-                            using (ZipFile theArchive = new ZipFile(thisFileInfo.FullName))
-                            {
-                                theArchiveContainsCDG =
-                                    !theArchive.FindEntry("*.cdg", true).Equals(0);
-                            }
+                            theCommand.CommandText = 
+                                "SELECT [ID] " +
+                                "FROM [Tracks] " +
+                                "WHERE [Checksum] = ?";
+
+                            SQLiteParameter theChecksumParameter = theCommand.CreateParameter();
+                            theCommand.Parameters.Add(theChecksumParameter);
+
+                            theChecksumParameter.Value = thisChecksum;
+
+                            thisTrackID = Convert.ToInt64(theCommand.ExecuteScalar());
                         }
 
-                        if (thisFileInfo.Extension.Contains("cdg") || theArchiveContainsCDG)
+                        if (thisTrackID.Equals(0))
                         {
-                            string thisChecksum = 
-                                IOOperations.GetMD5HashFromFile(
-                                    thisFileInfo.FullName);
-                            long thisTrackID = 0;
-
                             using (SQLiteCommand theCommand = theConnection.CreateCommand())
                             {
-                                theCommand.CommandText = 
-                                    "SELECT [ID] " +
-                                    "FROM [Tracks] " +
-                                    "WHERE [Checksum] = ?";
+                                theCommand.CommandText =
+                                    "INSERT INTO [Tracks] ([Path], [Details], [Extension], [Checksum]) " +
+                                    "VALUES (?, ?, ?, ?)";
 
+                                SQLiteParameter thePathParameter = theCommand.CreateParameter();
+                                theCommand.Parameters.Add(thePathParameter);
+                                SQLiteParameter theDetailsParameter = theCommand.CreateParameter();
+                                theCommand.Parameters.Add(theDetailsParameter);
+                                SQLiteParameter theExtensionParameter = theCommand.CreateParameter();
+                                theCommand.Parameters.Add(theExtensionParameter);
                                 SQLiteParameter theChecksumParameter = theCommand.CreateParameter();
                                 theCommand.Parameters.Add(theChecksumParameter);
 
-                                theChecksumParameter.Value = thisChecksum;
+                                thePathParameter.Value = thisFileInfo.DirectoryName
+                                    .Replace(thisSourceDirectoryInfo.FullName, String.Empty);
+                                theDetailsParameter.Value = thisFileInfo.Name
+                                    .Replace(thisFileInfo.Extension, String.Empty);
+                                theExtensionParameter.Value =
+                                    thisFileInfo.Extension;
+                                theChecksumParameter.Value =
+                                    IOOperations.GetMD5HashFromFile(
+                                        thisFileInfo.FullName);
 
-                                thisTrackID = Convert.ToInt64(theCommand.ExecuteScalar());
+                                theCommand.ExecuteNonQuery();
                             }
 
-                            if (thisTrackID.Equals(0))
+                            if (null != this.Inserting)
                             {
-                                using (SQLiteCommand theCommand = theConnection.CreateCommand())
-                                {
-                                    theCommand.CommandText =
-                                        "INSERT INTO [Tracks] ([Path], [Details], [Extension], [Checksum]) " +
-                                        "VALUES (?, ?, ?, ?)";
-
-                                    SQLiteParameter thePathParameter = theCommand.CreateParameter();
-                                    theCommand.Parameters.Add(thePathParameter);
-                                    SQLiteParameter theDetailsParameter = theCommand.CreateParameter();
-                                    theCommand.Parameters.Add(theDetailsParameter);
-                                    SQLiteParameter theExtensionParameter = theCommand.CreateParameter();
-                                    theCommand.Parameters.Add(theExtensionParameter);
-                                    SQLiteParameter theChecksumParameter = theCommand.CreateParameter();
-                                    theCommand.Parameters.Add(theChecksumParameter);
-
-                                    thePathParameter.Value = thisFileInfo.DirectoryName
-                                        .Replace(thisSourceDirectoryInfo.FullName, String.Empty);
-                                    theDetailsParameter.Value = thisFileInfo.Name
-                                        .Replace(thisFileInfo.Extension, String.Empty);
-                                    theExtensionParameter.Value =
-                                        thisFileInfo.Extension;
-                                    theChecksumParameter.Value =
-                                        IOOperations.GetMD5HashFromFile(
-                                            thisFileInfo.FullName);
-
-                                    theCommand.ExecuteNonQuery();
-                                }
-
-                                if (null != this.Inserting)
-                                {
-                                    this.Inserting(this, new EventArgs());
-                                }
+                                this.Inserting(this, new EventArgs());
                             }
-                            else
+                        }
+                        else
+                        {
+                            using (SQLiteCommand theCommand = theConnection.CreateCommand())
                             {
-                                using (SQLiteCommand theCommand = theConnection.CreateCommand())
-                                {
-                                    theCommand.CommandText =
-                                        "UPDATE [Tracks] " +
-                                        "SET [Path] = ?, " +
-                                            "[Details] = ?, " +
-                                            "[Extension] = ?, " +
-                                            "[ToBeDeleted] = 0 " +
-                                        "WHERE [ID] = ?";
+                                theCommand.CommandText =
+                                    "UPDATE [Tracks] " +
+                                    "SET [Path] = ?, " +
+                                        "[Details] = ?, " +
+                                        "[Extension] = ?, " +
+                                        "[ToBeDeleted] = 0 " +
+                                    "WHERE [ID] = ?";
 
-                                    SQLiteParameter thePathParameter = theCommand.CreateParameter();
-                                    theCommand.Parameters.Add(thePathParameter);
-                                    SQLiteParameter theDetailsParameter = theCommand.CreateParameter();
-                                    theCommand.Parameters.Add(theDetailsParameter);
-                                    SQLiteParameter theExtensionParameter = theCommand.CreateParameter();
-                                    theCommand.Parameters.Add(theExtensionParameter);
-                                    SQLiteParameter theIDParameter = theCommand.CreateParameter();
-                                    theCommand.Parameters.Add(theIDParameter);
+                                SQLiteParameter thePathParameter = theCommand.CreateParameter();
+                                theCommand.Parameters.Add(thePathParameter);
+                                SQLiteParameter theDetailsParameter = theCommand.CreateParameter();
+                                theCommand.Parameters.Add(theDetailsParameter);
+                                SQLiteParameter theExtensionParameter = theCommand.CreateParameter();
+                                theCommand.Parameters.Add(theExtensionParameter);
+                                SQLiteParameter theIDParameter = theCommand.CreateParameter();
+                                theCommand.Parameters.Add(theIDParameter);
 
-                                    thePathParameter.Value = thisFileInfo.DirectoryName
-                                        .Replace(thisSourceDirectoryInfo.FullName, String.Empty);
-                                    theDetailsParameter.Value = thisFileInfo.Name
-                                        .Replace(thisFileInfo.Extension, String.Empty);
-                                    theExtensionParameter.Value =
-                                        thisFileInfo.Extension;
-                                    theIDParameter.Value = 
-                                        thisTrackID;
+                                thePathParameter.Value = thisFileInfo.DirectoryName
+                                    .Replace(thisSourceDirectoryInfo.FullName, String.Empty);
+                                theDetailsParameter.Value = thisFileInfo.Name
+                                    .Replace(thisFileInfo.Extension, String.Empty);
+                                theExtensionParameter.Value =
+                                    thisFileInfo.Extension;
+                                theIDParameter.Value = 
+                                    thisTrackID;
 
-                                    theCommand.ExecuteNonQuery();
-                                }
+                                theCommand.ExecuteNonQuery();
+                            }
 
-                                if (null != this.Updating)
-                                {
-                                    this.Updating(this, new EventArgs());
-                                }
+                            if (null != this.Updating)
+                            {
+                                this.Updating(this, new EventArgs());
                             }
                         }
                     }

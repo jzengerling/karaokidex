@@ -6,11 +6,13 @@ namespace Karaokidex.Enumerators
 {
     public enum DatabaseMode
     {
-        CreateKaraoke,
-        CreateMusic,
-        RefreshKaraoke,
-        RefreshMusic,
+        CreateKaraokeDatabase,
+        CreateMusicDatabase,
+        RefreshKaraokeDatabase,
+        RefreshMusicDatabase,
         OpenKaraokeDatabase,
-        OpenMusicDatabase
+        OpenMusicDatabase,
+        SearchKaraokeDatabase,
+        SearchMusicDatabase
     }
 }

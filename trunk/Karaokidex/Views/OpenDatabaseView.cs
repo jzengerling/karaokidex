@@ -12,11 +12,11 @@ namespace Karaokidex.Views
     public partial class OpenDatabaseView : Form
     {
         #region Members
-        private OpenDatabaseModeEnumerator _Mode = OpenDatabaseModeEnumerator.Karaoke;
+        private DatabaseMode _Mode = DatabaseMode.OpenKaraokeDatabase;
         #endregion
 
         #region Properties
-        public OpenDatabaseModeEnumerator Mode
+        public DatabaseMode Mode
         {
             get { return this._Mode; }
         }
@@ -64,7 +64,7 @@ namespace Karaokidex.Views
 
         #region Methods
         public OpenDatabaseView(
-            OpenDatabaseModeEnumerator theMode)
+            DatabaseMode theMode)
         {
             InitializeComponent();
 

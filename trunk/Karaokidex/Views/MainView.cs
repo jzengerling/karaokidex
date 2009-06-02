@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using Karaokidex.Enumerators;
 
 namespace Karaokidex.Views
 {
@@ -30,7 +31,16 @@ namespace Karaokidex.Views
         }
         #endregion
 
+        #region Members
+        private DatabaseMode _Mode = DatabaseMode.SearchKaraokeDatabase;
+        #endregion
+
         #region Properties
+        public DatabaseMode Mode
+        {
+            get { return this._Mode; }
+        }
+
         public ToolStripMenuItem menuitemLaunchKaraFun
         {
             get { return this._menuitemLaunchKaraFun; }
@@ -167,6 +177,7 @@ namespace Karaokidex.Views
         }
         #endregion
 
+        #region Methods
         public MainView()
         {
             InitializeComponent();
@@ -184,6 +195,31 @@ namespace Karaokidex.Views
                 this._gridResults.DefaultCellStyle = 
                     theBigFontStyle;
         }
+
+        #region Event Handlers
+        private void _RadioButtonMode_CheckedChanged(
+            object sender,
+            EventArgs e)
+        {
+            this._Mode =
+                this._radioSearchKaraokeDatabase.Checked
+                ? DatabaseMode.SearchKaraokeDatabase
+                : DatabaseMode.SearchMusicDatabase;
+
+            this._columnRatingImage.Visible =
+                this._checkboxShowOnlyRatedTracks.Enabled =
+                    this._Mode.Equals(DatabaseMode.SearchKaraokeDatabase);
+
+            if (!String.IsNullOrEmpty(this._textboxCriteria.Text))
+            {
+                this._buttonSearch.PerformClick();
+            }
+            else
+            {
+                this.Focus();
+            }
+        }
+        #endregion
 
         #region Snap To Border Functionality
         protected override void WndProc(
@@ -289,6 +325,7 @@ namespace Karaokidex.Views
                 throw;
             }
         }
+        #endregion
         #endregion
     }
 }

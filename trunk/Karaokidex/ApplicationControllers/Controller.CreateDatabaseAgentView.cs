@@ -10,23 +10,21 @@ namespace Karaokidex.ApplicationControllers
 {
     public partial class Controller
     {
-        #region Members
-        private CreateDatabaseAgentView _CreateDatabaseAgentView;
-        #endregion
-
         #region Methods
-        public void CreateDatabaseAgentView_Show(
+        public void CreateDatabaseAgentView_ShowForKaraoke(
             CreateDatabaseView theCallingView,
             DirectoryInfo theSourceDirectoryInfo,
             FileInfo theTargetFileInfo)
         {
-            this._CreateDatabaseAgentView = 
+            CreateDatabaseAgentView theView = 
                 new CreateDatabaseAgentView(
                     theSourceDirectoryInfo,
                     theTargetFileInfo);
 
-            CreateDatabaseAgent theAgent = 
-                new CreateDatabaseAgent(theSourceDirectoryInfo);
+            CreateKaraokeDatabaseAgent theAgent = 
+                new CreateKaraokeDatabaseAgent(
+                    theView,
+                    theSourceDirectoryInfo);
 
             theAgent.Inserting +=
                 new EventHandler(CreateDatabaseAgent_Inserting);
@@ -35,34 +33,63 @@ namespace Karaokidex.ApplicationControllers
             theAgent.Completed +=
                 new EventHandler(CreateDatabaseAgent_Completed);
 
-            switch (theCallingView.Mode)
-            {
-                case DatabaseMode.CreateMusic:
-                case DatabaseMode.RefreshMusic:
-                    RegistryAgent.LastMusicDatabase = 
-                        theTargetFileInfo.FullName;
-                    break;
-                default:
-                    RegistryAgent.LastKaraokeDatabase =
-                        theTargetFileInfo.FullName;
-                    break;
-            }
+            RegistryAgent.LastKaraokeDatabase =
+                theTargetFileInfo.FullName;
 
             Thread thisThread = new Thread(
                 new ThreadStart(theAgent.Start));
 
             thisThread.Start();
 
-            this._CreateDatabaseAgentView.ShowDialog(
+            theView.ShowDialog(
                 theCallingView);
 
             theCallingView.Close();
 
-            this.OpenDatabase();
+            this.OpenKaraokeDatabase();
         }
 
+        public void CreateDatabaseAgentView_ShowForMusic(
+            CreateDatabaseView theCallingView,
+            DirectoryInfo theSourceDirectoryInfo,
+            FileInfo theTargetFileInfo)
+        {
+            CreateDatabaseAgentView theView = 
+                new CreateDatabaseAgentView(
+                    theSourceDirectoryInfo,
+                    theTargetFileInfo);
+
+            CreateMusicDatabaseAgent theAgent =
+                new CreateMusicDatabaseAgent(
+                    theView,
+                    theSourceDirectoryInfo);
+
+            theAgent.Inserting +=
+                new EventHandler(CreateDatabaseAgent_Inserting);
+            theAgent.Updating +=
+                new EventHandler(CreateDatabaseAgent_Updating);
+            theAgent.Completed +=
+                new EventHandler(CreateDatabaseAgent_Completed);
+
+            RegistryAgent.LastKaraokeDatabase =
+                theTargetFileInfo.FullName;
+
+            Thread thisThread = new Thread(
+                new ThreadStart(theAgent.Start));
+
+            thisThread.Start();
+
+            theView.ShowDialog(
+                theCallingView);
+
+            theCallingView.Close();
+
+            this.OpenMusicDatabase();
+        }
+        
         #region Private Helpers
         public void OnCreateDatabaseAgentInserting(
+            CreateDatabaseAgentView theView,
             FileInfo theFileInfo)
         {
             // InvokeRequired compares the thread ID of the
@@ -73,27 +100,28 @@ namespace Karaokidex.ApplicationControllers
                 this._MainView.Invoke(
                     new CreateDatabaseAgentInsertingHandler(
                         this.OnCreateDatabaseAgentInserting),
+                    theView,
                     theFileInfo);
             }
             else
             {
-                this._CreateDatabaseAgentView.Cursor = 
+                theView.Cursor = 
                     Cursors.WaitCursor;
 
                 string theCurrentDirectory = 
                     theFileInfo.DirectoryName.Replace(
-                        this._CreateDatabaseAgentView.SourceDirectoryInfo.FullName,
+                        theView.SourceDirectoryInfo.FullName,
                         String.Empty);
 
                 TextRenderer.MeasureText(
                     theCurrentDirectory,
-                    this._CreateDatabaseAgentView.labelCurrentDirectory.Font,
+                    theView.labelCurrentDirectory.Font,
                     new Size(
-                            this._CreateDatabaseAgentView.labelCurrentDirectory.Width,
-                            this._CreateDatabaseAgentView.labelCurrentDirectory.Height),
+                        theView.labelCurrentDirectory.Width,
+                        theView.labelCurrentDirectory.Height),
                     TextFormatFlags.ModifyString | TextFormatFlags.PathEllipsis);
 
-                this._CreateDatabaseAgentView.labelCurrentDirectory.Text =
+                theView.labelCurrentDirectory.Text =
                     theCurrentDirectory;
 
                 string theCurrentFile =
@@ -101,13 +129,13 @@ namespace Karaokidex.ApplicationControllers
 
                 TextRenderer.MeasureText(
                     theCurrentFile,
-                    this._CreateDatabaseAgentView.labelCurrentFile.Font,
+                    theView.labelCurrentFile.Font,
                     new Size(
-                            this._CreateDatabaseAgentView.labelCurrentFile.Width,
-                            this._CreateDatabaseAgentView.labelCurrentFile.Height),
+                        theView.labelCurrentFile.Width,
+                        theView.labelCurrentFile.Height),
                     TextFormatFlags.ModifyString | TextFormatFlags.PathEllipsis);
 
-                this._CreateDatabaseAgentView.labelCurrentFile.Text =
+                theView.labelCurrentFile.Text =
                     theCurrentFile; 
                 
                 Application.DoEvents();
@@ -115,6 +143,7 @@ namespace Karaokidex.ApplicationControllers
         }
 
         public void OnCreateDatabaseAgentUpdating(
+            CreateDatabaseAgentView theView,
             FileInfo theFileInfo)
         {
             // InvokeRequired compares the thread ID of the
@@ -125,27 +154,28 @@ namespace Karaokidex.ApplicationControllers
                 this._MainView.Invoke(
                     new CreateDatabaseAgentUpdatingHandler(
                         this.OnCreateDatabaseAgentUpdating),
+                    theView,
                     theFileInfo);
             }
             else
             {
-                this._CreateDatabaseAgentView.Cursor =
+                theView.Cursor =
                     Cursors.WaitCursor;
 
                 string theCurrentDirectory = 
                     theFileInfo.DirectoryName.Replace(
-                        this._CreateDatabaseAgentView.SourceDirectoryInfo.FullName,
+                        theView.SourceDirectoryInfo.FullName,
                         String.Empty);
 
                 TextRenderer.MeasureText(
                     theCurrentDirectory,
-                    this._CreateDatabaseAgentView.labelCurrentDirectory.Font,
+                    theView.labelCurrentDirectory.Font,
                     new Size(
-                            this._CreateDatabaseAgentView.labelCurrentDirectory.Width,
-                            this._CreateDatabaseAgentView.labelCurrentDirectory.Height),
+                        theView.labelCurrentDirectory.Width,
+                        theView.labelCurrentDirectory.Height),
                     TextFormatFlags.ModifyString | TextFormatFlags.PathEllipsis);
 
-                this._CreateDatabaseAgentView.labelCurrentDirectory.Text =
+                theView.labelCurrentDirectory.Text =
                     theCurrentDirectory;
 
                 string theCurrentFile =
@@ -153,20 +183,21 @@ namespace Karaokidex.ApplicationControllers
 
                 TextRenderer.MeasureText(
                     theCurrentFile,
-                    this._CreateDatabaseAgentView.labelCurrentFile.Font,
+                    theView.labelCurrentFile.Font,
                     new Size(
-                            this._CreateDatabaseAgentView.labelCurrentFile.Width,
-                            this._CreateDatabaseAgentView.labelCurrentFile.Height),
+                            theView.labelCurrentFile.Width,
+                            theView.labelCurrentFile.Height),
                     TextFormatFlags.ModifyString | TextFormatFlags.PathEllipsis);
 
-                this._CreateDatabaseAgentView.labelCurrentFile.Text =
+                theView.labelCurrentFile.Text =
                     theCurrentFile;
 
                 Application.DoEvents();
             }
         }
 
-        public void OnCreateDatabaseAgentCompleted()
+        public void OnCreateDatabaseAgentCompleted(
+            CreateDatabaseAgentView theView)
         {
             // InvokeRequired compares the thread ID of the
             // calling thread to the thread ID of the creating thread.
@@ -175,20 +206,26 @@ namespace Karaokidex.ApplicationControllers
             {
                 this._MainView.Invoke(
                     new CreateDatabaseAgentCompletedHandler(
-                        this.OnCreateDatabaseAgentCompleted));
+                        this.OnCreateDatabaseAgentCompleted),
+                    theView);
             }
             else
             {
-                this._CreateDatabaseAgentView.Close();
+                theView.Close();
             }
         }
         #endregion
         #endregion
 
         #region Delegates
-        private delegate void CreateDatabaseAgentInsertingHandler(FileInfo theFileInfo);
-        private delegate void CreateDatabaseAgentUpdatingHandler(FileInfo theFileInfo);
-        private delegate void CreateDatabaseAgentCompletedHandler();
+        private delegate void CreateDatabaseAgentInsertingHandler(
+            CreateDatabaseAgentView theView, 
+            FileInfo theFileInfo);
+        private delegate void CreateDatabaseAgentUpdatingHandler(
+            CreateDatabaseAgentView theView,
+            FileInfo theFileInfo);
+        private delegate void CreateDatabaseAgentCompletedHandler(
+            CreateDatabaseAgentView theView);
         #endregion
     }
 }

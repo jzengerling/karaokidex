@@ -10,168 +10,56 @@ namespace Karaokidex
 {
     public static partial class DatabaseLayer
     {
-        #region Members
-        public static string ConnectionString = String.Empty;
-        #endregion
-
-        #region Properties
-        public static int NumberOfTracksInDatabase
-        {
-            get
-            {
-                if (!String.IsNullOrEmpty(DatabaseLayer.ConnectionString))
-                {
-                    using (SQLiteConnection theConnection = new SQLiteConnection(DatabaseLayer.ConnectionString))
-                    {
-                        try
-                        {
-                            theConnection.Open();
-
-                            using (SQLiteCommand theCommand = theConnection.CreateCommand())
-                            {
-                                theCommand.CommandText =
-                                    "SELECT COUNT(*) " +
-                                    "FROM [Tracks]";
-
-                                return Convert.ToInt32(
-                                    theCommand.ExecuteScalar(),
-                                    CultureInfo.CurrentCulture);
-                            }
-                        }
-                        catch
-                        {
-                            return 0;
-                        }
-                        finally
-                        {
-                            theConnection.Close();
-                        }
-                    }
-                }
-                return 0;
-            }
-        }
-        #endregion
-
         #region Methods
-        public static void CreateKaraokeDatabase(
-            FileInfo theDatabaseFileInfo)
+        public static int GetNumberOfTracksInDatabase(
+            FileInfo theDatabaseFileInfo) 
         {
-            SQLiteConnection.CreateFile(theDatabaseFileInfo.FullName);
-
-            DatabaseLayer.ConnectionString = String.Format(
+            string theConnectionString = String.Format(
                 CultureInfo.CurrentCulture,
                 "Data Source={0}; UTF8Encoding=True; Version=3; Pooling=True",
                 theDatabaseFileInfo.FullName);
 
-            using (SQLiteConnection theConnection = new SQLiteConnection(DatabaseLayer.ConnectionString))
+            if (!String.IsNullOrEmpty(theConnectionString))
             {
-                try
+                using (SQLiteConnection theConnection = new SQLiteConnection(theConnectionString))
                 {
-                    theConnection.Open();
-
-                    using (SQLiteCommand theCommand = theConnection.CreateCommand())
+                    try
                     {
-                        StringBuilder theCommandText = new StringBuilder();
+                        theConnection.Open();
 
-                        theCommandText.Append("CREATE TABLE [Settings] (");
-                        theCommandText.Append("[ID] [integer] PRIMARY KEY AUTOINCREMENT,");
-                        theCommandText.Append("[Key] [text],");
-                        theCommandText.Append("[Value] [text])");
+                        using (SQLiteCommand theCommand = theConnection.CreateCommand())
+                        {
+                            theCommand.CommandText =
+                                "SELECT COUNT(*) " +
+                                "FROM [Tracks]";
 
-                        theCommand.CommandText = theCommandText.ToString();
-
-                        theCommand.ExecuteNonQuery();
+                            return Convert.ToInt32(
+                                theCommand.ExecuteScalar(),
+                                CultureInfo.CurrentCulture);
+                        }
                     }
-
-                    using (SQLiteCommand theCommand = theConnection.CreateCommand())
+                    catch
                     {
-                        StringBuilder theCommandText = new StringBuilder();
-
-                        theCommandText.Append("CREATE TABLE [Tracks] (");
-                        theCommandText.Append("[ID] [integer] PRIMARY KEY AUTOINCREMENT,");
-                        theCommandText.Append("[Path] [text],");
-                        theCommandText.Append("[Details] [text],");
-                        theCommandText.Append("[Extension] [text],");
-                        theCommandText.Append("[Rating] [integer] DEFAULT 0,");
-                        theCommandText.Append("[Checksum] [text],");
-                        theCommandText.Append("[ToBeDeleted] [boolean] DEFAULT 0)");
-
-                        theCommand.CommandText = theCommandText.ToString();
-
-                        theCommand.ExecuteNonQuery();
+                        return 0;
                     }
-                }
-                finally
-                {
-                    theConnection.Close();
+                    finally
+                    {
+                        theConnection.Close();
+                    }
                 }
             }
+            return 0;
         }
 
-        public static void CreateMusicDatabase(
-            FileInfo theDatabaseFileInfo)
-        {
-            SQLiteConnection.CreateFile(theDatabaseFileInfo.FullName);
-
-            DatabaseLayer.ConnectionString = String.Format(
-                CultureInfo.CurrentCulture,
-                "Data Source={0}; UTF8Encoding=True; Version=3; Pooling=True",
-                theDatabaseFileInfo.FullName);
-
-            using (SQLiteConnection theConnection = new SQLiteConnection(DatabaseLayer.ConnectionString))
-            {
-                try
-                {
-                    theConnection.Open();
-
-                    using (SQLiteCommand theCommand = theConnection.CreateCommand())
-                    {
-                        StringBuilder theCommandText = new StringBuilder();
-
-                        theCommandText.Append("CREATE TABLE [Settings] (");
-                        theCommandText.Append("[ID] [integer] PRIMARY KEY AUTOINCREMENT,");
-                        theCommandText.Append("[Key] [text],");
-                        theCommandText.Append("[Value] [text])");
-
-                        theCommand.CommandText = theCommandText.ToString();
-
-                        theCommand.ExecuteNonQuery();
-                    }
-
-                    using (SQLiteCommand theCommand = theConnection.CreateCommand())
-                    {
-                        StringBuilder theCommandText = new StringBuilder();
-
-                        theCommandText.Append("CREATE TABLE [Tracks] (");
-                        theCommandText.Append("[ID] [integer] PRIMARY KEY AUTOINCREMENT,");
-                        theCommandText.Append("[Path] [text],");
-                        theCommandText.Append("[Details] [text],");
-                        theCommandText.Append("[Extension] [text],");
-                        theCommandText.Append("[Checksum] [text],");
-                        theCommandText.Append("[ToBeDeleted] [boolean] DEFAULT 0)");
-
-                        theCommand.CommandText = theCommandText.ToString();
-
-                        theCommand.ExecuteNonQuery();
-                    }
-                }
-                finally
-                {
-                    theConnection.Close();
-                }
-            }
-        }
-        
         public static string GetSourceDirectory(
             FileInfo theDatabaseFileInfo)
         {
-            DatabaseLayer.ConnectionString = String.Format(
+            string theConnectionString = String.Format(
                 CultureInfo.CurrentCulture,
                 "Data Source={0}; UTF8Encoding=True; Version=3; Pooling=True",
                 theDatabaseFileInfo.FullName);
 
-            using (SQLiteConnection theConnection = new SQLiteConnection(DatabaseLayer.ConnectionString))
+            using (SQLiteConnection theConnection = new SQLiteConnection(theConnectionString))
             {
                 try
                 {
@@ -179,7 +67,7 @@ namespace Karaokidex
 
                     using (SQLiteCommand theCommand = theConnection.CreateCommand())
                     {
-                        theCommand.CommandText = 
+                        theCommand.CommandText =
                             "SELECT [Value] " +
                             "FROM [Settings] " +
                             "WHERE [Key] = 'Source Directory'";
@@ -188,6 +76,10 @@ namespace Karaokidex
                             theCommand.ExecuteScalar(),
                             CultureInfo.CurrentCulture);
                     }
+                }
+                catch
+                {
+                    return String.Empty;
                 }
                 finally
                 {
@@ -200,12 +92,12 @@ namespace Karaokidex
             FileInfo theDatabaseFileInfo,
             DirectoryInfo theSourceDirectory)
         {
-            DatabaseLayer.ConnectionString = String.Format(
+            string theConnectionString = String.Format(
                 CultureInfo.CurrentCulture,
                 "Data Source={0}; UTF8Encoding=True; Version=3; Pooling=True",
                 theDatabaseFileInfo.FullName);
 
-            using (SQLiteConnection theConnection = new SQLiteConnection(DatabaseLayer.ConnectionString))
+            using (SQLiteConnection theConnection = new SQLiteConnection(theConnectionString))
             {
                 try
                 {
@@ -223,182 +115,6 @@ namespace Karaokidex
 
                         theSourceDirectortParameter.Value =
                             theSourceDirectory.FullName;
-
-                        theCommand.ExecuteNonQuery();
-                    }
-                }
-                finally
-                {
-                    theConnection.Close();
-                }
-            }
-        }
-        
-        public static DataTable SearchDatabase(
-            string theCriteria,
-            bool ShowOnlyRatedTracks)
-        {
-            using (DataSet theDataSet = new DataSet())
-            {
-                using (SQLiteConnection theConnection = new SQLiteConnection(DatabaseLayer.ConnectionString))
-                {
-                    try
-                    {
-                        theConnection.Open();
-
-                        using (SQLiteCommand theCommand = theConnection.CreateCommand())
-                        {
-                            StringBuilder theCommandBuilder = new StringBuilder(
-                                "SELECT [ID], [Path], [Details], [Extension], [Rating], " +
-                                    "[Path] || '\\' || [Details] || [Extension] AS [FullPath] ");
-                            theCommandBuilder.Append("FROM [Tracks] ");
-                            theCommandBuilder.Append("WHERE ");
-
-                            bool IsFirstParameter = true;
-                            foreach (string thisCriteria in theCriteria.Split(' '))
-                            {
-                                if (!IsFirstParameter)
-                                {
-                                    theCommandBuilder.Append(" AND ");
-                                }
-                                theCommandBuilder.Append("[Details] LIKE ?");
-
-                                SQLiteParameter thisCriteriaParameter = theCommand.CreateParameter();
-                                theCommand.Parameters.Add(thisCriteriaParameter);
-
-                                thisCriteriaParameter.Value = String.Format(
-                                    CultureInfo.CurrentCulture,
-                                    "%{0}%",
-                                    thisCriteria.ToString());
-
-                                IsFirstParameter = false;
-                            }
-
-                            if (ShowOnlyRatedTracks)
-                            {
-                                theCommandBuilder.Append(" AND [Rating] > 0");
-                            }
-                            else
-                            {
-                                theCommandBuilder.Append(" AND [Rating] > -1");
-                            }
-
-                            theCommandBuilder.Append(" ORDER BY [Rating] DESC, [Path], [Details]");
-
-                            theCommand.CommandText = theCommandBuilder.ToString();
-
-                            using (SQLiteDataAdapter theAdapter = new SQLiteDataAdapter(theCommand))
-                            {
-                                theAdapter.Fill(theDataSet);
-                            }
-                        }
-                    }
-                    finally
-                    {
-                        theConnection.Close();
-                    }
-                }
-                return theDataSet.Tables[0];
-            }
-        }
-
-        public static DataTable ListValidTracks()
-        {
-            using (DataSet theDataSet = new DataSet())
-            {
-                using (SQLiteConnection theConnection = new SQLiteConnection(DatabaseLayer.ConnectionString))
-                {
-                    try
-                    {
-                        theConnection.Open();
-
-                        using (SQLiteCommand theCommand = theConnection.CreateCommand())
-                        {
-                            StringBuilder theCommandBuilder = new StringBuilder(
-                                "SELECT [Path] || '\\' || [Details] || [Extension] AS [FullPath] ");
-                            theCommandBuilder.Append("FROM [Tracks] ");
-                            theCommandBuilder.Append("WHERE [Rating] >= 0 ");
-                            theCommandBuilder.Append("ORDER BY [Path], [Details]");
-
-                            theCommand.CommandText = theCommandBuilder.ToString();
-
-                            using (SQLiteDataAdapter theAdapter = new SQLiteDataAdapter(theCommand))
-                            {
-                                theAdapter.Fill(theDataSet);
-                            }
-                        }
-                    }
-                    finally
-                    {
-                        theConnection.Close();
-                    }
-                }
-                return theDataSet.Tables[0];
-            }
-        }
-        
-        public static DataTable ListInvalidTracks()
-        {
-            using (DataSet theDataSet = new DataSet())
-            {
-                using (SQLiteConnection theConnection = new SQLiteConnection(DatabaseLayer.ConnectionString))
-                {
-                    try
-                    {
-                        theConnection.Open();
-
-                        using (SQLiteCommand theCommand = theConnection.CreateCommand())
-                        {
-                            StringBuilder theCommandBuilder = new StringBuilder(
-                                "SELECT [ID], [Path], [Details], [Extension], [Rating], " +
-                                    "[Path] || '\\' || [Details] || [Extension] AS [FullPath] ");
-                            theCommandBuilder.Append("FROM [Tracks] ");
-                            theCommandBuilder.Append("WHERE [Rating] = -1 ");
-                            theCommandBuilder.Append("ORDER BY [Path], [Details]");
-
-                            theCommand.CommandText = theCommandBuilder.ToString();
-
-                            using (SQLiteDataAdapter theAdapter = new SQLiteDataAdapter(theCommand))
-                            {
-                                theAdapter.Fill(theDataSet);
-                            }
-                        }
-                    }
-                    finally
-                    {
-                        theConnection.Close();
-                    }
-                }
-                return theDataSet.Tables[0];
-            }
-        }
-
-        public static void UpdateTrackRating(
-            long theTrackID,
-            TrackRating theTrackRating)
-        {
-            using (SQLiteConnection theConnection = new SQLiteConnection(DatabaseLayer.ConnectionString))
-            {
-                try
-                {
-                    theConnection.Open();
-
-                    using (SQLiteCommand theCommand = theConnection.CreateCommand())
-                    {
-                        theCommand.CommandText =
-                            "UPDATE [Tracks] " +
-                            "SET [Rating] = ? " +
-                            "WHERE [ID] = ?";
-
-                        SQLiteParameter theRatingParameter = theCommand.CreateParameter();
-                        theCommand.Parameters.Add(theRatingParameter);
-                        SQLiteParameter theTrackIDParameter = theCommand.CreateParameter();
-                        theCommand.Parameters.Add(theTrackIDParameter);
-
-                        theRatingParameter.Value =
-                            (int)theTrackRating;
-                        theTrackIDParameter.Value =
-                            theTrackID;
 
                         theCommand.ExecuteNonQuery();
                     }

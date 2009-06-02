@@ -25,24 +25,31 @@ namespace Karaokidex.ApplicationControllers
             // Instantiate an instance
             this._MainView = new MainView();
 
-            this._MainView.KeyUp += 
-                new KeyEventHandler(MainView_KeyUp);
+            this._MainView.menuitemLaunchKaraFun.Click +=
+                new EventHandler(MainView_menuitemLaunchKaraFun_Click);
+            this._MainView.menuitemExit.Click +=
+                new EventHandler(MainView_menuitemExit_Click);
+
             this._MainView.menuitemOpenKaraokeDatabase.Click +=
                 new EventHandler(MainView_menuitemOpenKaraokeDatabase_Click);
             this._MainView.menuitemCreateKaraokeDatabase.Click +=
                 new EventHandler(MainView_menuitemCreateKaraokeDatabase_Click);
-            this._MainView.buttonRefreshDatabase.Click += 
-                new EventHandler(MainView_buttonRefreshDatabase_Click);
-            this._MainView.buttonListInvalidTracks.Click += 
-                new EventHandler(MainView_buttonListInvalidTracks_Click);
-            this._MainView.buttonKaraFun.Click += 
-                new EventHandler(MainView_buttonKaraFun_Click);
+            this._MainView.menuitemRefreshKaraokeDatabase.Click +=
+                new EventHandler(MainView_menuitemRefreshKaraokeDatabase_Click);
+            this._MainView.menuitemListInvalidKaraokeTracks.Click +=
+                new EventHandler(MainView_menuitemListInvalidKaraokeTracks_Click);
+
+            this._MainView.menuitemOpenMusicDatabase.Click +=
+                new EventHandler(MainView_menuitemOpenMusicDatabase_Click);
+            this._MainView.menuitemCreateMusicDatabase.Click +=
+                new EventHandler(MainView_menuitemCreateMusicDatabase_Click);
+            this._MainView.menuitemRefreshMusicDatabase.Click += 
+                new EventHandler(MainView_menuitemRefreshMusicDatabase_Click);
+
             this._MainView.menuitemOpenKaraokeRequestSheet.Click += 
                 new EventHandler(MainView_menuitemOpenKaraokeRequestSheet_Click);
             this._MainView.menuitemCreateKaraokeTrackCatalogue.Click +=
                 new EventHandler(MainView_menuitemCreateKaraokeTrackCatalogue_Click);
-            this._MainView.buttonExit.Click +=
-                new EventHandler(MainView_buttonExit_Click);
             this._MainView.buttonSearch.Click += 
                 new EventHandler(MainView_buttonSearch_Click);
             this._MainView.buttonClear.Click += 
@@ -76,14 +83,14 @@ namespace Karaokidex.ApplicationControllers
             if (!String.IsNullOrEmpty(RegistryAgent.LastKaraokeDatabase))
             {
                 this.OpenDatabaseView_Show(
-                    OpenDatabaseModeEnumerator.Karaoke,
+                    DatabaseMode.OpenKaraokeDatabase,
                     new FileInfo(RegistryAgent.LastKaraokeDatabase));
             }
 
             if (!String.IsNullOrEmpty(RegistryAgent.LastMusicDatabase))
             {
                 this.OpenDatabaseView_Show(
-                    OpenDatabaseModeEnumerator.Music,
+                    DatabaseMode.OpenMusicDatabase,
                     new FileInfo(RegistryAgent.LastMusicDatabase));
             }
 
@@ -93,52 +100,43 @@ namespace Karaokidex.ApplicationControllers
             }
             else
             {
-                this._MainView.buttonKaraFun.ToolTipText = "Get KaraFun";
+                this._MainView.menuitemLaunchKaraFun.ToolTipText = "Get &KaraFun";
             }
         }
 
         #region Event Handlers
-        private void MainView_KeyUp(
-            object sender, 
-            KeyEventArgs e)
+        #region File Menu
+        private void MainView_menuitemLaunchKaraFun_Click(
+            object sender,
+            EventArgs e)
         {
             Application.DoEvents();
 
-            switch (e.KeyCode)
+            ToolStripMenuItem theKaraFunMenuItem =
+                sender as ToolStripMenuItem;
+
+            switch (theKaraFunMenuItem.ToolTipText)
             {
-                case Keys.F2:
-                    this.MainView_menuitemOpenKaraokeDatabase_Click(
-                        this._MainView.buttonOpenDatabase,
-                        new EventArgs());
+                case "Get KaraFun":
+                    Process.Start("http://www.karafun.com/karaokeplayer/");
                     break;
-                case Keys.F3:
-                    this.MainView_buttonCreateDatabase_Click(
-                        this._MainView.buttonCreateDatabase,
-                        new EventArgs());
-                    break;
-                case Keys.F4:
-                    this.MainView_buttonRefreshDatabase_Click(
-                        this._MainView.buttonRefreshDatabase,
-                        new EventArgs());
-                    break;
-                case Keys.F5:
-                    this.MainView_buttonListInvalidTracks_Click(
-                        this._MainView.buttonListInvalidTracks,
-                        new EventArgs());
-                    break;
-                case Keys.F6:
-                    this.MainView_buttonKaraFun_Click(
-                        this._MainView.buttonKaraFun,
-                        new EventArgs());
-                    break;
-                case Keys.F7:
-                    this.MainView_menuitemOpenKaraokeRequestSheet_Click(
-                        this._MainView.menuitemOpenKaraokeRequestSheet,
-                        new EventArgs());
+                default:
+                    Process.Start(RegistryAgent.KaraFunExecutablePath);
                     break;
             }
         }
 
+        private void MainView_menuitemExit_Click(
+            object sender,
+            EventArgs e)
+        {
+            Application.DoEvents();
+
+            Application.Exit();
+        }
+        #endregion
+
+        #region Karaoke Menu
         private void MainView_menuitemOpenKaraokeDatabase_Click(
             object sender, 
             EventArgs e)
@@ -148,13 +146,13 @@ namespace Karaokidex.ApplicationControllers
             if (!String.IsNullOrEmpty(RegistryAgent.LastKaraokeDatabase))
             {
                 this.OpenDatabaseView_Show(
-                    OpenDatabaseModeEnumerator.Karaoke,
+                    DatabaseMode.OpenKaraokeDatabase,
                     new FileInfo(RegistryAgent.LastKaraokeDatabase));
             }
             else
             {
                 this.OpenDatabaseView_Show(
-                    OpenDatabaseModeEnumerator.Karaoke);
+                    DatabaseMode.OpenKaraokeDatabase);
             }
         }
 
@@ -165,19 +163,20 @@ namespace Karaokidex.ApplicationControllers
             Application.DoEvents();
 
             this.CreateDatabaseView_Show(
-                CreateDatabaseModeEnumerator.Karaoke);
+                DatabaseMode.CreateKaraokeDatabase);
         }
 
-        private void MainView_buttonRefreshDatabase_Click(
+        private void MainView_menuitemRefreshKaraokeDatabase_Click(
             object sender, 
             EventArgs e)
         {
             Application.DoEvents();
 
-            this.CreateDatabaseView_Show(DatabaseMode.Refresh);
+            this.CreateDatabaseView_Show(
+                DatabaseMode.RefreshKaraokeDatabase);
         }
 
-        private void MainView_buttonListInvalidTracks_Click(
+        private void MainView_menuitemListInvalidKaraokeTracks_Click(
             object sender, 
             EventArgs e)
         {
@@ -225,27 +224,50 @@ namespace Karaokidex.ApplicationControllers
                 this._MainView.gridResults.Focus();
             }
         }
+        #endregion
 
-        private void MainView_buttonKaraFun_Click(
+        #region Music Menu
+        private void MainView_menuitemOpenMusicDatabase_Click(
             object sender, 
             EventArgs e)
         {
             Application.DoEvents();
 
-            ToolStripButton theKaraFunButton =
-                sender as ToolStripButton;
-
-            switch (theKaraFunButton.ToolTipText)
+            if (!String.IsNullOrEmpty(RegistryAgent.LastMusicDatabase))
             {
-                case "Get KaraFun":
-                    Process.Start("http://www.karafun.com/karaokeplayer/");
-                    break;
-                default:
-                    Process.Start(RegistryAgent.KaraFunExecutablePath);
-                    break;
+                this.OpenDatabaseView_Show(
+                    DatabaseMode.OpenMusicDatabase,
+                    new FileInfo(RegistryAgent.LastMusicDatabase));
+            }
+            else
+            {
+                this.OpenDatabaseView_Show(
+                    DatabaseMode.OpenMusicDatabase);
             }
         }
 
+        private void MainView_menuitemCreateMusicDatabase_Click(
+            object sender, 
+            EventArgs e)
+        {
+            Application.DoEvents();
+
+            this.CreateDatabaseView_Show(
+                DatabaseMode.CreateMusicDatabase);
+        }
+
+        private void MainView_menuitemRefreshMusicDatabase_Click(
+            object sender, 
+            EventArgs e)
+        {
+            Application.DoEvents();
+
+            this.CreateDatabaseView_Show(
+                DatabaseMode.RefreshMusicDatabase);
+        }
+        #endregion
+
+        #region Documents Menu
         private void MainView_menuitemOpenKaraokeRequestSheet_Click(
             object sender, 
             EventArgs e)
@@ -320,19 +342,8 @@ namespace Karaokidex.ApplicationControllers
             this._MainView.Cursor =
                 Cursors.Default;
         }
+        #endregion
 
-        private void MainView_buttonExit_Click(
-            object sender,
-            EventArgs e)
-        {
-            Application.DoEvents();
-
-            ToolStripButton theExitButton =
-                sender as ToolStripButton;
-
-            Application.Exit();
-        }
-        
         private void MainView_buttonSearch_Click(
             object sender, 
             EventArgs e)
@@ -356,62 +367,86 @@ namespace Karaokidex.ApplicationControllers
                         false;
                 theParentView.gridResults.Rows.Clear();
 
-                foreach (DataRow thisRow in DatabaseLayer.SearchDatabase(
-                        theParentView.textboxCriteria.Text,
-                        theParentView.checkboxShowOnlyRatedTracks.Checked)
-                    .Rows)
+                switch (theParentView.Mode)
                 {
-                    string thisExtension = Convert.ToString(
-                        thisRow["Extension"],
-                        CultureInfo.CurrentCulture);
-                    TrackRating thisRating = (TrackRating)Convert.ToInt32(
-                        thisRow["Rating"],
-                        CultureInfo.CurrentCulture);
+                    case DatabaseMode.SearchMusicDatabase:
+                        foreach (DataRow thisRow in DatabaseLayer.SearchMusicDatabase(
+                            theParentView.textboxCriteria.Text).Rows)
+                        {
+                            string thisExtension = Convert.ToString(
+                                thisRow["Extension"],
+                                CultureInfo.CurrentCulture);
 
-                    Bitmap theExtensionImage = Resources.mp3g;
-                    switch (thisExtension)
-                    {
-                        case ".zip":
-                            theExtensionImage = Resources.mp3g_zipped;
-                            break;
-                        default:
-                            theExtensionImage = Resources.mp3g;
-                            break;
-                    }
+                            theParentView.gridResults.Rows.Add(
+                                Convert.ToInt64(thisRow["ID"], CultureInfo.CurrentCulture),
+                                Resources.icon_mp3,
+                                Convert.ToString(thisRow["Details"], CultureInfo.CurrentCulture),
+                                null, // Rating image
+                                0, // Rating value
+                                Convert.ToString(thisRow["Path"], CultureInfo.CurrentCulture),
+                                Convert.ToString(thisRow["FullPath"], CultureInfo.CurrentCulture));
 
-                    Bitmap theRatingImage = Resources.no_stars;
-                    switch (thisRating)
-                    {
-                        case TrackRating.OneStar:
-                            theRatingImage = Resources._1_star;
-                            break;
-                        case TrackRating.TwoStar:
-                            theRatingImage = Resources._2_stars;
-                            break;
-                        case TrackRating.ThreeStar:
-                            theRatingImage = Resources._3_stars;
-                            break;
-                        case TrackRating.FourStar:
-                            theRatingImage = Resources._4_stars;
-                            break;
-                        case TrackRating.FiveStar:
-                            theRatingImage = Resources._5_stars;
-                            break;
-                        default:
-                            theRatingImage = Resources.no_stars;
-                            break;
-                    }
+                            Application.DoEvents();
+                        }
+                        break;
+                    default:
+                        foreach (DataRow thisRow in DatabaseLayer.SearchKaraokeDatabase(
+                            theParentView.textboxCriteria.Text,
+                            theParentView.checkboxShowOnlyRatedTracks.Checked).Rows)
+                        {
+                            string thisExtension = Convert.ToString(
+                                thisRow["Extension"],
+                                CultureInfo.CurrentCulture);
+                            TrackRating thisRating = (TrackRating)Convert.ToInt32(
+                                thisRow["Rating"],
+                                CultureInfo.CurrentCulture);
 
-                    theParentView.gridResults.Rows.Add(
-                        Convert.ToInt64(thisRow["ID"], CultureInfo.CurrentCulture),
-                        theExtensionImage,
-                        Convert.ToString(thisRow["Details"], CultureInfo.CurrentCulture),
-                        theRatingImage,
-                        Convert.ToInt32(thisRow["Rating"], CultureInfo.CurrentCulture),
-                        Convert.ToString(thisRow["Path"], CultureInfo.CurrentCulture),
-                        Convert.ToString(thisRow["FullPath"], CultureInfo.CurrentCulture));
+                            Bitmap theExtensionImage = Resources.mp3g;
+                            switch (thisExtension)
+                            {
+                                case ".zip":
+                                    theExtensionImage = Resources.mp3g_zipped;
+                                    break;
+                                default:
+                                    theExtensionImage = Resources.mp3g;
+                                    break;
+                            }
 
-                    Application.DoEvents();
+                            Bitmap theRatingImage = Resources.no_stars;
+                            switch (thisRating)
+                            {
+                                case TrackRating.OneStar:
+                                    theRatingImage = Resources._1_star;
+                                    break;
+                                case TrackRating.TwoStar:
+                                    theRatingImage = Resources._2_stars;
+                                    break;
+                                case TrackRating.ThreeStar:
+                                    theRatingImage = Resources._3_stars;
+                                    break;
+                                case TrackRating.FourStar:
+                                    theRatingImage = Resources._4_stars;
+                                    break;
+                                case TrackRating.FiveStar:
+                                    theRatingImage = Resources._5_stars;
+                                    break;
+                                default:
+                                    theRatingImage = Resources.no_stars;
+                                    break;
+                            }
+
+                            theParentView.gridResults.Rows.Add(
+                                Convert.ToInt64(thisRow["ID"], CultureInfo.CurrentCulture),
+                                theExtensionImage,
+                                Convert.ToString(thisRow["Details"], CultureInfo.CurrentCulture),
+                                theRatingImage,
+                                Convert.ToInt32(thisRow["Rating"], CultureInfo.CurrentCulture),
+                                Convert.ToString(thisRow["Path"], CultureInfo.CurrentCulture),
+                                Convert.ToString(thisRow["FullPath"], CultureInfo.CurrentCulture));
+
+                            Application.DoEvents();
+                        }
+                        break;
                 }
 
                 theParentView.labelResults.Text = String.Format(
@@ -512,9 +547,21 @@ namespace Karaokidex.ApplicationControllers
 
             if (!theResultsGrid.SelectedRows.Count.Equals(0))
             {
-                FileInfo theTrackFileInfo = new FileInfo(
-                    DatabaseLayer.GetSourceDirectory(new FileInfo(RegistryAgent.LastDatabase)) + 
-                    "\\" + theResultsGrid.SelectedRows[0].Cells["_columnFullPath"].Value);
+                FileInfo theTrackFileInfo;
+
+                switch (theParentView.Mode)
+                {
+                    case DatabaseMode.SearchMusicDatabase:
+                        theTrackFileInfo = new FileInfo(
+                            DatabaseLayer.GetSourceDirectory(new FileInfo(RegistryAgent.LastMusicDatabase)) +
+                            "\\" + theResultsGrid.SelectedRows[0].Cells["_columnFullPath"].Value);
+                        break;
+                    default:
+                        theTrackFileInfo = new FileInfo(
+                            DatabaseLayer.GetSourceDirectory(new FileInfo(RegistryAgent.LastKaraokeDatabase)) +
+                            "\\" + theResultsGrid.SelectedRows[0].Cells["_columnFullPath"].Value);
+                        break;
+                }
 
                 if (theTrackFileInfo.Exists)
                 {
@@ -614,9 +661,21 @@ namespace Karaokidex.ApplicationControllers
 
             if (!theParentView.gridResults.SelectedRows.Count.Equals(0))
             {
-                FileInfo theTrackFileInfo = new FileInfo(
-                    DatabaseLayer.GetSourceDirectory(new FileInfo(RegistryAgent.LastDatabase)) + 
-                    "\\" + theParentView.gridResults.SelectedRows[0].Cells["_columnFullPath"].Value);
+                FileInfo theTrackFileInfo;
+
+                switch (theParentView.Mode)
+                {
+                    case DatabaseMode.SearchMusicDatabase:
+                        theTrackFileInfo = new FileInfo(
+                            DatabaseLayer.GetSourceDirectory(new FileInfo(RegistryAgent.LastMusicDatabase)) +
+                            "\\" + theParentView.gridResults.SelectedRows[0].Cells["_columnFullPath"].Value);
+                        break;
+                    default:
+                        theTrackFileInfo = new FileInfo(
+                            DatabaseLayer.GetSourceDirectory(new FileInfo(RegistryAgent.LastKaraokeDatabase)) +
+                            "\\" + theParentView.gridResults.SelectedRows[0].Cells["_columnFullPath"].Value);
+                        break;
+                }
 
                 if (theTrackFileInfo.Exists)
                 {
@@ -704,7 +763,7 @@ namespace Karaokidex.ApplicationControllers
             if (!theParentView.gridResults.SelectedRows.Count.Equals(0))
             {
                 FileInfo theTrackFileInfo = new FileInfo(
-                    DatabaseLayer.GetSourceDirectory(new FileInfo(RegistryAgent.LastDatabase)) +
+                    DatabaseLayer.GetSourceDirectory(new FileInfo(RegistryAgent.LastKaraokeDatabase)) +
                     "\\" + theParentView.gridResults.SelectedRows[0].Cells["_columnFullPath"].Value);
 
                 if (theTrackFileInfo.Exists)
@@ -752,9 +811,21 @@ namespace Karaokidex.ApplicationControllers
 
             if (theParentView.gridResults.SelectedRows.Count.Equals(1))
             {
-                DirectoryInfo theTrackDirectoryInfo = new DirectoryInfo(
-                    DatabaseLayer.GetSourceDirectory(new FileInfo(RegistryAgent.LastDatabase)) +
-                    "\\" + theParentView.gridResults.SelectedRows[0].Cells["_columnPath"].Value);
+                DirectoryInfo theTrackDirectoryInfo;
+
+                switch (theParentView.Mode)
+                {
+                    case DatabaseMode.SearchMusicDatabase:
+                        theTrackDirectoryInfo = new DirectoryInfo(
+                            DatabaseLayer.GetSourceDirectory(new FileInfo(RegistryAgent.LastMusicDatabase)) +
+                            "\\" + theParentView.gridResults.SelectedRows[0].Cells["_columnPath"].Value);
+                        break;
+                    default:
+                        theTrackDirectoryInfo = new DirectoryInfo(
+                            DatabaseLayer.GetSourceDirectory(new FileInfo(RegistryAgent.LastKaraokeDatabase)) +
+                            "\\" + theParentView.gridResults.SelectedRows[0].Cells["_columnPath"].Value);
+                        break;
+                }
 
                 if (theTrackDirectoryInfo.Exists)
                 {
@@ -791,25 +862,49 @@ namespace Karaokidex.ApplicationControllers
         #endregion
 
         #region Private Helpers
-        private void OpenDatabase()
+        private void OpenKaraokeDatabase()
         {
-            if (File.Exists(RegistryAgent.LastDatabase))
+            if (File.Exists(RegistryAgent.LastKaraokeDatabase))
             {
-                DatabaseLayer.ConnectionString = String.Format(
+                DatabaseLayer.KaraokeConnectionString = String.Format(
                     CultureInfo.CurrentCulture,
                     "Data Source={0}; UTF8Encoding=True; Version=3; Pooling=True",
-                    RegistryAgent.LastDatabase);
+                    RegistryAgent.LastKaraokeDatabase);
 
-                this._MainView.labelTrackCount.Text = String.Format(
+                this._MainView.labelKaraokeDatabase.Text = String.Format(
                     CultureInfo.CurrentCulture,
-                    "{0:N0} tracks",
-                    DatabaseLayer.NumberOfTracksInDatabase);
+                    "Karaoke DB: {0}; {1:N0} tracks",
+                    RegistryAgent.LastKaraokeDatabase,
+                    DatabaseLayer.GetNumberOfTracksInDatabase(
+                        new FileInfo(RegistryAgent.LastKaraokeDatabase)));
 
-                this._MainView.labelDatabaseLocation.Text =
-                    RegistryAgent.LastDatabase;
-
-                this._MainView.buttonRefreshDatabase.Enabled =
+                this._MainView.menuitemRefreshKaraokeDatabase.Enabled =
                     this._MainView.menuitemCreateKaraokeTrackCatalogue.Enabled =
+                    this._MainView.textboxCriteria.Enabled =
+                    this._MainView.buttonSearch.Enabled =
+                    this._MainView.gridResults.Enabled =
+                        true;
+            }
+        }
+
+        private void OpenMusicDatabase()
+        {
+            if (File.Exists(RegistryAgent.LastMusicDatabase))
+            {
+                DatabaseLayer.MusicConnectionString = String.Format(
+                    CultureInfo.CurrentCulture,
+                    "Data Source={0}; UTF8Encoding=True; Version=3; Pooling=True",
+                    RegistryAgent.LastMusicDatabase);
+
+                this._MainView.labelMusicDatabase.Text = String.Format(
+                    CultureInfo.CurrentCulture,
+                    "Music DB: {0}; {1:N0} tracks",
+                    RegistryAgent.LastMusicDatabase,
+                    DatabaseLayer.GetNumberOfTracksInDatabase(
+                        new FileInfo(RegistryAgent.LastMusicDatabase)));
+
+                this._MainView.menuitemRefreshMusicDatabase.Enabled =
+                    //this._MainView.menuitemCreateMusicTrackCatalogue.Enabled =
                     this._MainView.textboxCriteria.Enabled =
                     this._MainView.buttonSearch.Enabled =
                     this._MainView.gridResults.Enabled =
