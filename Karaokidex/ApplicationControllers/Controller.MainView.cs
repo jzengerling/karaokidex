@@ -6,8 +6,6 @@ using Karaokidex.Views;
 using System.Diagnostics;
 using System.Data;
 using Karaokidex.Properties;
-using System.Runtime.InteropServices;
-using System.Text;
 using Karaokidex.Enumerators;
 using System.Drawing;
 
@@ -50,7 +48,10 @@ namespace Karaokidex.ApplicationControllers
                 new EventHandler(MainView_menuitemOpenKaraokeRequestSheet_Click);
             this._MainView.menuitemCreateKaraokeTrackCatalogue.Click +=
                 new EventHandler(MainView_menuitemCreateKaraokeTrackCatalogue_Click);
-            
+
+            this._MainView.menuitemAbout.Click += 
+                new EventHandler(MainView_menuitemAbout_Click);
+
             this._MainView.buttonSearch.Click += 
                 new EventHandler(MainView_buttonSearch_Click);
             this._MainView.buttonClear.Click += 
@@ -79,9 +80,6 @@ namespace Karaokidex.ApplicationControllers
             this._MainView.buttonOpenContainingFolder.Click += 
                 new EventHandler(MainView_buttonOpenContainingFolder_Click);
 
-            this._MainView.labelVersion.Text =
-                Controller.PublishVersion; 
-            
             this._AppContext.MainForm = this._MainView;
 
             this._MainView.Show();
@@ -351,6 +349,15 @@ namespace Karaokidex.ApplicationControllers
 
             this._MainView.Cursor =
                 Cursors.Default;
+        }
+        #endregion
+
+        #region About Menu
+        private void MainView_menuitemAbout_Click(
+            object sender, 
+            EventArgs e)
+        {
+            this.AboutView_Show();
         }
         #endregion
 
@@ -919,13 +926,6 @@ namespace Karaokidex.ApplicationControllers
                     "Data Source={0}; UTF8Encoding=True; Version=3; Pooling=True",
                     RegistryAgent.LastKaraokeDatabase);
 
-                this._MainView.labelKaraokeDatabase.Text = String.Format(
-                    CultureInfo.CurrentCulture,
-                    "Karaoke DB: {0}; {1:N0} tracks",
-                    RegistryAgent.LastKaraokeDatabase,
-                    DatabaseLayer.GetNumberOfTracksInDatabase(
-                        new FileInfo(RegistryAgent.LastKaraokeDatabase)));
-
                 this._MainView.menuitemRefreshKaraokeDatabase.Enabled =
                     this._MainView.menuitemCreateKaraokeTrackCatalogue.Enabled =
                     this._MainView.textboxCriteria.Enabled =
@@ -943,13 +943,6 @@ namespace Karaokidex.ApplicationControllers
                     CultureInfo.CurrentCulture,
                     "Data Source={0}; UTF8Encoding=True; Version=3; Pooling=True",
                     RegistryAgent.LastMusicDatabase);
-
-                this._MainView.labelMusicDatabase.Text = String.Format(
-                    CultureInfo.CurrentCulture,
-                    "Music DB: {0}; {1:N0} tracks",
-                    RegistryAgent.LastMusicDatabase,
-                    DatabaseLayer.GetNumberOfTracksInDatabase(
-                        new FileInfo(RegistryAgent.LastMusicDatabase)));
 
                 this._MainView.menuitemRefreshMusicDatabase.Enabled =
                     //this._MainView.menuitemCreateMusicTrackCatalogue.Enabled =

@@ -96,6 +96,11 @@ namespace Karaokidex.Views
             get { return this._menuitemCreateKaraokeTrackCatalogue; }
         }
 
+        public ToolStripMenuItem menuitemAbout
+        {
+            get { return this._menuitemAbout; }
+        }
+
         public Button buttonSearch
         {
             get { return this._buttonSearch; }
@@ -159,21 +164,6 @@ namespace Karaokidex.Views
         public ToolStripMenuItem menuitemMarkTrackAsInvalid
         {
             get { return this._menuitemMarkTrackAsInvalid; }
-        }
-
-        public ToolStripLabel labelVersion
-        {
-            get { return this._labelVersion; }
-        }
-
-        public ToolStripLabel labelKaraokeDatabase
-        {
-            get { return this._labelKaraokeDatabase; }
-        }
-
-        public ToolStripLabel labelMusicDatabase
-        {
-            get { return this._labelMusicDatabase; }
         }
 
         public ToolStripLabel labelResults

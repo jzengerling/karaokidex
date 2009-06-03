@@ -18,29 +18,6 @@ namespace Karaokidex.ApplicationControllers
         private IntPtr _NativeResource;
         #endregion
 
-        #region Properties
-        public static string PublishVersion
-        {
-            get
-            {
-                if (ApplicationDeployment.IsNetworkDeployed)
-                {
-                    ApplicationDeployment ad =
-                        ApplicationDeployment.CurrentDeployment;
-
-                    return String.Format(
-                        CultureInfo.CurrentCulture,
-                        "Version: {0}.{1}.{2}.{3}",
-                        ad.CurrentVersion.Major,
-                        ad.CurrentVersion.Minor,
-                        ad.CurrentVersion.Build,
-                        ad.CurrentVersion.Revision);
-                }
-                return "Not Deployed";
-            }
-        }
-        #endregion
-
         #region Methods
         /// <summary>
         /// Start controlling the application
