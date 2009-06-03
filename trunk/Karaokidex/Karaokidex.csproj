@@ -40,7 +40,7 @@
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>index.html</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>80</ApplicationRevision>
+    <ApplicationRevision>83</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -85,6 +85,7 @@
     <Compile Include="ApplicationControllers\Controller.CreateDatabaseAgentView.cs" />
     <Compile Include="ApplicationControllers\Controller.OpenDatabaseView.cs" />
     <Compile Include="ApplicationControllers\Controller.TrackRatingView.cs" />
+    <Compile Include="ApplicationControllers\Controller.AboutView.cs" />
     <Compile Include="DatabaseLayer\DatabaseLayer.cs" />
     <Compile Include="DatabaseLayer\CreateMusicDatabaseAgent.cs" />
     <Compile Include="DatabaseLayer\DatabaseLayer.Karaoke.cs" />
@@ -104,6 +105,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\AboutView.resx">
+      <DependentUpon>AboutView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\OpenDatabaseView.resx">
       <DependentUpon>OpenDatabaseView.cs</DependentUpon>
@@ -143,6 +147,12 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="RegistryAgent.cs" />
+    <Compile Include="Views\AboutView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\AboutView.Designer.cs">
+      <DependentUpon>AboutView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\OpenDatabaseView.cs">
       <SubType>Form</SubType>
     </Compile>
