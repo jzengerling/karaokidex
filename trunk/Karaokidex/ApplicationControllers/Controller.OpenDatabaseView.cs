@@ -24,6 +24,22 @@ namespace Karaokidex.ApplicationControllers
             theView.buttonOK.Click +=
                 new EventHandler(OpenDatabaseView_buttonOK_Click);
 
+            switch (theMode)
+            {
+                case DatabaseMode.OpenMusicDatabase:
+                    theView.OpenFileDialog.Filter =
+                        "Karakidex Music Databases|*.kmdb";
+                    theView.OpenFileDialog.DefaultExt =
+                        "kmdb";
+                    break;
+                default:
+                    theView.OpenFileDialog.Filter =
+                        "Karakidex Karaoke Databases|*.kkdb";
+                    theView.OpenFileDialog.DefaultExt =
+                        "kkdb";
+                    break;
+            }
+
             // Show the form
             theView.ShowDialog(this._MainView);
         }
@@ -46,9 +62,19 @@ namespace Karaokidex.ApplicationControllers
             {
                 case DatabaseMode.OpenMusicDatabase:
                     theView.Text = "Open Music Database";
+
+                    theView.OpenFileDialog.Filter =
+                        "Karakidex Music Databases|*.kmdb";
+                    theView.OpenFileDialog.DefaultExt =
+                        "kmdb";
                     break;
                 default:
                     theView.Text = "Open Karaoke Database";
+
+                    theView.OpenFileDialog.Filter =
+                        "Karakidex Karaoke Databases|*.kkdb";
+                    theView.OpenFileDialog.DefaultExt =
+                        "kkdb";
                     break;
             }
 

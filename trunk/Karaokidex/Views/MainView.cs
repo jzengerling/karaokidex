@@ -206,10 +206,6 @@ namespace Karaokidex.Views
                 ? DatabaseMode.SearchKaraokeDatabase
                 : DatabaseMode.SearchMusicDatabase;
 
-            this._columnRatingImage.Visible =
-                this._checkboxShowOnlyRatedTracks.Enabled =
-                    this._Mode.Equals(DatabaseMode.SearchKaraokeDatabase);
-
             if (!String.IsNullOrEmpty(this._textboxCriteria.Text))
             {
                 this._buttonSearch.PerformClick();

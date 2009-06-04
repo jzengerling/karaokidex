@@ -37,9 +37,11 @@
             this._SplitContainer = new System.Windows.Forms.SplitContainer();
             this._radioSearchMusicDatabase = new System.Windows.Forms.RadioButton();
             this._radioSearchKaraokeDatabase = new System.Windows.Forms.RadioButton();
+            this._buttonClear = new System.Windows.Forms.Button();
             this._checkboxShowOnlyRatedTracks = new System.Windows.Forms.CheckBox();
             this._textboxCriteria = new System.Windows.Forms.TextBox();
             this._labelCriteria = new System.Windows.Forms.Label();
+            this._buttonSearch = new System.Windows.Forms.Button();
             this._gridResults = new System.Windows.Forms.DataGridView();
             this._columnID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._columnImage = new System.Windows.Forms.DataGridViewImageColumn();
@@ -49,36 +51,34 @@
             this._columnPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._columnFullPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._ContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this._menuitemEnqueueInKaraFun = new System.Windows.Forms.ToolStripMenuItem();
+            this._menuitemPlayInKaraFun = new System.Windows.Forms.ToolStripMenuItem();
             this._menuitemEditTrackRating = new System.Windows.Forms.ToolStripMenuItem();
+            this._separator3 = new System.Windows.Forms.ToolStripSeparator();
+            this._menuitemMarkTrackAsInvalid = new System.Windows.Forms.ToolStripMenuItem();
             this._SaveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this._MenuStrip = new System.Windows.Forms.MenuStrip();
             this._menuitemFile = new System.Windows.Forms.ToolStripMenuItem();
-            this._separator1 = new System.Windows.Forms.ToolStripSeparator();
-            this._menuitemKaraoke = new System.Windows.Forms.ToolStripMenuItem();
-            this._separator2 = new System.Windows.Forms.ToolStripSeparator();
-            this._menuitemStrip = new System.Windows.Forms.ToolStripMenuItem();
-            this._menuitemDocuments = new System.Windows.Forms.ToolStripMenuItem();
-            this._menuitemAbout = new System.Windows.Forms.ToolStripMenuItem();
-            this._panelSourceDirectory = new System.Windows.Forms.Panel();
-            this._labelSelectedTrackPath = new System.Windows.Forms.Label();
-            this._separator3 = new System.Windows.Forms.ToolStripSeparator();
-            this._buttonSearch = new System.Windows.Forms.Button();
-            this._buttonClear = new System.Windows.Forms.Button();
-            this._menuitemEnqueueInKaraFun = new System.Windows.Forms.ToolStripMenuItem();
-            this._menuitemPlayInKaraFun = new System.Windows.Forms.ToolStripMenuItem();
-            this._menuitemMarkTrackAsInvalid = new System.Windows.Forms.ToolStripMenuItem();
-            this._buttonOpenContainingFolder = new System.Windows.Forms.Button();
             this._menuitemLaunchKaraFun = new System.Windows.Forms.ToolStripMenuItem();
+            this._separator1 = new System.Windows.Forms.ToolStripSeparator();
             this._menuitemExit = new System.Windows.Forms.ToolStripMenuItem();
+            this._menuitemKaraoke = new System.Windows.Forms.ToolStripMenuItem();
             this._menuitemOpenKaraokeDatabase = new System.Windows.Forms.ToolStripMenuItem();
             this._menuitemCreateKaraokeDatabase = new System.Windows.Forms.ToolStripMenuItem();
             this._menuitemRefreshKaraokeDatabase = new System.Windows.Forms.ToolStripMenuItem();
+            this._separator2 = new System.Windows.Forms.ToolStripSeparator();
             this._menuitemListInvalidKaraokeTracks = new System.Windows.Forms.ToolStripMenuItem();
+            this._menuitemStrip = new System.Windows.Forms.ToolStripMenuItem();
             this._menuitemOpenMusicDatabase = new System.Windows.Forms.ToolStripMenuItem();
             this._menuitemCreateMusicDatabase = new System.Windows.Forms.ToolStripMenuItem();
             this._menuitemRefreshMusicDatabase = new System.Windows.Forms.ToolStripMenuItem();
+            this._menuitemDocuments = new System.Windows.Forms.ToolStripMenuItem();
             this._menuitemOpenKaraokeRequestSheet = new System.Windows.Forms.ToolStripMenuItem();
             this._menuitemCreateKaraokeTrackCatalogue = new System.Windows.Forms.ToolStripMenuItem();
+            this._menuitemAbout = new System.Windows.Forms.ToolStripMenuItem();
+            this._panelSourceDirectory = new System.Windows.Forms.Panel();
+            this._buttonOpenContainingFolder = new System.Windows.Forms.Button();
+            this._labelSelectedTrackPath = new System.Windows.Forms.Label();
             this._StatusStrip.SuspendLayout();
             this._SplitContainer.Panel1.SuspendLayout();
             this._SplitContainer.Panel2.SuspendLayout();
@@ -93,18 +93,16 @@
             // 
             this._StatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this._labelResults});
-            this._StatusStrip.Location = new System.Drawing.Point(0, 260);
+            this._StatusStrip.Location = new System.Drawing.Point(0, 262);
             this._StatusStrip.Name = "_StatusStrip";
-            this._StatusStrip.Size = new System.Drawing.Size(784, 24);
+            this._StatusStrip.Size = new System.Drawing.Size(784, 22);
             this._StatusStrip.TabIndex = 0;
             this._StatusStrip.Text = "statusStrip1";
             // 
             // _labelResults
             // 
-            this._labelResults.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
-            this._labelResults.BorderStyle = System.Windows.Forms.Border3DStyle.Etched;
             this._labelResults.Name = "_labelResults";
-            this._labelResults.Size = new System.Drawing.Size(54, 19);
+            this._labelResults.Size = new System.Drawing.Size(50, 17);
             this._labelResults.Text = "0 results";
             // 
             // _SplitContainer
@@ -132,7 +130,7 @@
             // _SplitContainer.Panel2
             // 
             this._SplitContainer.Panel2.Controls.Add(this._gridResults);
-            this._SplitContainer.Size = new System.Drawing.Size(784, 204);
+            this._SplitContainer.Size = new System.Drawing.Size(784, 206);
             this._SplitContainer.SplitterDistance = 70;
             this._SplitContainer.TabIndex = 0;
             this._SplitContainer.TabStop = false;
@@ -160,6 +158,21 @@
             this._radioSearchKaraokeDatabase.Text = "&Karaoke";
             this._radioSearchKaraokeDatabase.UseVisualStyleBackColor = true;
             this._radioSearchKaraokeDatabase.CheckedChanged += new System.EventHandler(this._RadioButtonMode_CheckedChanged);
+            // 
+            // _buttonClear
+            // 
+            this._buttonClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._buttonClear.AutoSize = true;
+            this._buttonClear.Enabled = false;
+            this._buttonClear.Image = global::Karaokidex.Properties.Resources.page_white;
+            this._buttonClear.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this._buttonClear.Location = new System.Drawing.Point(680, 38);
+            this._buttonClear.Name = "_buttonClear";
+            this._buttonClear.Size = new System.Drawing.Size(100, 29);
+            this._buttonClear.TabIndex = 7;
+            this._buttonClear.Text = "&Clear";
+            this._buttonClear.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this._buttonClear.UseVisualStyleBackColor = true;
             // 
             // _checkboxShowOnlyRatedTracks
             // 
@@ -190,6 +203,21 @@
             this._labelCriteria.TabIndex = 3;
             this._labelCriteria.Text = "Artist / Title";
             // 
+            // _buttonSearch
+            // 
+            this._buttonSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._buttonSearch.AutoSize = true;
+            this._buttonSearch.Enabled = false;
+            this._buttonSearch.Image = global::Karaokidex.Properties.Resources.find;
+            this._buttonSearch.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this._buttonSearch.Location = new System.Drawing.Point(680, 3);
+            this._buttonSearch.Name = "_buttonSearch";
+            this._buttonSearch.Size = new System.Drawing.Size(100, 29);
+            this._buttonSearch.TabIndex = 5;
+            this._buttonSearch.Text = "&Search";
+            this._buttonSearch.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this._buttonSearch.UseVisualStyleBackColor = true;
+            // 
             // _gridResults
             // 
             this._gridResults.AllowUserToAddRows = false;
@@ -214,7 +242,7 @@
             this._gridResults.RowHeadersVisible = false;
             this._gridResults.RowTemplate.Height = 30;
             this._gridResults.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this._gridResults.Size = new System.Drawing.Size(784, 130);
+            this._gridResults.Size = new System.Drawing.Size(784, 132);
             this._gridResults.StandardTab = true;
             this._gridResults.TabIndex = 4;
             // 
@@ -249,13 +277,11 @@
             // 
             // _columnRatingImage
             // 
-            this._columnRatingImage.FillWeight = 85F;
             this._columnRatingImage.HeaderText = "Rating";
             this._columnRatingImage.Name = "_columnRatingImage";
             this._columnRatingImage.ReadOnly = true;
             this._columnRatingImage.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this._columnRatingImage.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this._columnRatingImage.Width = 85;
             // 
             // _columnRating
             // 
@@ -295,6 +321,21 @@
             this._ContextMenuStrip.Name = "_ContextMenuStrip";
             this._ContextMenuStrip.Size = new System.Drawing.Size(227, 98);
             // 
+            // _menuitemEnqueueInKaraFun
+            // 
+            this._menuitemEnqueueInKaraFun.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._menuitemEnqueueInKaraFun.Image = global::Karaokidex.Properties.Resources.KaraFun;
+            this._menuitemEnqueueInKaraFun.Name = "_menuitemEnqueueInKaraFun";
+            this._menuitemEnqueueInKaraFun.Size = new System.Drawing.Size(226, 22);
+            this._menuitemEnqueueInKaraFun.Text = "En&queue in KaraFun";
+            // 
+            // _menuitemPlayInKaraFun
+            // 
+            this._menuitemPlayInKaraFun.Image = global::Karaokidex.Properties.Resources.KaraFun;
+            this._menuitemPlayInKaraFun.Name = "_menuitemPlayInKaraFun";
+            this._menuitemPlayInKaraFun.Size = new System.Drawing.Size(226, 22);
+            this._menuitemPlayInKaraFun.Text = "&Play in KaraFun";
+            // 
             // _menuitemEditTrackRating
             // 
             this._menuitemEditTrackRating.Image = global::Karaokidex.Properties.Resources.rating_star_solid;
@@ -302,6 +343,19 @@
             this._menuitemEditTrackRating.ShortcutKeys = System.Windows.Forms.Keys.F10;
             this._menuitemEditTrackRating.Size = new System.Drawing.Size(226, 22);
             this._menuitemEditTrackRating.Text = "Edit Track &Rating";
+            // 
+            // _separator3
+            // 
+            this._separator3.Name = "_separator3";
+            this._separator3.Size = new System.Drawing.Size(223, 6);
+            // 
+            // _menuitemMarkTrackAsInvalid
+            // 
+            this._menuitemMarkTrackAsInvalid.Image = global::Karaokidex.Properties.Resources.page_white_delete;
+            this._menuitemMarkTrackAsInvalid.Name = "_menuitemMarkTrackAsInvalid";
+            this._menuitemMarkTrackAsInvalid.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F11)));
+            this._menuitemMarkTrackAsInvalid.Size = new System.Drawing.Size(226, 22);
+            this._menuitemMarkTrackAsInvalid.Text = "Mark Track As Invalid";
             // 
             // _SaveFileDialog
             // 
@@ -332,10 +386,25 @@
             this._menuitemFile.Size = new System.Drawing.Size(37, 20);
             this._menuitemFile.Text = "&File";
             // 
+            // _menuitemLaunchKaraFun
+            // 
+            this._menuitemLaunchKaraFun.Image = global::Karaokidex.Properties.Resources.KaraFun;
+            this._menuitemLaunchKaraFun.Name = "_menuitemLaunchKaraFun";
+            this._menuitemLaunchKaraFun.ShortcutKeys = System.Windows.Forms.Keys.F6;
+            this._menuitemLaunchKaraFun.Size = new System.Drawing.Size(178, 22);
+            this._menuitemLaunchKaraFun.Text = "Launch &KaraFun";
+            // 
             // _separator1
             // 
             this._separator1.Name = "_separator1";
             this._separator1.Size = new System.Drawing.Size(175, 6);
+            // 
+            // _menuitemExit
+            // 
+            this._menuitemExit.Image = global::Karaokidex.Properties.Resources.door_in;
+            this._menuitemExit.Name = "_menuitemExit";
+            this._menuitemExit.Size = new System.Drawing.Size(178, 22);
+            this._menuitemExit.Text = "E&xit";
             // 
             // _menuitemKaraoke
             // 
@@ -348,146 +417,6 @@
             this._menuitemKaraoke.Name = "_menuitemKaraoke";
             this._menuitemKaraoke.Size = new System.Drawing.Size(61, 20);
             this._menuitemKaraoke.Text = "K&araoke";
-            // 
-            // _separator2
-            // 
-            this._separator2.Name = "_separator2";
-            this._separator2.Size = new System.Drawing.Size(183, 6);
-            // 
-            // _menuitemStrip
-            // 
-            this._menuitemStrip.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this._menuitemOpenMusicDatabase,
-            this._menuitemCreateMusicDatabase,
-            this._menuitemRefreshMusicDatabase});
-            this._menuitemStrip.Name = "_menuitemStrip";
-            this._menuitemStrip.Size = new System.Drawing.Size(51, 20);
-            this._menuitemStrip.Text = "M&usic";
-            // 
-            // _menuitemDocuments
-            // 
-            this._menuitemDocuments.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this._menuitemOpenKaraokeRequestSheet,
-            this._menuitemCreateKaraokeTrackCatalogue});
-            this._menuitemDocuments.Name = "_menuitemDocuments";
-            this._menuitemDocuments.Size = new System.Drawing.Size(80, 20);
-            this._menuitemDocuments.Text = "&Documents";
-            // 
-            // _menuitemAbout
-            // 
-            this._menuitemAbout.Name = "_menuitemAbout";
-            this._menuitemAbout.ShortcutKeys = System.Windows.Forms.Keys.F1;
-            this._menuitemAbout.Size = new System.Drawing.Size(52, 20);
-            this._menuitemAbout.Text = "A&bout";
-            // 
-            // _panelSourceDirectory
-            // 
-            this._panelSourceDirectory.Controls.Add(this._buttonOpenContainingFolder);
-            this._panelSourceDirectory.Controls.Add(this._labelSelectedTrackPath);
-            this._panelSourceDirectory.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this._panelSourceDirectory.Location = new System.Drawing.Point(0, 228);
-            this._panelSourceDirectory.Name = "_panelSourceDirectory";
-            this._panelSourceDirectory.Size = new System.Drawing.Size(784, 32);
-            this._panelSourceDirectory.TabIndex = 2;
-            // 
-            // _labelSelectedTrackPath
-            // 
-            this._labelSelectedTrackPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this._labelSelectedTrackPath.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this._labelSelectedTrackPath.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._labelSelectedTrackPath.Location = new System.Drawing.Point(3, 2);
-            this._labelSelectedTrackPath.Margin = new System.Windows.Forms.Padding(3);
-            this._labelSelectedTrackPath.Name = "_labelSelectedTrackPath";
-            this._labelSelectedTrackPath.Size = new System.Drawing.Size(742, 28);
-            this._labelSelectedTrackPath.TabIndex = 8;
-            this._labelSelectedTrackPath.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this._labelSelectedTrackPath.UseMnemonic = false;
-            // 
-            // _separator3
-            // 
-            this._separator3.Name = "_separator3";
-            this._separator3.Size = new System.Drawing.Size(223, 6);
-            // 
-            // _buttonSearch
-            // 
-            this._buttonSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._buttonSearch.AutoSize = true;
-            this._buttonSearch.Enabled = false;
-            this._buttonSearch.Image = global::Karaokidex.Properties.Resources.find;
-            this._buttonSearch.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this._buttonSearch.Location = new System.Drawing.Point(680, 3);
-            this._buttonSearch.Name = "_buttonSearch";
-            this._buttonSearch.Size = new System.Drawing.Size(100, 29);
-            this._buttonSearch.TabIndex = 5;
-            this._buttonSearch.Text = "&Search";
-            this._buttonSearch.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this._buttonSearch.UseVisualStyleBackColor = true;
-            // 
-            // _buttonClear
-            // 
-            this._buttonClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._buttonClear.AutoSize = true;
-            this._buttonClear.Enabled = false;
-            this._buttonClear.Image = global::Karaokidex.Properties.Resources.page_white;
-            this._buttonClear.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this._buttonClear.Location = new System.Drawing.Point(680, 38);
-            this._buttonClear.Name = "_buttonClear";
-            this._buttonClear.Size = new System.Drawing.Size(100, 29);
-            this._buttonClear.TabIndex = 7;
-            this._buttonClear.Text = "&Clear";
-            this._buttonClear.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this._buttonClear.UseVisualStyleBackColor = true;
-            // 
-            // _menuitemEnqueueInKaraFun
-            // 
-            this._menuitemEnqueueInKaraFun.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._menuitemEnqueueInKaraFun.Image = global::Karaokidex.Properties.Resources.KaraFun;
-            this._menuitemEnqueueInKaraFun.Name = "_menuitemEnqueueInKaraFun";
-            this._menuitemEnqueueInKaraFun.Size = new System.Drawing.Size(226, 22);
-            this._menuitemEnqueueInKaraFun.Text = "En&queue in KaraFun";
-            // 
-            // _menuitemPlayInKaraFun
-            // 
-            this._menuitemPlayInKaraFun.Image = global::Karaokidex.Properties.Resources.KaraFun;
-            this._menuitemPlayInKaraFun.Name = "_menuitemPlayInKaraFun";
-            this._menuitemPlayInKaraFun.Size = new System.Drawing.Size(226, 22);
-            this._menuitemPlayInKaraFun.Text = "&Play in KaraFun";
-            // 
-            // _menuitemMarkTrackAsInvalid
-            // 
-            this._menuitemMarkTrackAsInvalid.Image = global::Karaokidex.Properties.Resources.page_white_delete;
-            this._menuitemMarkTrackAsInvalid.Name = "_menuitemMarkTrackAsInvalid";
-            this._menuitemMarkTrackAsInvalid.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F11)));
-            this._menuitemMarkTrackAsInvalid.Size = new System.Drawing.Size(226, 22);
-            this._menuitemMarkTrackAsInvalid.Text = "Mark Track As Invalid";
-            // 
-            // _buttonOpenContainingFolder
-            // 
-            this._buttonOpenContainingFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._buttonOpenContainingFolder.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this._buttonOpenContainingFolder.Enabled = false;
-            this._buttonOpenContainingFolder.Image = global::Karaokidex.Properties.Resources.folder;
-            this._buttonOpenContainingFolder.Location = new System.Drawing.Point(751, 2);
-            this._buttonOpenContainingFolder.Name = "_buttonOpenContainingFolder";
-            this._buttonOpenContainingFolder.Size = new System.Drawing.Size(29, 28);
-            this._buttonOpenContainingFolder.TabIndex = 7;
-            this._buttonOpenContainingFolder.UseVisualStyleBackColor = true;
-            // 
-            // _menuitemLaunchKaraFun
-            // 
-            this._menuitemLaunchKaraFun.Image = global::Karaokidex.Properties.Resources.KaraFun;
-            this._menuitemLaunchKaraFun.Name = "_menuitemLaunchKaraFun";
-            this._menuitemLaunchKaraFun.ShortcutKeys = System.Windows.Forms.Keys.F6;
-            this._menuitemLaunchKaraFun.Size = new System.Drawing.Size(178, 22);
-            this._menuitemLaunchKaraFun.Text = "Launch &KaraFun";
-            // 
-            // _menuitemExit
-            // 
-            this._menuitemExit.Image = global::Karaokidex.Properties.Resources.door_in;
-            this._menuitemExit.Name = "_menuitemExit";
-            this._menuitemExit.Size = new System.Drawing.Size(178, 22);
-            this._menuitemExit.Text = "E&xit";
             // 
             // _menuitemOpenKaraokeDatabase
             // 
@@ -514,6 +443,11 @@
             this._menuitemRefreshKaraokeDatabase.Size = new System.Drawing.Size(186, 22);
             this._menuitemRefreshKaraokeDatabase.Text = "&Refresh Database";
             // 
+            // _separator2
+            // 
+            this._separator2.Name = "_separator2";
+            this._separator2.Size = new System.Drawing.Size(183, 6);
+            // 
             // _menuitemListInvalidKaraokeTracks
             // 
             this._menuitemListInvalidKaraokeTracks.Enabled = false;
@@ -522,6 +456,16 @@
             this._menuitemListInvalidKaraokeTracks.ShortcutKeys = System.Windows.Forms.Keys.F5;
             this._menuitemListInvalidKaraokeTracks.Size = new System.Drawing.Size(186, 22);
             this._menuitemListInvalidKaraokeTracks.Text = "List &Invalid Tracks";
+            // 
+            // _menuitemStrip
+            // 
+            this._menuitemStrip.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this._menuitemOpenMusicDatabase,
+            this._menuitemCreateMusicDatabase,
+            this._menuitemRefreshMusicDatabase});
+            this._menuitemStrip.Name = "_menuitemStrip";
+            this._menuitemStrip.Size = new System.Drawing.Size(51, 20);
+            this._menuitemStrip.Text = "M&usic";
             // 
             // _menuitemOpenMusicDatabase
             // 
@@ -548,6 +492,15 @@
             this._menuitemRefreshMusicDatabase.Size = new System.Drawing.Size(206, 22);
             this._menuitemRefreshMusicDatabase.Text = "&Refresh Database";
             // 
+            // _menuitemDocuments
+            // 
+            this._menuitemDocuments.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this._menuitemOpenKaraokeRequestSheet,
+            this._menuitemCreateKaraokeTrackCatalogue});
+            this._menuitemDocuments.Name = "_menuitemDocuments";
+            this._menuitemDocuments.Size = new System.Drawing.Size(80, 20);
+            this._menuitemDocuments.Text = "&Documents";
+            // 
             // _menuitemOpenKaraokeRequestSheet
             // 
             this._menuitemOpenKaraokeRequestSheet.Image = global::Karaokidex.Properties.Resources.page_white_acrobat;
@@ -564,6 +517,49 @@
             this._menuitemCreateKaraokeTrackCatalogue.ShortcutKeys = System.Windows.Forms.Keys.F8;
             this._menuitemCreateKaraokeTrackCatalogue.Size = new System.Drawing.Size(261, 22);
             this._menuitemCreateKaraokeTrackCatalogue.Text = "&Create Karaoke Track Catalogue";
+            // 
+            // _menuitemAbout
+            // 
+            this._menuitemAbout.Name = "_menuitemAbout";
+            this._menuitemAbout.ShortcutKeys = System.Windows.Forms.Keys.F1;
+            this._menuitemAbout.Size = new System.Drawing.Size(52, 20);
+            this._menuitemAbout.Text = "A&bout";
+            // 
+            // _panelSourceDirectory
+            // 
+            this._panelSourceDirectory.Controls.Add(this._buttonOpenContainingFolder);
+            this._panelSourceDirectory.Controls.Add(this._labelSelectedTrackPath);
+            this._panelSourceDirectory.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this._panelSourceDirectory.Location = new System.Drawing.Point(0, 230);
+            this._panelSourceDirectory.Name = "_panelSourceDirectory";
+            this._panelSourceDirectory.Size = new System.Drawing.Size(784, 32);
+            this._panelSourceDirectory.TabIndex = 2;
+            // 
+            // _buttonOpenContainingFolder
+            // 
+            this._buttonOpenContainingFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._buttonOpenContainingFolder.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this._buttonOpenContainingFolder.Enabled = false;
+            this._buttonOpenContainingFolder.Image = global::Karaokidex.Properties.Resources.folder;
+            this._buttonOpenContainingFolder.Location = new System.Drawing.Point(751, 2);
+            this._buttonOpenContainingFolder.Name = "_buttonOpenContainingFolder";
+            this._buttonOpenContainingFolder.Size = new System.Drawing.Size(29, 28);
+            this._buttonOpenContainingFolder.TabIndex = 7;
+            this._buttonOpenContainingFolder.UseVisualStyleBackColor = true;
+            // 
+            // _labelSelectedTrackPath
+            // 
+            this._labelSelectedTrackPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this._labelSelectedTrackPath.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this._labelSelectedTrackPath.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._labelSelectedTrackPath.Location = new System.Drawing.Point(3, 2);
+            this._labelSelectedTrackPath.Margin = new System.Windows.Forms.Padding(3);
+            this._labelSelectedTrackPath.Name = "_labelSelectedTrackPath";
+            this._labelSelectedTrackPath.Size = new System.Drawing.Size(742, 28);
+            this._labelSelectedTrackPath.TabIndex = 8;
+            this._labelSelectedTrackPath.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this._labelSelectedTrackPath.UseMnemonic = false;
             // 
             // MainView
             // 
@@ -608,13 +604,6 @@
         private System.Windows.Forms.ToolStripMenuItem _menuitemEnqueueInKaraFun;
         private System.Windows.Forms.ToolStripMenuItem _menuitemPlayInKaraFun;
         private System.Windows.Forms.ToolStripMenuItem _menuitemEditTrackRating;
-        private System.Windows.Forms.DataGridViewTextBoxColumn _columnID;
-        private System.Windows.Forms.DataGridViewImageColumn _columnImage;
-        private System.Windows.Forms.DataGridViewTextBoxColumn _columnTrack;
-        private System.Windows.Forms.DataGridViewImageColumn _columnRatingImage;
-        private System.Windows.Forms.DataGridViewTextBoxColumn _columnRating;
-        private System.Windows.Forms.DataGridViewTextBoxColumn _columnPath;
-        private System.Windows.Forms.DataGridViewTextBoxColumn _columnFullPath;
         private System.Windows.Forms.ToolStripMenuItem _menuitemMarkTrackAsInvalid;
         private System.Windows.Forms.CheckBox _checkboxShowOnlyRatedTracks;
         private System.Windows.Forms.TextBox _textboxCriteria;
@@ -647,5 +636,12 @@
         private System.Windows.Forms.Button _buttonOpenContainingFolder;
         private System.Windows.Forms.Label _labelSelectedTrackPath;
         private System.Windows.Forms.ToolStripSeparator _separator3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _columnID;
+        private System.Windows.Forms.DataGridViewImageColumn _columnImage;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _columnTrack;
+        private System.Windows.Forms.DataGridViewImageColumn _columnRatingImage;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _columnRating;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _columnPath;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _columnFullPath;
     }
 }
