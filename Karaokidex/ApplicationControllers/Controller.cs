@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Diagnostics;
 using System.Globalization;
 using System.Deployment.Application;
+using System.IO;
 
 #endregion
 
@@ -16,6 +17,8 @@ namespace Karaokidex.ApplicationControllers
         #region Members
         private ApplicationContext _AppContext;
         private IntPtr _NativeResource;
+        private FileInfo _CurrentKaraokeDatabaseFileInfo;
+        private FileInfo _CurrentMusicDatabaseFileInfo;
         #endregion
 
         #region Methods

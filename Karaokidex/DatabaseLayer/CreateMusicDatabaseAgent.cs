@@ -11,6 +11,7 @@ namespace Karaokidex
     {
         #region Members
         private CreateDatabaseAgentView _CallingView;
+        private FileInfo _DatabaseInfo;
         private DirectoryInfo _SourceDirectoryInfo;
         private DirectoryInfo _CurrentDirectoryInfo;
         private FileInfo _CurrentFileInfo;
@@ -36,17 +37,19 @@ namespace Karaokidex
         #region Methods
         public CreateMusicDatabaseAgent(
             CreateDatabaseAgentView theCallingView,
+            FileInfo theDatabaseInfo,
             DirectoryInfo theDirectoryInfo)
         {
             this._CallingView = theCallingView;
+            this._DatabaseInfo = theDatabaseInfo;
             this._SourceDirectoryInfo = theDirectoryInfo;
         }
 
         #region Private Helpers
         public void Start()
         {
-            using (SQLiteConnection theConnection =
-                new SQLiteConnection(DatabaseLayer.MusicConnectionString))
+            using (SQLiteConnection theConnection = new SQLiteConnection(
+                DatabaseLayer.ToConnectionString(this._DatabaseInfo)))
             {
                 try
                 {
@@ -110,8 +113,8 @@ namespace Karaokidex
                         using (SQLiteCommand theCommand = theConnection.CreateCommand())
                         {
                             theCommand.CommandText =
-                                "UPDATE [Tracks] " +
-                                "SET [ToBeDeleted] = 1";
+                                "DELETE " +
+                                "FROM [Tracks]";
 
                             theCommand.ExecuteNonQuery();
                         }
@@ -120,16 +123,6 @@ namespace Karaokidex
                             this._SourceDirectoryInfo,
                             theConnection,
                             this._SourceDirectoryInfo);
-
-                        using (SQLiteCommand theCommand = theConnection.CreateCommand())
-                        {
-                            theCommand.CommandText =
-                                "DELETE " +
-                                "FROM [Tracks] " +
-                                "WHERE [ToBeDeleted] = 1";
-
-                            theCommand.ExecuteNonQuery();
-                        }
                         
                         theTransaction.Commit();
 
@@ -173,7 +166,9 @@ namespace Karaokidex
 
                 this._CurrentDirectoryInfo = thisDirectoryInfo;
 
-                if (!thisDirectoryInfo.GetFiles("*.mp3").Length.Equals(0))
+                if (!thisDirectoryInfo.GetFiles("*.mp3").Length.Equals(0) ||
+                    !thisDirectoryInfo.GetFiles("*.wav").Length.Equals(0) ||
+                    !thisDirectoryInfo.GetFiles("*.flac").Length.Equals(0))
                 {
                     FileInfo[] theFiles =
                         thisDirectoryInfo.GetFiles();
@@ -188,98 +183,32 @@ namespace Karaokidex
                     {
                         this._CurrentFileInfo = thisFileInfo;
 
-                        string thisChecksum = 
-                            IOOperations.GetMD5HashFromFile(
-                                thisFileInfo.FullName);
-                        long thisTrackID = 0;
-
                         using (SQLiteCommand theCommand = theConnection.CreateCommand())
                         {
-                            theCommand.CommandText = 
-                                "SELECT [ID] " +
-                                "FROM [Tracks] " +
-                                "WHERE [Checksum] = ?";
+                            theCommand.CommandText =
+                                "INSERT INTO [Tracks] ([Path], [Details], [Extension]) " +
+                                "VALUES (?, ?, ?)";
 
-                            SQLiteParameter theChecksumParameter = theCommand.CreateParameter();
-                            theCommand.Parameters.Add(theChecksumParameter);
+                            SQLiteParameter thePathParameter = theCommand.CreateParameter();
+                            theCommand.Parameters.Add(thePathParameter);
+                            SQLiteParameter theDetailsParameter = theCommand.CreateParameter();
+                            theCommand.Parameters.Add(theDetailsParameter);
+                            SQLiteParameter theExtensionParameter = theCommand.CreateParameter();
+                            theCommand.Parameters.Add(theExtensionParameter);
 
-                            theChecksumParameter.Value = thisChecksum;
+                            thePathParameter.Value = thisFileInfo.DirectoryName
+                                .Replace(thisSourceDirectoryInfo.FullName, String.Empty);
+                            theDetailsParameter.Value = thisFileInfo.Name
+                                .Replace(thisFileInfo.Extension, String.Empty);
+                            theExtensionParameter.Value =
+                                thisFileInfo.Extension;
 
-                            thisTrackID = Convert.ToInt64(theCommand.ExecuteScalar());
+                            theCommand.ExecuteNonQuery();
                         }
 
-                        if (thisTrackID.Equals(0))
+                        if (null != this.Inserting)
                         {
-                            using (SQLiteCommand theCommand = theConnection.CreateCommand())
-                            {
-                                theCommand.CommandText =
-                                    "INSERT INTO [Tracks] ([Path], [Details], [Extension], [Checksum]) " +
-                                    "VALUES (?, ?, ?, ?)";
-
-                                SQLiteParameter thePathParameter = theCommand.CreateParameter();
-                                theCommand.Parameters.Add(thePathParameter);
-                                SQLiteParameter theDetailsParameter = theCommand.CreateParameter();
-                                theCommand.Parameters.Add(theDetailsParameter);
-                                SQLiteParameter theExtensionParameter = theCommand.CreateParameter();
-                                theCommand.Parameters.Add(theExtensionParameter);
-                                SQLiteParameter theChecksumParameter = theCommand.CreateParameter();
-                                theCommand.Parameters.Add(theChecksumParameter);
-
-                                thePathParameter.Value = thisFileInfo.DirectoryName
-                                    .Replace(thisSourceDirectoryInfo.FullName, String.Empty);
-                                theDetailsParameter.Value = thisFileInfo.Name
-                                    .Replace(thisFileInfo.Extension, String.Empty);
-                                theExtensionParameter.Value =
-                                    thisFileInfo.Extension;
-                                theChecksumParameter.Value =
-                                    IOOperations.GetMD5HashFromFile(
-                                        thisFileInfo.FullName);
-
-                                theCommand.ExecuteNonQuery();
-                            }
-
-                            if (null != this.Inserting)
-                            {
-                                this.Inserting(this, new EventArgs());
-                            }
-                        }
-                        else
-                        {
-                            using (SQLiteCommand theCommand = theConnection.CreateCommand())
-                            {
-                                theCommand.CommandText =
-                                    "UPDATE [Tracks] " +
-                                    "SET [Path] = ?, " +
-                                        "[Details] = ?, " +
-                                        "[Extension] = ?, " +
-                                        "[ToBeDeleted] = 0 " +
-                                    "WHERE [ID] = ?";
-
-                                SQLiteParameter thePathParameter = theCommand.CreateParameter();
-                                theCommand.Parameters.Add(thePathParameter);
-                                SQLiteParameter theDetailsParameter = theCommand.CreateParameter();
-                                theCommand.Parameters.Add(theDetailsParameter);
-                                SQLiteParameter theExtensionParameter = theCommand.CreateParameter();
-                                theCommand.Parameters.Add(theExtensionParameter);
-                                SQLiteParameter theIDParameter = theCommand.CreateParameter();
-                                theCommand.Parameters.Add(theIDParameter);
-
-                                thePathParameter.Value = thisFileInfo.DirectoryName
-                                    .Replace(thisSourceDirectoryInfo.FullName, String.Empty);
-                                theDetailsParameter.Value = thisFileInfo.Name
-                                    .Replace(thisFileInfo.Extension, String.Empty);
-                                theExtensionParameter.Value =
-                                    thisFileInfo.Extension;
-                                theIDParameter.Value = 
-                                    thisTrackID;
-
-                                theCommand.ExecuteNonQuery();
-                            }
-
-                            if (null != this.Updating)
-                            {
-                                this.Updating(this, new EventArgs());
-                            }
+                            this.Inserting(this, new EventArgs());
                         }
                     }
                 }

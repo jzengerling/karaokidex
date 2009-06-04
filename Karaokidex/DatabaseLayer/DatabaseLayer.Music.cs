@@ -10,22 +10,14 @@ namespace Karaokidex
 {
     public static partial class DatabaseLayer
     {
-        #region Members
-        public static string MusicConnectionString = String.Empty;
-        #endregion
-
         #region Methods
         public static void CreateMusicDatabase(
             FileInfo theDatabaseFileInfo)
         {
             SQLiteConnection.CreateFile(theDatabaseFileInfo.FullName);
 
-            DatabaseLayer.MusicConnectionString = String.Format(
-                CultureInfo.CurrentCulture,
-                "Data Source={0}; UTF8Encoding=True; Version=3; Pooling=True",
-                theDatabaseFileInfo.FullName);
-
-            using (SQLiteConnection theConnection = new SQLiteConnection(DatabaseLayer.MusicConnectionString))
+            using (SQLiteConnection theConnection = new SQLiteConnection(
+                DatabaseLayer.ToConnectionString(theDatabaseFileInfo)))
             {
                 try
                 {
@@ -53,9 +45,7 @@ namespace Karaokidex
                         theCommandText.Append("[ID] [integer] PRIMARY KEY AUTOINCREMENT,");
                         theCommandText.Append("[Path] [text],");
                         theCommandText.Append("[Details] [text],");
-                        theCommandText.Append("[Extension] [text],");
-                        theCommandText.Append("[Checksum] [text],");
-                        theCommandText.Append("[ToBeDeleted] [boolean] DEFAULT 0)");
+                        theCommandText.Append("[Extension] [text])");
 
                         theCommand.CommandText = theCommandText.ToString();
 
@@ -70,11 +60,13 @@ namespace Karaokidex
         }
 
         public static DataTable SearchMusicDatabase(
+            FileInfo theDatabaseFileInfo,
             string theCriteria)
         {
             using (DataSet theDataSet = new DataSet())
             {
-                using (SQLiteConnection theConnection = new SQLiteConnection(DatabaseLayer.MusicConnectionString))
+                using (SQLiteConnection theConnection = new SQLiteConnection(
+                    DatabaseLayer.ToConnectionString(theDatabaseFileInfo)))
                 {
                     try
                     {
@@ -95,9 +87,10 @@ namespace Karaokidex
                                 {
                                     theCommandBuilder.Append(" AND ");
                                 }
-                                theCommandBuilder.Append("[Details] LIKE ?");
+                                theCommandBuilder.Append("([Details] LIKE ? OR [Path] LIKE ?)");
 
                                 SQLiteParameter thisCriteriaParameter = theCommand.CreateParameter();
+                                theCommand.Parameters.Add(thisCriteriaParameter);
                                 theCommand.Parameters.Add(thisCriteriaParameter);
 
                                 thisCriteriaParameter.Value = String.Format(

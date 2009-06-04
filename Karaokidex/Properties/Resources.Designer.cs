@@ -137,16 +137,16 @@ namespace Karaokidex.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap folder {
+        internal static System.Drawing.Bitmap flac {
             get {
-                object obj = ResourceManager.GetObject("folder", resourceCulture);
+                object obj = ResourceManager.GetObject("flac", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
         
-        internal static System.Drawing.Bitmap icon_mp3 {
+        internal static System.Drawing.Bitmap folder {
             get {
-                object obj = ResourceManager.GetObject("icon_mp3", resourceCulture);
+                object obj = ResourceManager.GetObject("folder", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -158,9 +158,16 @@ namespace Karaokidex.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap KaraFun_16x16x32 {
+        internal static System.Drawing.Bitmap KaraFun {
             get {
-                object obj = ResourceManager.GetObject("KaraFun-16x16x32", resourceCulture);
+                object obj = ResourceManager.GetObject("KaraFun", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap mp3 {
+            get {
+                object obj = ResourceManager.GetObject("mp3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -214,9 +221,23 @@ namespace Karaokidex.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap rating_star_solid {
+            get {
+                object obj = ResourceManager.GetObject("rating_star_solid", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap tick {
             get {
                 object obj = ResourceManager.GetObject("tick", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap wav {
+            get {
+                object obj = ResourceManager.GetObject("wav", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

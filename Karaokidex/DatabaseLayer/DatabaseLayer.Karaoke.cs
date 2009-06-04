@@ -10,22 +10,14 @@ namespace Karaokidex
 {
     public static partial class DatabaseLayer
     {
-        #region Members
-        public static string KaraokeConnectionString = String.Empty;
-        #endregion
-
         #region Methods
         public static void CreateKaraokeDatabase(
             FileInfo theDatabaseFileInfo)
         {
             SQLiteConnection.CreateFile(theDatabaseFileInfo.FullName);
 
-            DatabaseLayer.KaraokeConnectionString = String.Format(
-                CultureInfo.CurrentCulture,
-                "Data Source={0}; UTF8Encoding=True; Version=3; Pooling=True",
-                theDatabaseFileInfo.FullName);
-
-            using (SQLiteConnection theConnection = new SQLiteConnection(DatabaseLayer.KaraokeConnectionString))
+            using (SQLiteConnection theConnection = new SQLiteConnection(
+                DatabaseLayer.ToConnectionString(theDatabaseFileInfo)))
             {
                 try
                 {
@@ -71,12 +63,14 @@ namespace Karaokidex
         }
         
         public static DataTable SearchKaraokeDatabase(
+            FileInfo theDatabaseFileInfo,
             string theCriteria,
             bool ShowOnlyRatedTracks)
         {
             using (DataSet theDataSet = new DataSet())
             {
-                using (SQLiteConnection theConnection = new SQLiteConnection(DatabaseLayer.KaraokeConnectionString))
+                using (SQLiteConnection theConnection = new SQLiteConnection(
+                    DatabaseLayer.ToConnectionString(theDatabaseFileInfo)))
                 {
                     try
                     {
@@ -97,9 +91,10 @@ namespace Karaokidex
                                 {
                                     theCommandBuilder.Append(" AND ");
                                 }
-                                theCommandBuilder.Append("[Details] LIKE ?");
+                                theCommandBuilder.Append("([Details] LIKE ? OR [Path] LIKE ?)");
 
                                 SQLiteParameter thisCriteriaParameter = theCommand.CreateParameter();
+                                theCommand.Parameters.Add(thisCriteriaParameter);
                                 theCommand.Parameters.Add(thisCriteriaParameter);
 
                                 thisCriteriaParameter.Value = String.Format(
@@ -138,11 +133,13 @@ namespace Karaokidex
             }
         }
 
-        public static DataTable ListValidTracks()
+        public static DataTable ListValidTracks(
+            FileInfo theDatabaseFileInfo)
         {
             using (DataSet theDataSet = new DataSet())
             {
-                using (SQLiteConnection theConnection = new SQLiteConnection(DatabaseLayer.KaraokeConnectionString))
+                using (SQLiteConnection theConnection = new SQLiteConnection(
+                    DatabaseLayer.ToConnectionString(theDatabaseFileInfo)))
                 {
                     try
                     {
@@ -173,11 +170,13 @@ namespace Karaokidex
             }
         }
         
-        public static DataTable ListInvalidTracks()
+        public static DataTable ListInvalidTracks(
+            FileInfo theDatabaseFileInfo)
         {
             using (DataSet theDataSet = new DataSet())
             {
-                using (SQLiteConnection theConnection = new SQLiteConnection(DatabaseLayer.KaraokeConnectionString))
+                using (SQLiteConnection theConnection = new SQLiteConnection(
+                    DatabaseLayer.ToConnectionString(theDatabaseFileInfo)))
                 {
                     try
                     {
@@ -210,10 +209,12 @@ namespace Karaokidex
         }
 
         public static void UpdateTrackRating(
+            FileInfo theDatabaseFileInfo,
             long theTrackID,
             TrackRating theTrackRating)
         {
-            using (SQLiteConnection theConnection = new SQLiteConnection(DatabaseLayer.KaraokeConnectionString))
+            using (SQLiteConnection theConnection = new SQLiteConnection(
+                DatabaseLayer.ToConnectionString(theDatabaseFileInfo)))
             {
                 try
                 {

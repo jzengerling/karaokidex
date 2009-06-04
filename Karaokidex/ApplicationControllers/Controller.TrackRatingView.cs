@@ -62,36 +62,42 @@ namespace Karaokidex.ApplicationControllers
             if (theParentView.radio1Star.Checked)
             {
                 DatabaseLayer.UpdateTrackRating(
+                    this._CurrentKaraokeDatabaseFileInfo,
                     theParentView.TrackID,
                     TrackRating.OneStar);
             }
             else if (theParentView.radio2Star.Checked)
             {
                 DatabaseLayer.UpdateTrackRating(
+                    this._CurrentKaraokeDatabaseFileInfo,
                     theParentView.TrackID,
                     TrackRating.TwoStar);
             }
             else if (theParentView.radio3Star.Checked)
             {
                 DatabaseLayer.UpdateTrackRating(
+                    this._CurrentKaraokeDatabaseFileInfo,
                     theParentView.TrackID,
                     TrackRating.ThreeStar);
             }
             else if (theParentView.radio4star.Checked)
             {
                 DatabaseLayer.UpdateTrackRating(
+                    this._CurrentKaraokeDatabaseFileInfo,
                     theParentView.TrackID,
                     TrackRating.FourStar);
             }
             else if (theParentView.radio5star.Checked)
             {
                 DatabaseLayer.UpdateTrackRating(
+                    this._CurrentKaraokeDatabaseFileInfo,
                     theParentView.TrackID,
                     TrackRating.FiveStar);
             }
             else if (theParentView.radioUnrated.Checked)
             {
                 DatabaseLayer.UpdateTrackRating(
+                    this._CurrentKaraokeDatabaseFileInfo,
                     theParentView.TrackID,
                     TrackRating.Unrated);
             }
