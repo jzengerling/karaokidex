@@ -192,7 +192,8 @@ namespace Karaokidex.ApplicationControllers
 
             this._MainView.gridResults.Rows.Clear();
 
-            foreach (DataRow thisRow in DatabaseLayer.ListInvalidTracks().Rows)
+            foreach (DataRow thisRow in DatabaseLayer.ListInvalidTracks(
+                this._CurrentKaraokeDatabaseFileInfo).Rows)
             {
                 string thisExtension = Convert.ToString(
                     thisRow["Extension"],
@@ -328,7 +329,8 @@ namespace Karaokidex.ApplicationControllers
                 theStreamWriter.WriteLine("http://code.google.com/p/karaokidex");
                 theStreamWriter.WriteLine("");
 
-                foreach (DataRow thisRow in DatabaseLayer.ListValidTracks().Rows)
+                foreach (DataRow thisRow in DatabaseLayer.ListValidTracks(
+                    this._CurrentKaraokeDatabaseFileInfo).Rows)
                 {
                     theStreamWriter.WriteLine(thisRow[0].ToString());
                     Application.DoEvents();
@@ -342,7 +344,8 @@ namespace Karaokidex.ApplicationControllers
                 theStreamWriter.WriteLine(String.Format(
                     CultureInfo.CurrentCulture,
                     "{0} tracks in database",
-                    DatabaseLayer.ListValidTracks().Rows.Count));
+                    DatabaseLayer.ListValidTracks(
+                    this._CurrentKaraokeDatabaseFileInfo).Rows.Count));
 
                 theStreamWriter.Close();
             }
@@ -388,15 +391,30 @@ namespace Karaokidex.ApplicationControllers
                 {
                     case DatabaseMode.SearchMusicDatabase:
                         foreach (DataRow thisRow in DatabaseLayer.SearchMusicDatabase(
+                            this._CurrentMusicDatabaseFileInfo,
                             theParentView.textboxCriteria.Text).Rows)
                         {
                             string thisExtension = Convert.ToString(
                                 thisRow["Extension"],
                                 CultureInfo.CurrentCulture);
 
+                            Bitmap theExtensionImage = Resources.mp3;
+                            switch (thisExtension)
+                            {
+                                case ".wav":
+                                    theExtensionImage = Resources.wav;
+                                    break;
+                                case ".flac":
+                                    theExtensionImage = Resources.flac;
+                                    break;
+                                default:
+                                    theExtensionImage = Resources.mp3;
+                                    break;
+                            }
+
                             theParentView.gridResults.Rows.Add(
                                 Convert.ToInt64(thisRow["ID"], CultureInfo.CurrentCulture),
-                                Resources.icon_mp3,
+                                theExtensionImage,
                                 Convert.ToString(thisRow["Details"], CultureInfo.CurrentCulture),
                                 null, // Rating image
                                 0, // Rating value
@@ -408,6 +426,7 @@ namespace Karaokidex.ApplicationControllers
                         break;
                     default:
                         foreach (DataRow thisRow in DatabaseLayer.SearchKaraokeDatabase(
+                            this._CurrentKaraokeDatabaseFileInfo,
                             theParentView.textboxCriteria.Text,
                             theParentView.checkboxShowOnlyRatedTracks.Checked).Rows)
                         {
@@ -483,9 +502,9 @@ namespace Karaokidex.ApplicationControllers
             {
                 MessageBox.Show(
                     theParentView,
-                    "There is no search criteria specified\n\nDo you want to show all tracks?",
+                    "There is no search criteria specified",
                     theParentView.Text,
-                    MessageBoxButtons.YesNo,
+                    MessageBoxButtons.OK,
                     MessageBoxIcon.Warning,
                     MessageBoxDefaultButton.Button2);
 
@@ -843,6 +862,7 @@ namespace Karaokidex.ApplicationControllers
                         CultureInfo.CurrentCulture);
 
                     DatabaseLayer.UpdateTrackRating(
+                        this._CurrentKaraokeDatabaseFileInfo,
                         theTrackID,
                         TrackRating.Invalid);
 
@@ -917,39 +937,50 @@ namespace Karaokidex.ApplicationControllers
         #endregion
 
         #region Private Helpers
-        private void OpenKaraokeDatabase()
+        private void OpenDatabase()
         {
-            if (File.Exists(RegistryAgent.LastKaraokeDatabase))
-            {
-                DatabaseLayer.KaraokeConnectionString = String.Format(
-                    CultureInfo.CurrentCulture,
-                    "Data Source={0}; UTF8Encoding=True; Version=3; Pooling=True",
-                    RegistryAgent.LastKaraokeDatabase);
+            this._MainView.menuitemRefreshKaraokeDatabase.Enabled =
+                this._MainView.menuitemCreateKaraokeTrackCatalogue.Enabled =
+                this._MainView.menuitemListInvalidKaraokeTracks.Enabled =
+                this._MainView.menuitemRefreshMusicDatabase.Enabled = 
+                this._MainView.radioSearchKaraokeDatabase.Enabled =
+                this._MainView.radioSearchMusicDatabase.Enabled =
+                this._MainView.checkboxShowOnlyRatedTracks.Enabled =
+                this._MainView.buttonSearch.Enabled =
+                    false;
 
-                this._MainView.menuitemRefreshKaraokeDatabase.Enabled =
-                    this._MainView.menuitemCreateKaraokeTrackCatalogue.Enabled =
-                    this._MainView.textboxCriteria.Enabled =
-                    this._MainView.buttonSearch.Enabled =
-                    this._MainView.gridResults.Enabled =
+            if (null != this._CurrentKaraokeDatabaseFileInfo)
+            {
+                if (this._CurrentKaraokeDatabaseFileInfo.Exists)
+                {
+                    this._MainView.menuitemRefreshKaraokeDatabase.Enabled =
+                        this._MainView.menuitemCreateKaraokeTrackCatalogue.Enabled =
+                        this._MainView.menuitemListInvalidKaraokeTracks.Enabled =
+                        this._MainView.radioSearchKaraokeDatabase.Enabled =
+                            true;
+                }
+            } 
+            
+            if (null != this._CurrentMusicDatabaseFileInfo)
+            {
+                if (this._CurrentMusicDatabaseFileInfo.Exists)
+                {
+                    this._MainView.menuitemRefreshMusicDatabase.Enabled = 
+                        this._MainView.radioSearchMusicDatabase.Enabled =
+                            true;
+                }
+            }
+
+            if (this._MainView.radioSearchKaraokeDatabase.Enabled)
+            {
+                this._MainView.radioSearchKaraokeDatabase.Checked =
+                    this._MainView.checkboxShowOnlyRatedTracks.Enabled =
                         true;
             }
-        }
-
-        private void OpenMusicDatabase()
-        {
-            if (File.Exists(RegistryAgent.LastMusicDatabase))
+            else
             {
-                DatabaseLayer.MusicConnectionString = String.Format(
-                    CultureInfo.CurrentCulture,
-                    "Data Source={0}; UTF8Encoding=True; Version=3; Pooling=True",
-                    RegistryAgent.LastMusicDatabase);
-
-                this._MainView.menuitemRefreshMusicDatabase.Enabled =
-                    //this._MainView.menuitemCreateMusicTrackCatalogue.Enabled =
-                    this._MainView.textboxCriteria.Enabled =
-                    this._MainView.buttonSearch.Enabled =
-                    this._MainView.gridResults.Enabled =
-                        true;
+                this._MainView.radioSearchMusicDatabase.Checked =
+                    true;
             }
         }
         #endregion

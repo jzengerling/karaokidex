@@ -24,6 +24,7 @@ namespace Karaokidex.ApplicationControllers
             CreateKaraokeDatabaseAgent theAgent = 
                 new CreateKaraokeDatabaseAgent(
                     theView,
+                    theTargetFileInfo,
                     theSourceDirectoryInfo);
 
             theAgent.Inserting +=
@@ -36,6 +37,9 @@ namespace Karaokidex.ApplicationControllers
             RegistryAgent.LastKaraokeDatabase =
                 theTargetFileInfo.FullName;
 
+            this._CurrentKaraokeDatabaseFileInfo =
+                new FileInfo(theTargetFileInfo.FullName);
+
             Thread thisThread = new Thread(
                 new ThreadStart(theAgent.Start));
 
@@ -46,7 +50,7 @@ namespace Karaokidex.ApplicationControllers
 
             theCallingView.Close();
 
-            this.OpenKaraokeDatabase();
+            this.OpenDatabase();
         }
 
         public void CreateDatabaseAgentView_ShowForMusic(
@@ -62,6 +66,7 @@ namespace Karaokidex.ApplicationControllers
             CreateMusicDatabaseAgent theAgent =
                 new CreateMusicDatabaseAgent(
                     theView,
+                    theTargetFileInfo,
                     theSourceDirectoryInfo);
 
             theAgent.Inserting +=
@@ -74,6 +79,9 @@ namespace Karaokidex.ApplicationControllers
             RegistryAgent.LastMusicDatabase =
                 theTargetFileInfo.FullName;
 
+            this._CurrentMusicDatabaseFileInfo =
+                new FileInfo(theTargetFileInfo.FullName);
+
             Thread thisThread = new Thread(
                 new ThreadStart(theAgent.Start));
 
@@ -84,7 +92,7 @@ namespace Karaokidex.ApplicationControllers
 
             theCallingView.Close();
 
-            this.OpenMusicDatabase();
+            this.OpenDatabase();
         }
         
         #region Private Helpers

@@ -45,25 +45,31 @@ namespace Karaokidex.ApplicationControllers
                     "Not Deployed";
             }
 
-            theView.textKaraokeDatabasePath.Text =
-                RegistryAgent.LastKaraokeDatabase;
+            if (null != this._CurrentKaraokeDatabaseFileInfo)
+            {
+                theView.textKaraokeDatabasePath.Text =
+                    this._CurrentKaraokeDatabaseFileInfo.ToString();
 
-            theView.textKaraokeDatabaseTrackCount.Text =
-                String.Format(
-                    CultureInfo.CurrentCulture,
-                    "{0:N0}",
-                    DatabaseLayer.GetNumberOfTracksInDatabase(
-                        new FileInfo(RegistryAgent.LastKaraokeDatabase)));
+                theView.textKaraokeDatabaseTrackCount.Text =
+                    String.Format(
+                        CultureInfo.CurrentCulture,
+                        "{0:N0}",
+                        DatabaseLayer.GetNumberOfTracksInDatabase(
+                            this._CurrentKaraokeDatabaseFileInfo));
+            }
 
-            theView.textMusicDatabasePath.Text =
-                RegistryAgent.LastMusicDatabase;
+            if (null != this._CurrentMusicDatabaseFileInfo)
+            {
+                theView.textMusicDatabasePath.Text =
+                    this._CurrentMusicDatabaseFileInfo.ToString();
 
-            theView.textMusicDatabaseTrackCount.Text =
-                String.Format(
-                    CultureInfo.CurrentCulture,
-                    "{0:N0}",
-                    DatabaseLayer.GetNumberOfTracksInDatabase(
-                        new FileInfo(RegistryAgent.LastMusicDatabase))); 
+                theView.textMusicDatabaseTrackCount.Text =
+                    String.Format(
+                        CultureInfo.CurrentCulture,
+                        "{0:N0}",
+                        DatabaseLayer.GetNumberOfTracksInDatabase(
+                            this._CurrentMusicDatabaseFileInfo));
+            }
             
             theView.ShowDialog(this._MainView);
         }

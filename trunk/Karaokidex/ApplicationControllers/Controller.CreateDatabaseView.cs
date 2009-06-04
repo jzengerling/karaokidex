@@ -113,20 +113,21 @@ namespace Karaokidex.ApplicationControllers
 
             switch (theParentView.Mode)
             {
-                case DatabaseMode.CreateKaraokeDatabase:
-                    DatabaseLayer.CreateKaraokeDatabase(
-                        new FileInfo(theParentView.textboxTargetFile.Text));
-
-                    this.CreateDatabaseAgentView_ShowForKaraoke(
-                        theParentView,
-                        new DirectoryInfo(theParentView.textboxSourceDirectory.Text),
-                        new FileInfo(theParentView.textboxTargetFile.Text));
-                    break;
                 case DatabaseMode.CreateMusicDatabase:
+                case DatabaseMode.RefreshMusicDatabase:
                     DatabaseLayer.CreateMusicDatabase(
                         new FileInfo(theParentView.textboxTargetFile.Text));
 
                     this.CreateDatabaseAgentView_ShowForMusic(
+                        theParentView,
+                        new DirectoryInfo(theParentView.textboxSourceDirectory.Text),
+                        new FileInfo(theParentView.textboxTargetFile.Text));
+                    break;
+                default:
+                    DatabaseLayer.CreateKaraokeDatabase(
+                        new FileInfo(theParentView.textboxTargetFile.Text));
+
+                    this.CreateDatabaseAgentView_ShowForKaraoke(
                         theParentView,
                         new DirectoryInfo(theParentView.textboxSourceDirectory.Text),
                         new FileInfo(theParentView.textboxTargetFile.Text));

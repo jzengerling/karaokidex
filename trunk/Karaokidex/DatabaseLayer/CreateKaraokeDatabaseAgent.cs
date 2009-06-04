@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Text;
 using System.Data.SQLite;
-using System.Globalization;
 using System.IO;
 using ICSharpCode.SharpZipLib.Zip;
-using System.Security.Cryptography;
-using Karaokidex.Enumerators;
 using Karaokidex.Views;
 
 namespace Karaokidex
@@ -14,6 +10,7 @@ namespace Karaokidex
     {
         #region Members
         private CreateDatabaseAgentView _CallingView;
+        private FileInfo _DatabaseInfo;
         private DirectoryInfo _SourceDirectoryInfo;
         private DirectoryInfo _CurrentDirectoryInfo;
         private FileInfo _CurrentFileInfo;
@@ -39,17 +36,19 @@ namespace Karaokidex
         #region Methods
         public CreateKaraokeDatabaseAgent(
             CreateDatabaseAgentView theCallingView,
-            DirectoryInfo theDirectoryInfo)
+            FileInfo theDatabaseInfo,
+            DirectoryInfo theSourceDirectoryInfo)
         {
             this._CallingView = theCallingView;
-            this._SourceDirectoryInfo = theDirectoryInfo;
+            this._DatabaseInfo = theDatabaseInfo;
+            this._SourceDirectoryInfo = theSourceDirectoryInfo;
         }
 
         #region Private Helpers
         public void Start()
         {
-            using (SQLiteConnection theConnection =
-                new SQLiteConnection(DatabaseLayer.KaraokeConnectionString))
+            using (SQLiteConnection theConnection = new SQLiteConnection(
+                DatabaseLayer.ToConnectionString(this._DatabaseInfo)))
             {
                 try
                 {

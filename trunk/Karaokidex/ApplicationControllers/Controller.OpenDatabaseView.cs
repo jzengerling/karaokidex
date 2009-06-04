@@ -137,7 +137,10 @@ namespace Karaokidex.ApplicationControllers
                         new FileInfo(RegistryAgent.LastMusicDatabase),
                         new DirectoryInfo(theParentView.textboxSourceDirectory.Text));
 
-                    this.OpenMusicDatabase();
+                    this._CurrentMusicDatabaseFileInfo = new FileInfo(
+                        theParentView.textboxDatabaseFile.Text);
+
+                    this.OpenDatabase();
                     break;
                 default:
                     RegistryAgent.LastKaraokeDatabase =
@@ -147,7 +150,10 @@ namespace Karaokidex.ApplicationControllers
                         new FileInfo(RegistryAgent.LastKaraokeDatabase),
                         new DirectoryInfo(theParentView.textboxSourceDirectory.Text));
 
-                    this.OpenKaraokeDatabase();
+                    this._CurrentKaraokeDatabaseFileInfo = new FileInfo(
+                        theParentView.textboxDatabaseFile.Text);
+
+                    this.OpenDatabase();
                     break;
             }
 

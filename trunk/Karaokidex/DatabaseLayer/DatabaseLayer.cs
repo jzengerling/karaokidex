@@ -11,6 +11,15 @@ namespace Karaokidex
     public static partial class DatabaseLayer
     {
         #region Methods
+        public static string ToConnectionString(
+            FileInfo theDatabaseFileInfo)
+        {
+            return String.Format(
+                CultureInfo.CurrentCulture,
+                "Data Source={0}; UTF8Encoding=True; Version=3; Pooling=True",
+                theDatabaseFileInfo.FullName);
+        }
+
         public static int GetNumberOfTracksInDatabase(
             FileInfo theDatabaseFileInfo) 
         {
