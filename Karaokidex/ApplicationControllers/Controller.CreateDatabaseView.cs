@@ -28,6 +28,11 @@ namespace Karaokidex.ApplicationControllers
             {
                 case DatabaseMode.CreateMusicDatabase:
                 case DatabaseMode.RefreshMusicDatabase:
+                    theView.SaveFileDialog.Filter =
+                        "Karaokidex Music Databases (*.kmdb)|*.kmdb";
+                    theView.SaveFileDialog.DefaultExt =
+                        "kmdb";
+
                     if (!String.IsNullOrEmpty(RegistryAgent.LastMusicDatabase))
                     {
                         theView.textboxSourceDirectory.Text =
@@ -39,6 +44,11 @@ namespace Karaokidex.ApplicationControllers
                     }
                     break;
                 default:
+                    theView.SaveFileDialog.Filter =
+                        "Karaokidex Karokie Databases (*.kkdb)|*.kkdb";
+                    theView.SaveFileDialog.DefaultExt =
+                        "kkdb";
+
                     if (!String.IsNullOrEmpty(RegistryAgent.LastKaraokeDatabase))
                     {
                         theView.textboxSourceDirectory.Text =

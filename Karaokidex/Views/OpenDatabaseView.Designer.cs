@@ -152,6 +152,7 @@
             // 
             // _OpenFileDialog
             // 
+            this._OpenFileDialog.DefaultExt = "kdb";
             this._OpenFileDialog.Filter = "Karakidex Databases|*.kdb";
             // 
             // OpenDatabaseView

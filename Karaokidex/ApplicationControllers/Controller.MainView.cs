@@ -380,135 +380,146 @@ namespace Karaokidex.ApplicationControllers
 
             theParentView.gridResults.Rows.Clear();
 
-            if (!String.IsNullOrEmpty(theParentView.textboxCriteria.Text))
+            if (String.IsNullOrEmpty(theParentView.textboxCriteria.Text))
             {
-                theParentView.buttonSearch.Enabled = 
-                    theParentView.buttonClear.Enabled =
-                        false;
-                theParentView.gridResults.Rows.Clear();
-
-                switch (theParentView.Mode)
-                {
-                    case DatabaseMode.SearchMusicDatabase:
-                        foreach (DataRow thisRow in DatabaseLayer.SearchMusicDatabase(
-                            this._CurrentMusicDatabaseFileInfo,
-                            theParentView.textboxCriteria.Text).Rows)
-                        {
-                            string thisExtension = Convert.ToString(
-                                thisRow["Extension"],
-                                CultureInfo.CurrentCulture);
-
-                            Bitmap theExtensionImage = Resources.mp3;
-                            switch (thisExtension)
-                            {
-                                case ".wav":
-                                    theExtensionImage = Resources.wav;
-                                    break;
-                                case ".flac":
-                                    theExtensionImage = Resources.flac;
-                                    break;
-                                default:
-                                    theExtensionImage = Resources.mp3;
-                                    break;
-                            }
-
-                            theParentView.gridResults.Rows.Add(
-                                Convert.ToInt64(thisRow["ID"], CultureInfo.CurrentCulture),
-                                theExtensionImage,
-                                Convert.ToString(thisRow["Details"], CultureInfo.CurrentCulture),
-                                null, // Rating image
-                                0, // Rating value
-                                Convert.ToString(thisRow["Path"], CultureInfo.CurrentCulture),
-                                Convert.ToString(thisRow["FullPath"], CultureInfo.CurrentCulture));
-
-                            Application.DoEvents();
-                        }
-                        break;
-                    default:
-                        foreach (DataRow thisRow in DatabaseLayer.SearchKaraokeDatabase(
-                            this._CurrentKaraokeDatabaseFileInfo,
-                            theParentView.textboxCriteria.Text,
-                            theParentView.checkboxShowOnlyRatedTracks.Checked).Rows)
-                        {
-                            string thisExtension = Convert.ToString(
-                                thisRow["Extension"],
-                                CultureInfo.CurrentCulture);
-                            TrackRating thisRating = (TrackRating)Convert.ToInt32(
-                                thisRow["Rating"],
-                                CultureInfo.CurrentCulture);
-
-                            Bitmap theExtensionImage = Resources.mp3g;
-                            switch (thisExtension)
-                            {
-                                case ".zip":
-                                    theExtensionImage = Resources.mp3g_zipped;
-                                    break;
-                                default:
-                                    theExtensionImage = Resources.mp3g;
-                                    break;
-                            }
-
-                            Bitmap theRatingImage = Resources.no_stars;
-                            switch (thisRating)
-                            {
-                                case TrackRating.OneStar:
-                                    theRatingImage = Resources._1_star;
-                                    break;
-                                case TrackRating.TwoStar:
-                                    theRatingImage = Resources._2_stars;
-                                    break;
-                                case TrackRating.ThreeStar:
-                                    theRatingImage = Resources._3_stars;
-                                    break;
-                                case TrackRating.FourStar:
-                                    theRatingImage = Resources._4_stars;
-                                    break;
-                                case TrackRating.FiveStar:
-                                    theRatingImage = Resources._5_stars;
-                                    break;
-                                default:
-                                    theRatingImage = Resources.no_stars;
-                                    break;
-                            }
-
-                            theParentView.gridResults.Rows.Add(
-                                Convert.ToInt64(thisRow["ID"], CultureInfo.CurrentCulture),
-                                theExtensionImage,
-                                Convert.ToString(thisRow["Details"], CultureInfo.CurrentCulture),
-                                theRatingImage,
-                                Convert.ToInt32(thisRow["Rating"], CultureInfo.CurrentCulture),
-                                Convert.ToString(thisRow["Path"], CultureInfo.CurrentCulture),
-                                Convert.ToString(thisRow["FullPath"], CultureInfo.CurrentCulture));
-
-                            Application.DoEvents();
-                        }
-                        break;
-                }
-
-                theParentView.labelResults.Text = String.Format(
-                    CultureInfo.CurrentCulture,
-                    "{0:N0} results",
-                    theParentView.gridResults.Rows.Count);
-
-                theParentView.buttonSearch.Enabled = true;
-
-                if (!theParentView.gridResults.Rows.Count.Equals(0))
-                {
-                    theParentView.buttonClear.Enabled = true;
-                    theParentView.gridResults.Focus();
-                }
-            }
-            else
-            {
-                MessageBox.Show(
+                switch (MessageBox.Show(
                     theParentView,
-                    "There is no search criteria specified",
+                    "There is no search criteria specified\n\n" +
+                        "Do you want to return all tracks",
                     theParentView.Text,
-                    MessageBoxButtons.OK,
+                    MessageBoxButtons.YesNo,
                     MessageBoxIcon.Warning,
-                    MessageBoxDefaultButton.Button2);
+                    MessageBoxDefaultButton.Button2))
+                {
+                    case DialogResult.No:
+                        Application.DoEvents();
+                        return;
+                }
 
                 Application.DoEvents();
+            }
+
+            theParentView.buttonSearch.Enabled = 
+                theParentView.buttonClear.Enabled =
+                    false;
+
+            theParentView.gridResults.Rows.Clear();
+
+            switch (theParentView.Mode)
+            {
+                case DatabaseMode.SearchMusicDatabase:
+                    theParentView.gridResults.Columns["_columnRatingImage"].Visible = false;
+                    theParentView.labelSelectedTrackPath.Text = String.Empty;
+
+                    foreach (DataRow thisRow in DatabaseLayer.SearchMusicDatabase(
+                        this._CurrentMusicDatabaseFileInfo,
+                        theParentView.textboxCriteria.Text).Rows)
+                    {
+                        string thisExtension = Convert.ToString(
+                            thisRow["Extension"],
+                            CultureInfo.CurrentCulture);
+
+                        Bitmap theExtensionImage = Resources.mp3;
+                        switch (thisExtension)
+                        {
+                            case ".wav":
+                                theExtensionImage = Resources.wav;
+                                break;
+                            case ".flac":
+                                theExtensionImage = Resources.flac;
+                                break;
+                            default:
+                                theExtensionImage = Resources.mp3;
+                                break;
+                        }
+
+                        theParentView.gridResults.Rows.Add(
+                            Convert.ToInt64(thisRow["ID"], CultureInfo.CurrentCulture),
+                            theExtensionImage,
+                            Convert.ToString(thisRow["Details"], CultureInfo.CurrentCulture),
+                            null, // Rating image
+                            0, // Rating value
+                            Convert.ToString(thisRow["Path"], CultureInfo.CurrentCulture),
+                            Convert.ToString(thisRow["FullPath"], CultureInfo.CurrentCulture));
+
+                        Application.DoEvents();
+                    }
+                    break;
+                default:
+                    theParentView.gridResults.Columns["_columnRatingImage"].Visible = true;
+                    theParentView.labelSelectedTrackPath.Text = String.Empty;
+                    
+                    foreach (DataRow thisRow in DatabaseLayer.SearchKaraokeDatabase(
+                        this._CurrentKaraokeDatabaseFileInfo,
+                        theParentView.textboxCriteria.Text,
+                        theParentView.checkboxShowOnlyRatedTracks.Checked).Rows)
+                    {
+                        string thisExtension = Convert.ToString(
+                            thisRow["Extension"],
+                            CultureInfo.CurrentCulture);
+                        TrackRating thisRating = (TrackRating)Convert.ToInt32(
+                            thisRow["Rating"],
+                            CultureInfo.CurrentCulture);
+
+                        Bitmap theExtensionImage = Resources.mp3g;
+                        switch (thisExtension)
+                        {
+                            case ".zip":
+                                theExtensionImage = Resources.mp3g_zipped;
+                                break;
+                            default:
+                                theExtensionImage = Resources.mp3g;
+                                break;
+                        }
+
+                        Bitmap theRatingImage = Resources.no_stars;
+                        switch (thisRating)
+                        {
+                            case TrackRating.OneStar:
+                                theRatingImage = Resources._1_star;
+                                break;
+                            case TrackRating.TwoStar:
+                                theRatingImage = Resources._2_stars;
+                                break;
+                            case TrackRating.ThreeStar:
+                                theRatingImage = Resources._3_stars;
+                                break;
+                            case TrackRating.FourStar:
+                                theRatingImage = Resources._4_stars;
+                                break;
+                            case TrackRating.FiveStar:
+                                theRatingImage = Resources._5_stars;
+                                break;
+                            default:
+                                theRatingImage = Resources.no_stars;
+                                break;
+                        }
+
+                        theParentView.gridResults.Rows.Add(
+                            Convert.ToInt64(thisRow["ID"], CultureInfo.CurrentCulture),
+                            theExtensionImage,
+                            Convert.ToString(thisRow["Details"], CultureInfo.CurrentCulture),
+                            theRatingImage,
+                            Convert.ToInt32(thisRow["Rating"], CultureInfo.CurrentCulture),
+                            Convert.ToString(thisRow["Path"], CultureInfo.CurrentCulture),
+                            Convert.ToString(thisRow["FullPath"], CultureInfo.CurrentCulture));
+
+                        Application.DoEvents();
+                    }
+                    break;
+            }
+
+            theParentView.labelResults.Text = String.Format(
+                CultureInfo.CurrentCulture,
+                "{0:N0} results",
+                theParentView.gridResults.Rows.Count);
+
+            theParentView.buttonSearch.Enabled = true;
+
+            if (!theParentView.gridResults.Rows.Count.Equals(0))
+            {
+                theParentView.buttonClear.Enabled = true;
+                theParentView.gridResults.Focus();
             }
 
             theParentView.Cursor =
