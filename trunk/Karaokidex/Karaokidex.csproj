@@ -40,7 +40,7 @@
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>index.html</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>90</ApplicationRevision>
+    <ApplicationRevision>94</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -86,10 +86,10 @@
     <Compile Include="ApplicationControllers\Controller.OpenDatabaseView.cs" />
     <Compile Include="ApplicationControllers\Controller.TrackRatingView.cs" />
     <Compile Include="ApplicationControllers\Controller.AboutView.cs" />
+    <Compile Include="DatabaseLayer\CreateKaraokeDatabaseAgent.cs" />
     <Compile Include="DatabaseLayer\DatabaseLayer.cs" />
     <Compile Include="DatabaseLayer\CreateMusicDatabaseAgent.cs" />
     <Compile Include="DatabaseLayer\DatabaseLayer.Karaoke.cs" />
-    <Compile Include="DatabaseLayer\CreateKaraokeDatabaseAgent.cs" />
     <Compile Include="DatabaseLayer\DatabaseLayer.Music.cs" />
     <Compile Include="DatabaseLayer\ICreateDatabaseAgent.cs" />
     <Compile Include="Enumerators\TrackRating.Enumerator.cs" />

@@ -248,8 +248,7 @@ namespace Karaokidex
                                     theExtensionParameter.Value =
                                         thisFileInfo.Extension;
                                     theChecksumParameter.Value =
-                                        IOOperations.GetMD5HashFromFile(
-                                            thisFileInfo.FullName);
+                                        thisChecksum;
 
                                     theCommand.ExecuteNonQuery();
                                 }
