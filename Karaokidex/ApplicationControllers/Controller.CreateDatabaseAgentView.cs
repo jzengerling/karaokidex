@@ -10,6 +10,10 @@ namespace Karaokidex.ApplicationControllers
 {
     public partial class Controller
     {
+        #region Members
+        private Thread _Thread;
+        #endregion
+
         #region Methods
         public void CreateDatabaseAgentView_ShowForKaraoke(
             CreateDatabaseView theCallingView,
@@ -20,6 +24,9 @@ namespace Karaokidex.ApplicationControllers
                 new CreateDatabaseAgentView(
                     theSourceDirectoryInfo,
                     theTargetFileInfo);
+
+            theView.FormClosing += 
+                new FormClosingEventHandler(CreateDatabaseAgentView_FormClosing);
 
             CreateKaraokeDatabaseAgent theAgent = 
                 new CreateKaraokeDatabaseAgent(
@@ -40,10 +47,10 @@ namespace Karaokidex.ApplicationControllers
             this._CurrentKaraokeDatabaseFileInfo =
                 new FileInfo(theTargetFileInfo.FullName);
 
-            Thread thisThread = new Thread(
+            this._Thread = new Thread(
                 new ThreadStart(theAgent.Start));
 
-            thisThread.Start();
+            this._Thread.Start();
 
             theView.ShowDialog(
                 theCallingView);
@@ -62,6 +69,9 @@ namespace Karaokidex.ApplicationControllers
                 new CreateDatabaseAgentView(
                     theSourceDirectoryInfo,
                     theTargetFileInfo);
+
+            theView.FormClosing +=
+                new FormClosingEventHandler(CreateDatabaseAgentView_FormClosing);
 
             CreateMusicDatabaseAgent theAgent =
                 new CreateMusicDatabaseAgent(
@@ -82,10 +92,10 @@ namespace Karaokidex.ApplicationControllers
             this._CurrentMusicDatabaseFileInfo =
                 new FileInfo(theTargetFileInfo.FullName);
 
-            Thread thisThread = new Thread(
+            this._Thread = new Thread(
                 new ThreadStart(theAgent.Start));
 
-            thisThread.Start();
+            this._Thread.Start();
 
             theView.ShowDialog(
                 theCallingView);
@@ -94,7 +104,17 @@ namespace Karaokidex.ApplicationControllers
 
             this.OpenDatabase();
         }
-        
+
+        #region Event Handlers
+        private void CreateDatabaseAgentView_FormClosing(
+            object sender, 
+            FormClosingEventArgs e)
+        {
+            try { this._Thread.Abort(); }
+            catch (ThreadAbortException) { }
+        }
+        #endregion
+
         #region Private Helpers
         public void OnCreateDatabaseAgentInserting(
             CreateDatabaseAgentView theView,
