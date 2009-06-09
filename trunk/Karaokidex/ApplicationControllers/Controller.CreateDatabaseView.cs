@@ -17,8 +17,12 @@ namespace Karaokidex.ApplicationControllers
             // Instantiate an instance
             CreateDatabaseView theView = new CreateDatabaseView(theMode);
 
+            theView.textboxSourceDirectory.Leave += 
+                new EventHandler(CreateDatabaseView_textboxSourceDirectory_Leave);
             theView.buttonSourceDirectory.Click += 
                 new EventHandler(CreateDatabaseView_buttonSourceDirectory_Click);
+            theView.textboxTargetFile.Leave +=
+                new EventHandler(CreateDatabaseView_textboxTargetFile_Leave);
             theView.buttonTargetFile.Click +=
                 new EventHandler(CreateDatabaseView_buttonTargetFile_Click);
             theView.buttonOK.Click +=
@@ -68,6 +72,18 @@ namespace Karaokidex.ApplicationControllers
         }
 
         #region Event Handlers
+        private void CreateDatabaseView_textboxSourceDirectory_Leave(
+            object sender, 
+            EventArgs e)
+        {
+            TextBox theSourceDirectoryTextBox =
+                sender as TextBox;
+            CreateDatabaseView theParentView =
+                theSourceDirectoryTextBox.FindForm() as CreateDatabaseView;
+
+            Controller.ToggleOKButton(theParentView);
+        }
+
         private void CreateDatabaseView_buttonSourceDirectory_Click(
             object sender, 
             EventArgs e)
@@ -85,6 +101,18 @@ namespace Karaokidex.ApplicationControllers
 
             theParentView.textboxSourceDirectory.Text =
                 theParentView.FolderBrowserDialog.SelectedPath;
+
+            Controller.ToggleOKButton(theParentView);
+        }
+
+        private void CreateDatabaseView_textboxTargetFile_Leave(
+            object sender, 
+            EventArgs e)
+        {
+            TextBox theTargetFileTextBox =
+                sender as TextBox;
+            CreateDatabaseView theParentView =
+                theTargetFileTextBox.FindForm() as CreateDatabaseView;
 
             Controller.ToggleOKButton(theParentView);
         }
@@ -119,39 +147,61 @@ namespace Karaokidex.ApplicationControllers
             CreateDatabaseView theParentView =
                 theOKButton.FindForm() as CreateDatabaseView;
 
+            DirectoryInfo theSourceDirectoryInfo =
+                new DirectoryInfo(theParentView.textboxSourceDirectory.Text);
+
+            if (!theSourceDirectoryInfo.Exists)
+            {
+                MessageBox.Show(
+                    theParentView,
+                    "The specified source directory does not exist",
+                    theParentView.Text,
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Stop,
+                    MessageBoxDefaultButton.Button1);
+
+                Application.DoEvents();
+
+                theParentView.textboxSourceDirectory.Focus();
+                return;
+            }
+
+            FileInfo theTargetFileInfo =
+                new FileInfo(theParentView.textboxTargetFile.Text);
+            
             theParentView.DisableView();
 
             switch (theParentView.Mode)
             {
                 case DatabaseMode.CreateMusicDatabase:
                     DatabaseLayer.CreateMusicDatabase(
-                        new FileInfo(theParentView.textboxTargetFile.Text));
+                        theTargetFileInfo);
 
                     this.CreateDatabaseAgentView_ShowForMusic(
                         theParentView,
-                        new DirectoryInfo(theParentView.textboxSourceDirectory.Text),
-                        new FileInfo(theParentView.textboxTargetFile.Text));
+                        theSourceDirectoryInfo,
+                        theTargetFileInfo);
                     break;
                 case DatabaseMode.RefreshMusicDatabase:
                     this.CreateDatabaseAgentView_ShowForMusic(
                         theParentView,
-                        new DirectoryInfo(theParentView.textboxSourceDirectory.Text),
-                        new FileInfo(theParentView.textboxTargetFile.Text));
+                        theSourceDirectoryInfo,
+                        theTargetFileInfo);
                     break;
                 case DatabaseMode.CreateKaraokeDatabase:
                     DatabaseLayer.CreateKaraokeDatabase(
-                        new FileInfo(theParentView.textboxTargetFile.Text));
+                        theTargetFileInfo);
 
                     this.CreateDatabaseAgentView_ShowForKaraoke(
                         theParentView,
-                        new DirectoryInfo(theParentView.textboxSourceDirectory.Text),
-                        new FileInfo(theParentView.textboxTargetFile.Text));
+                        theSourceDirectoryInfo,
+                        theTargetFileInfo);
                     break;
                 default:
                     this.CreateDatabaseAgentView_ShowForKaraoke(
                         theParentView,
-                        new DirectoryInfo(theParentView.textboxSourceDirectory.Text),
-                        new FileInfo(theParentView.textboxTargetFile.Text));
+                        theSourceDirectoryInfo,
+                        theTargetFileInfo);
                     break;
             }
         }

@@ -17,10 +17,14 @@ namespace Karaokidex.ApplicationControllers
             // Instantiate an instance
             OpenDatabaseView theView = new OpenDatabaseView(theMode);
 
-            theView.buttonSourceDirectory.Click +=
-                new EventHandler(OpenDatabaseView_buttonSourceDirectory_Click);
+            theView.textboxDatabaseFile.Leave += 
+                new EventHandler(OpenDatabaseView_textboxDatabaseFile_Leave);
             theView.buttonDatabaseFile.Click +=
                 new EventHandler(OpenDatabaseView_buttonDatabaseFile_Click);
+            theView.textboxSourceDirectory.Leave += 
+                new EventHandler(OpenDatabaseView_textboxSourceDirectory_Leave);
+            theView.buttonSourceDirectory.Click +=
+                new EventHandler(OpenDatabaseView_buttonSourceDirectory_Click);
             theView.buttonOK.Click +=
                 new EventHandler(OpenDatabaseView_buttonOK_Click);
 
@@ -43,7 +47,7 @@ namespace Karaokidex.ApplicationControllers
             // Show the form
             theView.ShowDialog(this._MainView);
         }
-        
+
         private void OpenDatabaseView_Show(
             DatabaseMode theMode,
             FileInfo theDatabaseFileInfo)
@@ -51,6 +55,8 @@ namespace Karaokidex.ApplicationControllers
             // Instantiate an instance
             OpenDatabaseView theView = new OpenDatabaseView(theMode);
 
+            theView.textboxSourceDirectory.Leave +=
+                new EventHandler(OpenDatabaseView_textboxSourceDirectory_Leave);
             theView.buttonSourceDirectory.Click += 
                 new EventHandler(OpenDatabaseView_buttonSourceDirectory_Click);
             theView.buttonDatabaseFile.Click +=
@@ -95,6 +101,41 @@ namespace Karaokidex.ApplicationControllers
         }
 
         #region Event Handlers
+        private void OpenDatabaseView_textboxDatabaseFile_Leave(
+            object sender, 
+            EventArgs e)
+        {
+            TextBox theDatabaseFileTextBox =
+                sender as TextBox;
+            OpenDatabaseView theParentView =
+                theDatabaseFileTextBox.FindForm() as OpenDatabaseView;
+
+            FileInfo theDatabaseFileInfo =
+                new FileInfo(theDatabaseFileTextBox.Text);
+
+            if (!theDatabaseFileInfo.Exists)
+            {
+                MessageBox.Show(
+                    theParentView,
+                    "The specified database file does not exist",
+                    theParentView.Text,
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Stop,
+                    MessageBoxDefaultButton.Button1);
+
+                Application.DoEvents();
+
+                theDatabaseFileTextBox.Focus();
+                return;
+            }
+
+            theParentView.textboxSourceDirectory.Text =
+                DatabaseLayer.GetSourceDirectory(
+                    new FileInfo(theParentView.OpenFileDialog.FileName));
+
+            Controller.ToggleOKButton(theParentView);
+        }
+
         private void OpenDatabaseView_buttonDatabaseFile_Click(
             object sender,
             EventArgs e)
@@ -119,7 +160,19 @@ namespace Karaokidex.ApplicationControllers
 
             Controller.ToggleOKButton(theParentView);
         }
-        
+
+        private void OpenDatabaseView_textboxSourceDirectory_Leave(
+            object sender, 
+            EventArgs e)
+        {
+            TextBox theSourceDirectoryTextBox =
+                sender as TextBox;
+            OpenDatabaseView theParentView =
+                theSourceDirectoryTextBox.FindForm() as OpenDatabaseView;
+
+            Controller.ToggleOKButton(theParentView);
+        }
+
         private void OpenDatabaseView_buttonSourceDirectory_Click(
             object sender, 
             EventArgs e)
@@ -153,6 +206,44 @@ namespace Karaokidex.ApplicationControllers
             OpenDatabaseView theParentView =
                 theOKButton.FindForm() as OpenDatabaseView;
 
+            FileInfo theDatabaseFileInfo =
+                new FileInfo(theParentView.textboxDatabaseFile.Text);
+
+            if (!theDatabaseFileInfo.Exists)
+            {
+                MessageBox.Show(
+                    theParentView,
+                    "The specified database file does not exist",
+                    theParentView.Text,
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Stop,
+                    MessageBoxDefaultButton.Button1);
+
+                Application.DoEvents();
+
+                theParentView.textboxDatabaseFile.Focus();
+                return;
+            }
+
+            DirectoryInfo theSourceDirectoryInfo =
+                new DirectoryInfo(theParentView.textboxSourceDirectory.Text);
+
+            if (!theSourceDirectoryInfo.Exists)
+            {
+                MessageBox.Show(
+                    theParentView,
+                    "The specified directory does not exist",
+                    theParentView.Text,
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Stop,
+                    MessageBoxDefaultButton.Button1);
+
+                Application.DoEvents();
+
+                theParentView.textboxSourceDirectory.Focus();
+                return;
+            } 
+            
             switch (theParentView.Mode)
             {
                 case DatabaseMode.OpenMusicDatabase:
