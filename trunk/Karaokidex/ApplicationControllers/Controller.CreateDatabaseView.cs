@@ -65,7 +65,7 @@ namespace Karaokidex.ApplicationControllers
                     break;
             }
 
-            Controller.ToggleOKButton(theView);
+            Controller.IsViewValid(theView);
 
             // Show the form
             theView.ShowDialog(this._MainView);
@@ -81,7 +81,7 @@ namespace Karaokidex.ApplicationControllers
             CreateDatabaseView theParentView =
                 theSourceDirectoryTextBox.FindForm() as CreateDatabaseView;
 
-            Controller.ToggleOKButton(theParentView);
+            Controller.IsViewValid(theParentView);
         }
 
         private void CreateDatabaseView_buttonSourceDirectory_Click(
@@ -102,7 +102,7 @@ namespace Karaokidex.ApplicationControllers
             theParentView.textboxSourceDirectory.Text =
                 theParentView.FolderBrowserDialog.SelectedPath;
 
-            Controller.ToggleOKButton(theParentView);
+            Controller.IsViewValid(theParentView);
         }
 
         private void CreateDatabaseView_textboxTargetFile_Leave(
@@ -114,7 +114,7 @@ namespace Karaokidex.ApplicationControllers
             CreateDatabaseView theParentView =
                 theTargetFileTextBox.FindForm() as CreateDatabaseView;
 
-            Controller.ToggleOKButton(theParentView);
+            Controller.IsViewValid(theParentView);
         }
 
         private void CreateDatabaseView_buttonTargetFile_Click(
@@ -135,7 +135,7 @@ namespace Karaokidex.ApplicationControllers
             theParentView.textboxTargetFile.Text =
                 theParentView.SaveFileDialog.FileName;
 
-            Controller.ToggleOKButton(theParentView);
+            Controller.IsViewValid(theParentView);
         }
 
         private void CreateDatabaseView_buttonOK_Click(
@@ -208,12 +208,45 @@ namespace Karaokidex.ApplicationControllers
         #endregion
 
         #region Private Helpers
-        private static void ToggleOKButton(
+        private static void IsViewValid(
             CreateDatabaseView theView)
         {
-            theView.buttonOK.Enabled =
-                !String.IsNullOrEmpty(theView.textboxSourceDirectory.Text) &&
-                !String.IsNullOrEmpty(theView.textboxTargetFile.Text);
+            theView.buttonOK.Enabled = false;
+
+            if (String.IsNullOrEmpty(theView.textboxSourceDirectory.Text) ||
+                String.IsNullOrEmpty(theView.textboxTargetFile.Text))
+            {
+                return;
+            }
+
+            if (!File.Exists(theView.textboxTargetFile.Text))
+            {
+                MessageBox.Show(
+                    theView,
+                    "The database file specified does not exist",
+                    theView.Text,
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Stop,
+                    MessageBoxDefaultButton.Button1);
+
+                Application.DoEvents();
+                return;
+            }
+            if (!Directory.Exists(theView.textboxSourceDirectory.Text))
+            {
+                MessageBox.Show(
+                    theView,
+                    "The source directory specified does not exist",
+                    theView.Text,
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Stop,
+                    MessageBoxDefaultButton.Button1);
+
+                Application.DoEvents();
+                return;
+            }
+
+            theView.buttonOK.Enabled = true;
         }
         #endregion
         #endregion
