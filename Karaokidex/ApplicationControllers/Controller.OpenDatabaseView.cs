@@ -93,7 +93,7 @@ namespace Karaokidex.ApplicationControllers
                     DatabaseLayer.GetSourceDirectory(
                         new FileInfo(theDatabaseFileInfo.FullName));
 
-                Controller.ToggleOKButton(theView);
+                Controller.IsViewValid(theView);
             }
 
             // Show the form
@@ -133,7 +133,7 @@ namespace Karaokidex.ApplicationControllers
                 DatabaseLayer.GetSourceDirectory(
                     new FileInfo(theParentView.OpenFileDialog.FileName));
 
-            Controller.ToggleOKButton(theParentView);
+            Controller.IsViewValid(theParentView);
         }
 
         private void OpenDatabaseView_buttonDatabaseFile_Click(
@@ -158,7 +158,7 @@ namespace Karaokidex.ApplicationControllers
                 DatabaseLayer.GetSourceDirectory(
                     new FileInfo(theParentView.OpenFileDialog.FileName));
 
-            Controller.ToggleOKButton(theParentView);
+            Controller.IsViewValid(theParentView);
         }
 
         private void OpenDatabaseView_textboxSourceDirectory_Leave(
@@ -170,7 +170,7 @@ namespace Karaokidex.ApplicationControllers
             OpenDatabaseView theParentView =
                 theSourceDirectoryTextBox.FindForm() as OpenDatabaseView;
 
-            Controller.ToggleOKButton(theParentView);
+            Controller.IsViewValid(theParentView);
         }
 
         private void OpenDatabaseView_buttonSourceDirectory_Click(
@@ -194,7 +194,7 @@ namespace Karaokidex.ApplicationControllers
             theParentView.textboxSourceDirectory.Text =
                 theParentView.FolderBrowserDialog.SelectedPath;
 
-            Controller.ToggleOKButton(theParentView);
+            Controller.IsViewValid(theParentView);
         }
 
         private void OpenDatabaseView_buttonOK_Click(
@@ -281,12 +281,45 @@ namespace Karaokidex.ApplicationControllers
         #endregion
 
         #region Private Helpers
-        private static void ToggleOKButton(
+        private static void IsViewValid(
             OpenDatabaseView theView)
         {
-            theView.buttonOK.Enabled =
-                !String.IsNullOrEmpty(theView.textboxSourceDirectory.Text) &&
-                !String.IsNullOrEmpty(theView.textboxDatabaseFile.Text);
+            theView.buttonOK.Enabled = false;
+
+            if (String.IsNullOrEmpty(theView.textboxSourceDirectory.Text) ||
+                String.IsNullOrEmpty(theView.textboxDatabaseFile.Text))
+            {
+                return;
+            }
+
+            if (!File.Exists(theView.textboxDatabaseFile.Text))
+            {
+                MessageBox.Show(
+                    theView,
+                    "The database file specified does not exist",
+                    theView.Text,
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Stop,
+                    MessageBoxDefaultButton.Button1);
+
+                Application.DoEvents();
+                return;
+            } 
+            if (!Directory.Exists(theView.textboxSourceDirectory.Text))
+            {
+                MessageBox.Show(
+                    theView,
+                    "The source directory specified does not exist",
+                    theView.Text,
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Stop,
+                    MessageBoxDefaultButton.Button1);
+
+                Application.DoEvents();
+                return;
+            }
+
+            theView.buttonOK.Enabled = true;
         }
         #endregion
         #endregion
