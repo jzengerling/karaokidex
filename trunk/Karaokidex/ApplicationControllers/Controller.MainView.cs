@@ -537,7 +537,12 @@ namespace Karaokidex.ApplicationControllers
             MainView theParentView =
                 theClearButton.FindForm() as MainView;
 
+            theParentView.textboxCriteria.Text = String.Empty;
             theParentView.gridResults.Rows.Clear();
+            theParentView.labelSelectedTrackPath.Text = String.Empty;
+            theParentView.labelResults.Text = String.Empty;
+
+            theParentView.textboxCriteria.Focus();
         }
 
         private void MainView_radioSearchKaraokeDatabase_CheckedChanged(
