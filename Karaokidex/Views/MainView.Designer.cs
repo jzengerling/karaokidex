@@ -223,6 +223,8 @@
             this._gridResults.AllowUserToAddRows = false;
             this._gridResults.AllowUserToDeleteRows = false;
             this._gridResults.AllowUserToResizeRows = false;
+            this._gridResults.BackgroundColor = System.Drawing.Color.White;
+            this._gridResults.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this._gridResults.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this._gridResults.ColumnHeadersVisible = false;
             this._gridResults.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {

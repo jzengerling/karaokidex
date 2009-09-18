@@ -19,6 +19,8 @@ namespace Karaokidex.ApplicationControllers
         #region Methods
         private void AboutView_Show()
         {
+            this._MainView.Cursor = Cursors.WaitCursor;
+
             // Instantiate an instance
             AboutView theView = new AboutView();
 
@@ -70,7 +72,9 @@ namespace Karaokidex.ApplicationControllers
                         DatabaseLayer.GetNumberOfTracksInDatabase(
                             this._CurrentMusicDatabaseFileInfo));
             }
-            
+
+            this._MainView.Cursor = Cursors.Default;
+
             theView.ShowDialog(this._MainView);
         }
         #endregion
